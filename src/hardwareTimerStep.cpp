@@ -4,39 +4,77 @@
 #define EN_PIN 0
 #define STEP_PIN 19
 #define POT_PIN 25
-#define pass (void)0
-#define stepAccel 10 // steps / us^2
+#define pass (void) 0
+#define stepAccel 10 // steps us^-2
+volatile uint32_t targetStepPeriod_us = 200; 
+volatile uint32_t stepPeriod_us = 200;       // initial speed
 
-#define BIT_0 (1 << 0)//* ManualMode
-#define BIT_1 (1 << 1)
-#define BIT_2 (1 << 2)
-#define BIT_3 (1 << 4)
+#define EVT_CALIBRATION_BTN (1 << 0)
+#define EVT_LIMIT_SWITCH (1 << 1)
+#define EVT_CANCEL_BTN (1 << 2)
+#define EVT_TEST_BTN (1 << 3)
+#define STATE_MANUAL_ACTIVE (1 << 4)
+#define STATE_TEST_ACTIVE (1 << 5)
+#define STATE_ERROR_ACTIVE (1 << 6)
+#define STATE_CALIBRATION_ACTIVE (1 << 7)
+EventGroupHandle_t systemEvents = xEventGroupCreate();
 
 hw_timer_t *stepTimer = nullptr;
 portMUX_TYPE timerMux = portMUX_INITIALIZER_UNLOCKED;
-
-EventGroupHandle_t systemEventStates = xEventGroupCreate();
-
 
 enum systemStates{
   MANUAL_MODE,
   CALIBRATION_MODE,
   TEST_MODE,
-  ABORT
+  ERROR
 };
-enum systemStates currentState = MANUAL_MODE; // always start in manual mode
+systemStates currentState = MANUAL_MODE; // always start in manual mode
+systemStates lastState;
+
 
 TaskHandle_t manualMoveTask = NULL;
 TaskHandle_t systemStateSwitcherTask = NULL;
 
-volatile uint32_t targetStepPeriod_us = 200; 
-volatile uint32_t stepPeriod_us = 200;       // initial speed
 
-void IRAM_ATTR onStepTimer(){ // linked to hardware timer interupt
-    static bool stepState = false;
-    stepState = !stepState;
-    digitalWrite(STEP_PIN, stepState);
+typedef struct { // Transition table for state switcher
+  EventBits_t trigger;
+  systemStates fromState;
+  systemStates toState;
+} stateTransitionRule;
+
+ #define NUMBER_OF_STATE_TRANSITIONS 2
+
+stateTransitionRule stateTransitions[NUMBER_OF_STATE_TRANSITIONS] = { // Limit switch & Cancel button logic all in systemStateSwitcher()
+  {EVT_CALIBRATION_BTN, MANUAL_MODE, CALIBRATION_MODE},
+  
+  {EVT_TEST_BTN, MANUAL_MODE, TEST_MODE}
+};
+
+             void IRAM_ATTR onStepTimer()
+{ // linked to hardware timer interupt
+  static bool stepState = false;
+  stepState = !stepState;
+  digitalWrite(STEP_PIN, stepState);
 }
+
+void IRAM_ATTR calibrationButtonHit(){
+  xEventGroupSetBitsFromISR(systemEvents, EVT_CALIBRATION_BTN, NULL); // what does the NULL do?
+}
+
+void IRAM_ATTR limitSwitchHit(){
+  xEventGroupSetBitsFromISR(systemEvents, EVT_LIMIT_SWITCH, NULL); // what does the NULL do?
+}
+
+void IRAM_ATTR testButtonHit(){
+  timerAlarmDisable(stepTimer); // ! verify this
+  xEventGroupSetBitsFromISR(systemEvents, EVT_CALIBRATION_BTN, NULL); // what does the NULL do?
+}
+
+void IRAM_ATTR cancelButtonHit(){
+  timerAlarmDisable(stepTimer);  // ! verify this
+  xEventGroupSetBitsFromISR(systemEvents, EVT_CANCEL_BTN, NULL); // what does the NULL do?
+}
+
 
 void setStepperSpeed(uint32_t period_us){          // call from any core or task (should only really be called by motorControl)
   portENTER_CRITICAL(&timerMux);                   // temporairily disable interrupt and prevent ISR from running mid update
@@ -45,7 +83,7 @@ void setStepperSpeed(uint32_t period_us){          // call from any core or task
   portEXIT_CRITICAL(&timerMux);
 }
 
-void motorControl(){                               // pinned to core 0 (core 0's only task)
+void motorAccelerationControl(){                               // pinned to core 0 (core 0's only task)
   for(;;){                                        
     if (targetStepPeriod_us < stepPeriod_us){      // decrease speed  
       setStepperSpeed(stepPeriod_us -= stepAccel);
@@ -63,28 +101,34 @@ void motorControl(){                               // pinned to core 0 (core 0's
   }
 }
 
+
 void manualMode(void *pvParameters){
   uint32_t accumulatedPotVal = 0;
   int counter = 0;
   for(;;){
-    counter++;
-    accumulatedPotVal += analogRead(POT_PIN);
-    if(counter == 10){
-      uint32_t avgPotVal = accumulatedPotVal / 10;
-      accumulatedPotVal = 0;
-      counter = 0 ;
-      uint32_t period_us = map(avgPotVal, 0, 4095, 1000, 200);
-      targetStepPeriod_us = period_us;
-      Serial.print(period_us);
-      Serial.print("  Core");
-      Serial.println(xPortGetCoreID());
+    xEventGroupWaitBits(     // Puts to sleep until correct bits are activated
+        systemEvents,        // Event group Handle (which event group?)
+        STATE_MANUAL_ACTIVE, // Bit to wait for. Use EVT_TEST_ACTIVE | EVT_FAULT for multiple conditions
+        pdFALSE,             // Don't clear bits!
+        pdTRUE,              // Wait for all bits
+        portMAX_DELAY        // wait forever
+    );
+    while(xEventGroupGetBits(systemEvents)&&STATE_MANUAL_ACTIVE){ // Keeps the task active until Status flag cleared
+      counter++;
+      accumulatedPotVal += analogRead(POT_PIN);
+      if(counter == 10){
+        uint32_t avgPotVal = accumulatedPotVal / 10;
+        accumulatedPotVal = 0;
+        counter = 0 ;
+        uint32_t period_us = map(avgPotVal, 0, 4095, 1000, 200);
+        targetStepPeriod_us = period_us;
+        Serial.print(period_us);
+        Serial.print("  Core");
+        Serial.println(xPortGetCoreID());
+      }
+      vTaskDelay(pdMS_TO_TICKS(1)); // run at ~1kHz
     }
-    
-    if (currentState != MANUAL_MODE){
-      vTaskSuspend(manualMoveTask); // ? will this force freeRTOS to exit this function and tansition to systemTask?
     }
-    vTaskDelay(pdMS_TO_TICKS(1)); // run at ~1kHz
-  }
 }
 
 void calibrationMode(){ // ! Not implemented yet
@@ -95,32 +139,60 @@ void testMode(){        // ! Not implemented yet
   pass;                
 }
 
+
+void onStateEnter(systemStates state){
+  switch (state){
+  case MANUAL_MODE:
+    break;
+
+  case CALIBRATION_MODE:
+    break;
+
+  case TEST_MODE:
+    break;
+  }
+}
+
+void onStateExit(systemStates state)
+{
+  switch (state)
+  {
+  case MANUAL_MODE:
+    break;
+
+  case CALIBRATION_MODE:
+    break;
+
+  case TEST_MODE:
+    break;
+  }
+}
+
 void systemStateSwitcher(void *pvParameters){
   for(;;){
-    switch (currentState){
+    lastState = currentState;
+    EventBits_t bits = xEventGroupGetBits(systemEvents);
+    if (bits & EVT_LIMIT_SWITCH){
+      currentState = MANUAL_MODE;
+      xEventGroupClearBits(systemEvents, EVT_LIMIT_SWITCH);
+    }
+    else if (bits & EVT_CANCEL_BTN){
+      currentState = MANUAL_MODE;
+      xEventGroupClearBits(systemEvents, EVT_CANCEL_BTN);
+    }
+    for(int32_t i = 0; i <= NUMBER_OF_STATE_TRANSITIONS; i++){
+      if ((bits & stateTransitions[i].trigger) && currentState == stateTransitions[i].fromState){
+        currentState = stateTransitions[i].toState;
+      }
+    }
 
-      case MANUAL_MODE:
-        xTaskCreatePinnedToCore(
-          manualMode,
-          "motor",
-          10000,
-          NULL,
-          1,
-          &manualMoveTask,
-          1
-        );
-        break;
-
-      case CALIBRATION_MODE:
-        calibrationMode();
-        break;
-
-      case TEST_MODE:
-        testMode();
-        break;
+    if(currentState != lastState){
+      onStateEnter(currentState);
+      onStateExit(lastState);
     }
   }
 }
+
 
 void setup() {
   // *put your setup code here, to run once:
@@ -152,11 +224,11 @@ void setup() {
   xTaskCreatePinnedToCore(
     systemStateSwitcher,
     "systemStateSwitcher",
-    10000,
-    NULL,
-    1,
-    &systemStateSwitcherTask,
-    1
+    10000,                    // usStackDepth
+    NULL,                     // Parameters
+    1,                        // Priority
+    &systemStateSwitcherTask, // handle
+    1                         // Core ID
   );
 }
 
