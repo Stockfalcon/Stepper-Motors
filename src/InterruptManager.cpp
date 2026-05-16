@@ -10,24 +10,24 @@ void IRAM_ATTR InterruptManager::onStepTimer(){ // linked to hardware timer inte
 
 void IRAM_ATTR InterruptManager::calibrationButtonHit()
 {
-  xEventGroupSetBitsFromISR(systemEvents, EVT_CALIBRATION_BTN, NULL); // what does the NULL do?
+  xEventGroupSetBitsFromISR(EventGroups::getInstance().getHandle(), EVT_CALIBRATION_BTN, NULL); // what does the NULL do?
 }
 
 void IRAM_ATTR InterruptManager::limitSwitchHit()
 {
-  xEventGroupSetBitsFromISR(systemEvents, EVT_LIMIT_SWITCH, NULL); // what does the NULL do?
+  xEventGroupSetBitsFromISR(EventGroups::getInstance().getHandle(), EVT_LIMIT_SWITCH, NULL); // what does the NULL do?
 }
 
 void IRAM_ATTR InterruptManager::testButtonHit()
 {
   timerAlarmDisable(stepTimer);                                       // ! verify this (maybe try timerStop())
-  xEventGroupSetBitsFromISR(systemEvents, EVT_TEST_BTN, NULL); // what does the NULL do?
+  xEventGroupSetBitsFromISR(EventGroups::getInstance().getHandle(), EVT_TEST_BTN, NULL); // what does the NULL do?
 }
 
 void IRAM_ATTR InterruptManager::cancelButtonHit()
 {
   timerAlarmDisable(stepTimer);                                  // ! verify this
-  xEventGroupSetBitsFromISR(systemEvents, EVT_CANCEL_BTN, NULL); // what does the NULL do?
+  xEventGroupSetBitsFromISR(EventGroups::getInstance().getHandle(), EVT_CANCEL_BTN, NULL); // what does the NULL do?
 }
 
 void InterruptManager::init(){

@@ -41,16 +41,16 @@ void StateMachine::systemStateSwitcher()
   for (;;)
   {
     lastState = currentState;
-    EventBits_t bits = xEventGroupGetBits(systemEvents);
+    EventBits_t bits = xEventGroupGetBits(EventGroups::getInstance().getHandle());
     if (bits & EVT_LIMIT_SWITCH)
     {
       currentState = MANUAL_MODE;
-      xEventGroupClearBits(systemEvents, EVT_LIMIT_SWITCH);
+      xEventGroupClearBits(EventGroups::getInstance().getHandle(), EVT_LIMIT_SWITCH);
     }
     else if (bits & EVT_CANCEL_BTN)
     {
       currentState = MANUAL_MODE;
-      xEventGroupClearBits(systemEvents, EVT_CANCEL_BTN);
+      xEventGroupClearBits(EventGroups::getInstance().getHandle(), EVT_CANCEL_BTN);
     }
     for (int32_t i = 0; i <= NUMBER_OF_STATE_TRANSITIONS; i++)
     {

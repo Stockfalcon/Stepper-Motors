@@ -1,6 +1,7 @@
 #include "TaskManager.h"
 #include "StateMachine.h"
 #include "EventGroups.h"
+#include "InterruptManager.h"
 
 void TaskManager::manualMode(void *pvParameters)
 {
@@ -8,14 +9,14 @@ void TaskManager::manualMode(void *pvParameters)
   int counter = 0;
   for (;;)
   {
-    xEventGroupWaitBits(     // Puts to sleep until correct bits are activated
-        systemEvents,        // Event group handle
-        STATE_MANUAL_ACTIVE, // Bit to wait for. Use EVT_TEST_ACTIVE | EVT_FAULT for multiple conditions
-        pdFALSE,             // Don't clear bits!
-        pdTRUE,              // Wait for all bits
-        portMAX_DELAY        // wait forever
+    xEventGroupWaitBits(                        // Puts to sleep until correct bits are activated
+        EventGroups::getInstance().getHandle(), // Event group handle
+        STATE_MANUAL_ACTIVE,                    // Bit to wait for. Use EVT_TEST_ACTIVE | EVT_FAULT for multiple conditions
+        pdFALSE,                                // Don't clear bits!
+        pdTRUE,                                 // Wait for all bits
+        portMAX_DELAY                           // wait forever
     );
-    while (xEventGroupGetBits(systemEvents) && STATE_MANUAL_ACTIVE)
+    while (xEventGroupGetBits(EventGroups::getInstance().getHandle()) && STATE_MANUAL_ACTIVE)
     { // Keeps the task active until Status flag cleared
       counter++;
       accumulatedPotVal += analogRead(POT_PIN);
@@ -25,7 +26,9 @@ void TaskManager::manualMode(void *pvParameters)
         accumulatedPotVal = 0;
         counter = 0;
         uint32_t period_us = map(avgPotVal, 0, 4095, 1000, 200);
+        portENTER_CRITICAL(&timerMux);
         targetStepPeriod_us = period_us;
+        portEXIT_CRITICAL(&timerMux);
         Serial.print(period_us);
         Serial.print("  Core");
         Serial.println(xPortGetCoreID());
@@ -36,14 +39,38 @@ void TaskManager::manualMode(void *pvParameters)
 }
 
 void TaskManager::calibrationMode(void *pvParameter)
-{ // ! Not implemented yet
-  pass;
+{ 
+  for(;;){
+    xEventGroupWaitBits(
+      EventGroups::getInstance().getHandle(),
+      STATE_CALIBRATION_ACTIVE,
+      pdFALSE,
+      pdTRUE,
+      portMAX_DELAY
+    );
+
+    while (xEventGroupGetBits(EventGroups::getInstance().getHandle()) && STATE_CALIBRATION_ACTIVE)
+    {
+      vTaskDelay(pdMS_TO_TICKS(1));
+    }
+  }
 }
 
 void TaskManager::testMode(void *pvParameter)
-{ // ! Not implemented yet
-  pass;
+{
+  xEventGroupWaitBits(
+      EventGroups::getInstance().getHandle(),
+      STATE_TEST_ACTIVE,
+      pdFALSE,
+      pdTRUE,
+      portMAX_DELAY);
+
+  while (xEventGroupGetBits(EventGroups::getInstance().getHandle()) && STATE_TEST_ACTIVE)
+  {
+    vTaskDelay(pdMS_TO_TICKS(1));
+  }
 }
+
 
 void TaskManager::init()
 {
@@ -87,6 +114,7 @@ void TaskManager::init()
     &testModeTask,
     1
   );
+
 }
 
 void TaskManager::deleteStateMachine(StateMachine *pStateMachine)
