@@ -9,5 +9,5 @@
 #define pass (void)0
 #define stepAccel 10 // steps us^-2
 
-extern volatile uint32_t targetStepPeriod_us = 200;
-extern volatile uint32_t stepPeriod_us = 200; // initial speed
+extern volatile uint32_t targetStepPeriod_us;
+extern volatile uint32_t stepPeriod_us; // initial speed

@@ -71,7 +71,6 @@ void TaskManager::testMode(void *pvParameter)
   }
 }
 
-
 void TaskManager::init()
 {
   StateMachine *stateMachine = new StateMachine();

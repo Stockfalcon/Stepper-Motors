@@ -1,11 +1,12 @@
 #pragma once
 
 #include <Arduino.h>
+#include "StateMachine.h"
 
-extern TaskHandle_t manualModeTask = NULL;
-extern TaskHandle_t calibrationModeTask = NULL;
-extern TaskHandle_t testModeTask = NULL;
-extern TaskHandle_t systemStateSwitcherTask = NULL;
+extern TaskHandle_t manualModeTask;
+extern TaskHandle_t calibrationModeTask;
+extern TaskHandle_t testModeTask;
+extern TaskHandle_t systemStateSwitcherTask;
 
 
 class TaskManager{

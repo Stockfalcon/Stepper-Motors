@@ -1,8 +1,8 @@
 #pragma once
 #include <Arduino.h>
 
-extern hw_timer_t *stepTimer = nullptr;
-extern portMUX_TYPE timerMux = portMUX_INITIALIZER_UNLOCKED;
+extern hw_timer_t *stepTimer;
+extern portMUX_TYPE timerMux;
 
 class InterruptManager{
   public:

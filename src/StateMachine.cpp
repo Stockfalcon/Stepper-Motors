@@ -52,11 +52,12 @@ void StateMachine::systemStateSwitcher()
       currentState = MANUAL_MODE;
       xEventGroupClearBits(EventGroups::getInstance().getHandle(), EVT_CANCEL_BTN);
     }
-    for (int32_t i = 0; i <= NUMBER_OF_STATE_TRANSITIONS; i++)
+    for (int32_t i = 0; i <= EventGroups::getInstance().getNumberOfStateTransitions(); i++)
     {
-      if ((bits & stateTransitions[i].trigger) && currentState == stateTransitions[i].fromState)
+      auto stateTransitions = EventGroups::getInstance().getStateTransitions(i);
+      if ((bits & stateTransitions.trigger) && currentState == stateTransitions.fromState)
       {
-        currentState = stateTransitions[i].toState;
+        currentState = stateTransitions.toState;
       }
     }
 

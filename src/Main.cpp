@@ -10,6 +10,8 @@
 InterruptManager interruptManager;
 TaskManager taskManager;
 
+// When running unit tests we exclude the Arduino sketch entry points
+#ifndef UNIT_TEST
 void setup() {
   // *put your setup code here, to run once:
   pinMode(STEP_PIN, OUTPUT);
@@ -20,13 +22,12 @@ void setup() {
   interruptManager.init();
   taskManager.init();
 
-
-
 }
 
 void loop() {
   // *put your main code here, to run repeatedly:
 }
+#endif
 
 
 
