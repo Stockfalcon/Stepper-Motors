@@ -2,6 +2,7 @@
 #include "StateMachine.h"
 #include "EventGroups.h"
 #include "InterruptManager.h"
+#include "Logging.h"
 
 void TaskManager::manualMode(void *pvParameters)
 {
@@ -16,6 +17,7 @@ void TaskManager::manualMode(void *pvParameters)
         pdTRUE,                                 // Wait for all bits
         portMAX_DELAY                           // wait forever
     );
+    Logger.info(TASK_LOG, "Manual mode activated");
     while (xEventGroupGetBits(EventGroups::getInstance().getHandle()) && STATE_MANUAL_ACTIVE)
     { // Keeps the task active until Status flag cleared
       counter++;
@@ -29,9 +31,8 @@ void TaskManager::manualMode(void *pvParameters)
         portENTER_CRITICAL(&timerMux);
         targetStepPeriod_us = period_us;
         portEXIT_CRITICAL(&timerMux);
-        Serial.print(period_us);
-        Serial.print("  Core");
-        Serial.println(xPortGetCoreID());
+        Logger.trace(TASK_LOG, "%d  Core %d", period_us, xPortGetCoreID);
+
       }
       vTaskDelay(pdMS_TO_TICKS(1)); // run at ~1kHz
     }
@@ -65,6 +66,7 @@ void TaskManager::testMode(void *pvParameter)
       pdTRUE,
       portMAX_DELAY);
 
+  Logger.info(TASK_LOG, "Test mode activated");
   while (xEventGroupGetBits(EventGroups::getInstance().getHandle()) && STATE_TEST_ACTIVE)
   {
     vTaskDelay(pdMS_TO_TICKS(1));
@@ -73,6 +75,7 @@ void TaskManager::testMode(void *pvParameter)
 
 void TaskManager::init()
 {
+  Logger.trace(TASK_LOG, "task manager initialization started");
   StateMachine *stateMachine = new StateMachine();
   xTaskCreatePinnedToCore(
       StateMachine::systemStateSwitcherTask,
@@ -114,6 +117,7 @@ void TaskManager::init()
     1
   );
 
+  Logger.debug(TASK_LOG, "task manager initialization finnished");
 }
 
 void TaskManager::deleteStateMachine(StateMachine *pStateMachine)

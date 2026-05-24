@@ -9,5 +9,11 @@
 #define pass (void)0
 #define stepAccel 10 // steps us^-2
 
+#define CALIBRATION_BTN_PIN 1 
+#define TEST_BTN_PIN 1
+#define CANCEL_BTN_PIN 1
+
+#define MAIN_LOG 0
+
 extern volatile uint32_t targetStepPeriod_us;
 extern volatile uint32_t stepPeriod_us; // initial speed

@@ -1,6 +1,7 @@
 #include "InterruptManager.h"
 #include "HardwareConfig.h"
 #include "EventGroups.h"
+#include "Logging.h"
 
 void IRAM_ATTR InterruptManager::onStepTimer(){ // linked to hardware timer interupt
   static bool stepState = false;
@@ -31,22 +32,30 @@ void IRAM_ATTR InterruptManager::cancelButtonHit()
 }
 
 void InterruptManager::init(){
+  Logger.trace(INTERRUPT_LOG, "Interrupt initialization started");
   stepTimer = timerBegin(
-      0,   // timer number (the options are 0,1,2,3)
-      80,  // prescale divider (clock is 80 MHz)
-      true // count up (true) or down (false)
+    0,   // timer number (the options are 0,1,2,3)
+    80,  // prescale divider (clock is 80 MHz)
+    true // count up (true) or down (false)
   );
-
+  
   timerAttachInterrupt( // when timer is triggered call onStepTimer()
-      stepTimer,
-      &onStepTimer,
-      true // edge triggered timing
+    stepTimer,
+    &onStepTimer,
+    true // edge triggered timing
   );
-
+  
   timerAlarmWrite( // write amount of time to trigger alarm to the timer
-      stepTimer,
-      stepPeriod_us / 2, // divide by two for high AND low
-      true);
-
+    stepTimer,
+    stepPeriod_us / 2, // divide by two for high AND low
+    true);
+    
   timerAlarmEnable(stepTimer); // start the timer
+  
+  // ! FIX Pin definitions for cal, test and cancel buttons!!
+  attachInterrupt(CALIBRATION_BTN_PIN, calibrationButtonHit, RISING);
+  attachInterrupt(TEST_BTN_PIN, testButtonHit, RISING);
+  attachInterrupt(CANCEL_BTN_PIN, cancelButtonHit, RISING);
+  Logger.debug(INTERRUPT_LOG, "Interrupt initialization finished");
+  
 }

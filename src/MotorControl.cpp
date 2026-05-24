@@ -2,7 +2,7 @@
 #include "HardwareConfig.h"
 #include <Arduino.h>
 #include "InterruptManager.h"
-
+#include "Logging.h"
 
 void MotorController::setStepperSpeed(uint32_t period_us)
 {                                // call from any core or task (should only really be called by motorControl)
@@ -32,6 +32,7 @@ void MotorController::motorAccelerationControl()
         setStepperSpeed(target);
       }
       portEXIT_CRITICAL(&timerMux);
+      Logger.debug(MOTOR_LOG, "Decreased speed");
     }
     else if (target > current)
     { // increase speed
@@ -43,11 +44,13 @@ void MotorController::motorAccelerationControl()
         setStepperSpeed(target);
       }
       portEXIT_CRITICAL(&timerMux);
+      Logger.debug(MOTOR_LOG, "Increased speed");
     }
     vTaskDelay(pdMS_TO_TICKS(10));
   }
 }
 
 const uint32_t& MotorController::getPosition() const{
+  Logger.debug(MOTOR_LOG, "Returned position");
   return position_cm;
 }
