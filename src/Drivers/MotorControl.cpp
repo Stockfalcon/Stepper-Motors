@@ -1,8 +1,8 @@
-#include "MotorControl.h"
-#include "HardwareConfig.h"
+#include "Drivers/MotorControl.h"
+#include "Core/HardwareConfig.h"
 #include <Arduino.h>
-#include "InterruptManager.h"
-#include "Logging.h"
+#include "Drivers/ButtonManager.h
+#include "Services/Logging.h"
 
 void MotorController::setStepperSpeed(uint32_t period_us)
 {                                // call from any core or task (should only really be called by motorControl)

@@ -1,6 +1,6 @@
-#include "StateMachine.h"
-#include "EventGroups.h"
-#include "Logging.h"
+#include "State Machine/StateMachine.h"
+#include "Communication Structures/EventGroups.h"
+#include "Services/Logging.h"
 
 void StateMachine::onStateEnter(systemStates state)
 {
@@ -57,8 +57,10 @@ void StateMachine::systemStateSwitcher()
     if (bits & EVT_LIMIT_SWITCH)
     {
       Logger.debug(STATE_LOG, "Limit Switch hit detected");
+      Logger.verbose(STATE_LOG, "systemEvents before clear bits: %d", bits);
       currentState = MANUAL_MODE;
       xEventGroupClearBits(EventGroups::getInstance().getHandle(), EVT_LIMIT_SWITCH);
+      Logger.verbose(STATE_LOG, "systemEvents after clear bits: %d", xEventGroupGetBits(EventGroups::getInstance().getHandle()));
     }
     else if (bits & EVT_CANCEL_BTN)
     {
@@ -66,6 +68,14 @@ void StateMachine::systemStateSwitcher()
       Logger.verbose(STATE_LOG, "systemEvents before clear bits: %d", bits);
       currentState = MANUAL_MODE;
       xEventGroupClearBits(EventGroups::getInstance().getHandle(), EVT_CANCEL_BTN);
+      Logger.verbose(STATE_LOG, "systemEvents after clear bits: %d", xEventGroupGetBits(EventGroups::getInstance().getHandle()));
+    }
+    else if (bits & EVT_TEST_BTN)
+    {
+      Logger.debug(STATE_LOG, "test Button detected");
+      Logger.verbose(STATE_LOG, "systemEvents before clear bits: %d", bits);
+      currentState = TEST_MODE;
+      xEventGroupClearBits(EventGroups::getInstance().getHandle(), EVT_TEST_BTN);
       Logger.verbose(STATE_LOG, "systemEvents after clear bits: %d", xEventGroupGetBits(EventGroups::getInstance().getHandle()));
     }
     for (int32_t i = 0; i <= EventGroups::getInstance().getNumberOfStateTransitions(); i++)

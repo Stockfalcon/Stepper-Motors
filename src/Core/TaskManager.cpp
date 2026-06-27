@@ -1,8 +1,8 @@
-#include "TaskManager.h"
-#include "StateMachine.h"
-#include "EventGroups.h"
-#include "InterruptManager.h"
-#include "Logging.h"
+#include "Core/TaskManager.h"
+#include "State Machine/StateMachine.h"
+#include "Communication Structures/EventGroups.h"
+#include "Drivers/ButtonManager.h"
+#include "Services/Logging.h"
 
 void TaskManager::manualMode(void *pvParameters)
 {
@@ -31,7 +31,7 @@ void TaskManager::manualMode(void *pvParameters)
         portENTER_CRITICAL(&timerMux);
         targetStepPeriod_us = period_us;
         portEXIT_CRITICAL(&timerMux);
-        Logger.trace(TASK_LOG, "%d  Core %d", period_us, xPortGetCoreID);
+        // Logger.trace(TASK_LOG, "%d  Core %d", period_us, xPortGetCoreID);
 
       }
       vTaskDelay(pdMS_TO_TICKS(1)); // run at ~1kHz

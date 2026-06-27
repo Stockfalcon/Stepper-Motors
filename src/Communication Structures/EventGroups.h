@@ -1,7 +1,7 @@
 #pragma once
 #include <Arduino.h>
-#include "HardwareConfig.h"
-#include "StateMachine.h"
+#include "Core/HardwareConfig.h"
+#include "State Machine/StateMachine.h"
 
 #define EVT_CALIBRATION_BTN (1 << 0)
 #define EVT_LIMIT_SWITCH (1 << 1)

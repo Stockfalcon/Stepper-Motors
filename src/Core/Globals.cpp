@@ -2,9 +2,9 @@
 // for every .cpp file that includes it. This lead to duplicates of each symbol at link time
 // and the compiler didn't like that.
 
-#include "HardwareConfig.h"
-#include "InterruptManager.h"
-#include "TaskManager.h"
+#include "Core/HardwareConfig.h"
+#include "Drivers/ButtonManager.h"
+#include "Core/TaskManager.h"
 
 volatile uint32_t targetStepPeriod_us = 200;
 volatile uint32_t stepPeriod_us = 200;
