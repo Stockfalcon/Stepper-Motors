@@ -1,8 +1,7 @@
-#include "Core/TaskManager.h"
-#include "State Machine/StateMachine.h"
+#include "TaskManager.h"
 #include "Communication Structures/EventGroups.h"
-#include "Drivers/ButtonManager.h"
-#include "Services/Logging.h"
+#include "Logging.h"
+#include "PinMap.h"
 
 void TaskManager::manualMode(void *pvParameters)
 {
@@ -10,15 +9,15 @@ void TaskManager::manualMode(void *pvParameters)
   int counter = 0;
   for (;;)
   {
-    xEventGroupWaitBits(                        // Puts to sleep until correct bits are activated
-        EventGroups::getInstance().getHandle(), // Event group handle
-        STATE_MANUAL_ACTIVE,                    // Bit to wait for. Use EVT_TEST_ACTIVE | EVT_FAULT for multiple conditions
-        pdFALSE,                                // Don't clear bits!
-        pdTRUE,                                 // Wait for all bits
-        portMAX_DELAY                           // wait forever
+    xEventGroupWaitBits(                         // Puts to sleep until correct bits are activated
+        StateManager::getInstance().getHandle(), // Event group handle
+        STATE_MANUAL_ACTIVE,                     // Bit to wait for. Use EVT_TEST_ACTIVE | EVT_FAULT for multiple conditions
+        pdFALSE,                                 // Don't clear bits!
+        pdTRUE,                                  // Wait for all bits
+        portMAX_DELAY                            // wait forever
     );
     Logger.info(TASK_LOG, "Manual mode activated");
-    while (xEventGroupGetBits(EventGroups::getInstance().getHandle()) && STATE_MANUAL_ACTIVE)
+    while (xEventGroupGetBits(StateManager::getInstance().getHandle()) && STATE_MANUAL_ACTIVE)
     { // Keeps the task active until Status flag cleared
       counter++;
       accumulatedPotVal += analogRead(POT_PIN);
@@ -28,9 +27,7 @@ void TaskManager::manualMode(void *pvParameters)
         accumulatedPotVal = 0;
         counter = 0;
         uint32_t period_us = map(avgPotVal, 0, 4095, 1000, 200);
-        portENTER_CRITICAL(&timerMux);
-        targetStepPeriod_us = period_us;
-        portEXIT_CRITICAL(&timerMux);
+        speedController.setStepSpeed();
         // Logger.trace(TASK_LOG, "%d  Core %d", period_us, xPortGetCoreID);
 
       }
@@ -43,14 +40,14 @@ void TaskManager::calibrationMode(void *pvParameter)
 { 
   for(;;){
     xEventGroupWaitBits(
-      EventGroups::getInstance().getHandle(),
+      StateManager::getInstance().getHandle(),
       STATE_CALIBRATION_ACTIVE,
       pdFALSE,
       pdTRUE,
       portMAX_DELAY
     );
 
-    while (xEventGroupGetBits(EventGroups::getInstance().getHandle()) && STATE_CALIBRATION_ACTIVE)
+    while (xEventGroupGetBits(StateManager::getInstance().getHandle()) && STATE_CALIBRATION_ACTIVE)
     {
       vTaskDelay(pdMS_TO_TICKS(1));
     }
@@ -60,14 +57,14 @@ void TaskManager::calibrationMode(void *pvParameter)
 void TaskManager::testMode(void *pvParameter)
 {
   xEventGroupWaitBits(
-      EventGroups::getInstance().getHandle(),
+      StateManager::getInstance().getHandle(),
       STATE_TEST_ACTIVE,
       pdFALSE,
       pdTRUE,
       portMAX_DELAY);
 
   Logger.info(TASK_LOG, "Test mode activated");
-  while (xEventGroupGetBits(EventGroups::getInstance().getHandle()) && STATE_TEST_ACTIVE)
+  while (xEventGroupGetBits(StateManager::getInstance().getHandle()) && STATE_TEST_ACTIVE)
   {
     vTaskDelay(pdMS_TO_TICKS(1));
   }

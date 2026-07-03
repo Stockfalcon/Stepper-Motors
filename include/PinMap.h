@@ -1,7 +1,6 @@
 #pragma once
 #include <Arduino.h>
 
-
 #define DIR_PIN 18
 #define EN_PIN 4
 #define STEP_PIN 19
@@ -15,7 +14,3 @@
 #define REV_SWITCH_PIN 14
 #define POT_PIN 33
 
-#define MAIN_LOG 0
-
-extern volatile uint32_t targetStepPeriod_us;
-extern volatile uint32_t stepPeriod_us; // initial speed
