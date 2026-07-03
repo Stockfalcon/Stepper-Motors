@@ -12,7 +12,7 @@ extern TaskHandle_t systemStateSwitcherTask;
 
 class TaskManager{
   public:
-    TaskManager(SpeedController& controller) : speedController(controller) 
+    TaskManager(MotorController& controller) : speedController(controller) 
     {}
     static void manualMode(void *pvParameter);
     static void calibrationMode(void * pvParameter);
@@ -20,6 +20,6 @@ class TaskManager{
     void init();
     void deleteStateMachine(StateMachine *pStateMachine);
   private:
-    SpeedController& speedController;
+    MotorController& speedController;
 };
 

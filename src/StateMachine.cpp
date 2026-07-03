@@ -1,6 +1,8 @@
 #include "StateMachine.h"
 #include "Communication Structures/EventGroups.h"
+#include "Communication Structures/Queues.h"
 #include "Logging.h"
+
 
 void StateMachine::onStateEnter(systemStates state)
 {
@@ -9,6 +11,11 @@ void StateMachine::onStateEnter(systemStates state)
   case MANUAL_MODE:
     xEventGroupSetBits(StateManager::getInstance().getHandle(), STATE_MANUAL_ACTIVE);
     Logger.debug(STATE_LOG, "STATE_MANUAL_ACTIVE set");
+    MotorCommand motorCommand{
+        .type = RUN};
+    if (xQueueSendToBack(MotorCommandQueue, (void *)&motorCommand, 0) != pdPASS){
+      Logger.warning(STATE_LOG, "Failed to send mesage to motor");
+    }
     break;
 
   case CALIBRATION_MODE:
@@ -29,6 +36,12 @@ void StateMachine::onStateExit(systemStates state)
   case MANUAL_MODE:
     xEventGroupClearBits(StateManager::getInstance().getHandle(), STATE_MANUAL_ACTIVE);
     Logger.debug(STATE_LOG, "STATE_MANUAL_ACTIVE reset");
+    MotorCommand motorCommand{
+      .type = STOP
+    };
+    if(xQueueSendToBack(MotorCommandQueue, (void *) &motorCommand,0) != pdPASS){
+      Logger.warning(STATE_LOG, "Failed to send mesage to motor");
+    }
     break;
 
   case CALIBRATION_MODE:

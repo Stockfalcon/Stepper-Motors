@@ -3,31 +3,50 @@
 #include <Arduino.h>
 #include "Logging.h"
 #include "Globals.h"
+#include "Communication Structures/Queues.h"
 
 
-void SpeedController::motorAccelerationControl()
+void MotorController::receiveCommands()
+{
+  MotorCommand message;
+  if(xQueueReceive(MotorCommandQueue, &message, 0) != pdTRUE && uxQueueMessagesWaiting(MotorCommandQueue) != 0){
+    Logger.warning(MOTOR_LOG,"Motor Controller failed to receive command from queue.");
+  }
+  switch (message.type){
+    case(RUN):
+    runMotor = true;
+    break;
+    case(STOP):
+    runMotor = false;
+    xQueueReset(MotorCommandQueue);
+    break;
+
+  }
+}
+
+void MotorController::motorAccelerationControl()
 { // pinned to core 0 (core 0's only task)
   for (;;)
   {
-    uint32_t target = motorController.getTargetStepPeriod_us();
-    uint32_t current = motorController.getStepPeriod_us();
+    uint32_t target = getTargetStepPeriod_us();
+    uint32_t current = getStepPeriod_us();
 
     if (target < current)
     { // decrease speed
-      motorController.setStepPeriod_us(current - stepAccel);
+      setStepPeriod_us(current - stepAccel);
       // Re-check for overshoot
       if (target > current)
       {
-        motorController.setStepPeriod_us(target);
+        setStepPeriod_us(target);
       }
       Logger.debug(MOTOR_LOG, "Decreased speed");
     }
     else if (target > current)
     { // increase speed
-      motorController.setStepPeriod_us(current + stepAccel);
+      setStepPeriod_us(current + stepAccel);
       if (target > current)
       {
-        motorController.setStepPeriod_us(target);
+        setStepPeriod_us(target);
       }
       Logger.debug(MOTOR_LOG, "Increased speed");
     }
@@ -35,12 +54,11 @@ void SpeedController::motorAccelerationControl()
   };
 }
 
-const uint32_t &SpeedController::getPosition() const
+const uint32_t &MotorController::getPosition() const
 {
   Logger.debug(MOTOR_LOG, "Returned position");
   return position_cm;
 }
-
 
 void MotorController::init(){
   pinMode(EN_PIN, OUTPUT);
