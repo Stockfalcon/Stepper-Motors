@@ -1,10 +1,9 @@
 #include <Arduino.h>
-#include <MotorManager.h>
+#include "MotorManager/MotorManager.h"
 #include "Communication Structures/EventGroups.h"
 #include "PinMap.h"
-#include <ButtonManager.h>
+#include <ButtonManager/ButtonManager.h>
 #include "StateMachine.h"
-#include "TaskManager.h"
 #include "Logging.h"
 
 ButtonManager buttonManager;

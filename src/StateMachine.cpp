@@ -9,6 +9,7 @@ void StateMachine::onStateEnter(systemStates state)
   switch (state)
   {
   case MANUAL_MODE:
+  {
     xEventGroupSetBits(StateManager::getInstance().getHandle(), STATE_MANUAL_ACTIVE);
     Logger.debug(STATE_LOG, "STATE_MANUAL_ACTIVE set");
     MotorCommand motorCommand{
@@ -17,15 +18,20 @@ void StateMachine::onStateEnter(systemStates state)
       Logger.warning(STATE_LOG, "Failed to send mesage to motor");
     }
     break;
+  }
 
   case CALIBRATION_MODE:
+  {
     xEventGroupSetBits(StateManager::getInstance().getHandle(), STATE_CALIBRATION_ACTIVE);
     Logger.debug(STATE_LOG, "STATE_CALIBRATION_ACTIVE set");
     break;
+  }
 
   case TEST_MODE:
+  {
     xEventGroupSetBits(StateManager::getInstance().getHandle(), STATE_CALIBRATION_ACTIVE);
     break;
+  }
   }
 }
 
@@ -34,6 +40,7 @@ void StateMachine::onStateExit(systemStates state)
   switch (state)
   {
   case MANUAL_MODE:
+  {
     xEventGroupClearBits(StateManager::getInstance().getHandle(), STATE_MANUAL_ACTIVE);
     Logger.debug(STATE_LOG, "STATE_MANUAL_ACTIVE reset");
     MotorCommand motorCommand{
@@ -43,15 +50,20 @@ void StateMachine::onStateExit(systemStates state)
       Logger.warning(STATE_LOG, "Failed to send mesage to motor");
     }
     break;
+  }
 
   case CALIBRATION_MODE:
+  {
     xEventGroupClearBits(StateManager::getInstance().getHandle(), STATE_CALIBRATION_ACTIVE);
     Logger.debug(STATE_LOG, "STATE_CALIBRATION_ACTIVE reset");
     break;
+  }
 
   case TEST_MODE:
+  {
     xEventGroupClearBits(StateManager::getInstance().getHandle(), STATE_TEST_ACTIVE);
     break;
+  }
   }
 }
 

@@ -1,5 +1,5 @@
-#include "ButtonManager.h"
-#include "pinMap.h"
+#include "ButtonManager/ButtonManager.h"
+#include "PinMap.h"
 #include "Communication Structures/EventGroups.h"
 #include "Logging.h"
 
