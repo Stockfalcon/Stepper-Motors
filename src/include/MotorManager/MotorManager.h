@@ -2,6 +2,18 @@
 #include <Arduino.h>
 #include "include/Globals.h"
 
+enum MotorCommandType
+{
+  RUN,
+  STOP,
+  ENABLE_LIMIT_SWITCH_ALERT
+};
+
+struct MotorCommand
+{
+  MotorCommandType type;
+};
+
 struct MotorStates{
   bool runMotor = false;
   bool potEnabled = false;
@@ -22,6 +34,7 @@ class MotorController : public Task{
     void setTargetStepPeriod_us(uint32_t period_us);
     uint32_t getTargetStepPeriod_us();
 
+    void sendToQueue(const MotorCommand *command);
 
   private:
     
@@ -36,4 +49,6 @@ class MotorController : public Task{
     static hw_timer_t *stepTimer; // = nullptr
 
     MotorStates motorStates;
+    TaskHandle_t motorControllerTask = NULL;
+    QueueHandle_t MotorCommandQueue = xQueueCreate(10, sizeof(MotorCommand));
 };

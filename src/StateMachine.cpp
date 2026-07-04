@@ -13,9 +13,7 @@ void StateMachine::onStateEnter(systemStates state)
     Logger.debug(STATE_LOG, "STATE_MANUAL_ACTIVE set");
     MotorCommand motorCommand{
         .type = RUN};
-    if (xQueueSendToBack(MotorCommandQueue, (void *)&motorCommand, 0) != pdPASS){
-      Logger.warning(STATE_LOG, "Failed to send mesage to motor");
-    }
+    motorController.sendToQueue((MotorCommand*)&motorCommand);
     break;
   }
 
@@ -45,9 +43,7 @@ void StateMachine::onStateExit(systemStates state)
     MotorCommand motorCommand{
       .type = STOP
     };
-    if(xQueueSendToBack(MotorCommandQueue, (void *) &motorCommand,0) != pdPASS){
-      Logger.warning(STATE_LOG, "Failed to send mesage to motor");
-    }
+    motorController.sendToQueue((MotorCommand *)&motorCommand);
     break;
   }
 

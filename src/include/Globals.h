@@ -5,11 +5,11 @@
 
 
 
-TaskHandle_t manualModeTask = NULL;
-TaskHandle_t calibrationModeTask = NULL;
-TaskHandle_t testModeTask = NULL;
-TaskHandle_t systemStateSwitcherTask = NULL;
-TaskHandle_t motorControllerTask = NULL;
+// TaskHandle_t manualModeTask = NULL;
+// TaskHandle_t calibrationModeTask = NULL;
+// TaskHandle_t testModeTask = NULL;
+// TaskHandle_t systemStateSwitcherTask = NULL;
+
 
 class Task{
   public:

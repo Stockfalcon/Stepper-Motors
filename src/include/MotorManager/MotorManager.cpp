@@ -152,3 +152,7 @@ void MotorController::readPotVal()
     setTargetStepPeriod_us(period_us);
   }
 }
+
+void MotorController::sendToQueue(const MotorCommand *command){
+  xQueueSendToBack(MotorCommandQueue, command, 0);
+}
