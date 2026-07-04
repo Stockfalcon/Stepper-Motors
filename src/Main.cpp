@@ -8,7 +8,6 @@
 #include "Logging.h"
 
 ButtonManager buttonManager;
-TaskManager taskManager;
 
 // When running unit tests we exclude the Arduino sketch entry points
 #ifndef UNIT_TEST
@@ -22,8 +21,8 @@ void setup()
   pinMode(DIR_PIN, OUTPUT);
   pinMode(POT_PIN, INPUT);
 
-  interruptManager.init();
-  taskManager.init();
+  buttonManager.init();
+ 
 
   Logger.debug(MAIN_LOG, "Initializations complete");
 }

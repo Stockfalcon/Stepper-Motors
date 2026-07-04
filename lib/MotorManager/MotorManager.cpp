@@ -6,6 +6,14 @@
 #include "Communication Structures/Queues.h"
 
 
+void MotorController::main()
+{
+receiveCommands();
+if (motorStates.potEnabled){
+  readPotVal();
+}
+}
+
 void MotorController::receiveCommands()
 {
   MotorCommand message;
@@ -14,13 +22,12 @@ void MotorController::receiveCommands()
   }
   switch (message.type){
     case(RUN):
-    runMotor = true;
+    timerAlarmEnable(stepTimer);
     break;
     case(STOP):
-    runMotor = false;
+    timerAlarmDisable(stepTimer);
     xQueueReset(MotorCommandQueue);
     break;
-
   }
 }
 
@@ -33,20 +40,20 @@ void MotorController::motorAccelerationControl()
 
     if (target < current)
     { // decrease speed
-      setStepPeriod_us(current - stepAccel);
+      setTargetStepPeriod_us(current - stepAccel);
       // Re-check for overshoot
       if (target > current)
       {
-        setStepPeriod_us(target);
+        setTargetStepPeriod_us(target);
       }
       Logger.debug(MOTOR_LOG, "Decreased speed");
     }
     else if (target > current)
     { // increase speed
-      setStepPeriod_us(current + stepAccel);
+      setTargetStepPeriod_us(current + stepAccel);
       if (target > current)
       {
-        setStepPeriod_us(target);
+        setTargetStepPeriod_us(target);
       }
       Logger.debug(MOTOR_LOG, "Increased speed");
     }
@@ -61,6 +68,7 @@ const uint32_t &MotorController::getPosition() const
 }
 
 void MotorController::init(){
+  MotorController motorController;
   pinMode(EN_PIN, OUTPUT);
   digitalWrite(EN_PIN, LOW);
 
@@ -83,6 +91,16 @@ void MotorController::init(){
       true);
 
   timerAlarmEnable(stepTimer); // start the timer
+
+  xTaskCreatePinnedToCore(
+    Task::taskEntry,
+    "motorTask",
+    10000, 
+    &motorController,
+    0,
+    &motorControllerTask,
+    1
+  );
 }
 
 void IRAM_ATTR MotorController::onStepTimer()
@@ -110,11 +128,27 @@ uint32_t MotorController::getTargetStepPeriod_us()
   return period_us;
 }
 
-void MotorController::setStepPeriod_us(uint32_t period_us)
+void MotorController::setTargetStepPeriod_us(uint32_t period_us)
 {
   // temporairily disable interrupt and prevent ISR from running mid update
   portENTER_CRITICAL(&timerMux);
-  stepPeriod_us = period_us;
+  targetStepPeriod_us = period_us;
   timerAlarmWrite(stepTimer, period_us / 2, true); // update timer alarm period
   portEXIT_CRITICAL(&timerMux);
+}
+
+void MotorController::readPotVal()
+{
+  uint32_t accumulatedPotVal = 0;
+  int counter = 0;
+  counter++;
+  accumulatedPotVal += analogRead(POT_PIN);
+  if (counter == 10)
+  {
+    uint32_t avgPotVal = accumulatedPotVal / 10;
+    accumulatedPotVal = 0;
+    counter = 0;
+    uint32_t period_us = map(avgPotVal, 0, 4095, 1000, 200);
+    setTargetStepPeriod_us(period_us);
+  }
 }

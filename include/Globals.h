@@ -8,3 +8,14 @@ TaskHandle_t manualModeTask = NULL;
 TaskHandle_t calibrationModeTask = NULL;
 TaskHandle_t testModeTask = NULL;
 TaskHandle_t systemStateSwitcherTask = NULL;
+TaskHandle_t motorControllerTask = NULL;
+
+class Task{
+  public:
+  virtual void main() = 0;
+  static void taskEntry(void *pvParameters)
+  {
+    Task *self = static_cast<Task*>(pvParameters);
+    self -> main();
+  }
+};
