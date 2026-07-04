@@ -20,7 +20,7 @@ struct MotorStates{
 };
 
 
-class MotorController : public Task{
+class MotorManager : public Task{
   public:
     void init();
     void main() override;

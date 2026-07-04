@@ -6,7 +6,7 @@
 #include "Communication Structures/Queues.h"
 
 
-void MotorController::main()
+void MotorManager::main()
 {
 receiveCommands();
 if (motorStates.potEnabled){
@@ -14,7 +14,7 @@ if (motorStates.potEnabled){
 }
 }
 
-void MotorController::receiveCommands()
+void MotorManager::receiveCommands()
 {
   MotorCommand message;
   if(xQueueReceive(MotorCommandQueue, &message, 0) != pdTRUE && uxQueueMessagesWaiting(MotorCommandQueue) != 0){
@@ -31,7 +31,7 @@ void MotorController::receiveCommands()
   }
 }
 
-void MotorController::motorAccelerationControl()
+void MotorManager::motorAccelerationControl()
 { // pinned to core 0 (core 0's only task)
   for (;;)
   {
@@ -61,14 +61,13 @@ void MotorController::motorAccelerationControl()
   };
 }
 
-const uint32_t &MotorController::getPosition() const
+const uint32_t &MotorManager::getPosition() const
 {
   Logger.debug(MOTOR_LOG, "Returned position");
   return position_cm;
 }
 
-void MotorController::init(){
-  MotorController motorController;
+void MotorManager::init(){
   pinMode(EN_PIN, OUTPUT);
   digitalWrite(EN_PIN, LOW);
 
@@ -96,21 +95,21 @@ void MotorController::init(){
     Task::taskEntry,
     "motorTask",
     10000, 
-    &motorController,
+    this,
     0,
     &motorControllerTask,
     1
   );
 }
 
-void IRAM_ATTR MotorController::onStepTimer()
+void IRAM_ATTR MotorManager::onStepTimer()
 { // linked to hardware timer interupt
   static bool stepState = false;
   stepState = !stepState;
   digitalWrite(STEP_PIN, stepState);
 }
 
-uint32_t MotorController::getStepPeriod_us()
+uint32_t MotorManager::getStepPeriod_us()
 {
   // temporairily disable interrupt and prevent ISR from running mid update
   portENTER_CRITICAL(&timerMux);
@@ -119,7 +118,7 @@ uint32_t MotorController::getStepPeriod_us()
   return period_us;
 }
 
-uint32_t MotorController::getTargetStepPeriod_us()
+uint32_t MotorManager::getTargetStepPeriod_us()
 {
   // temporairily disable interrupt and prevent ISR from running mid update
   portENTER_CRITICAL(&timerMux);
@@ -128,7 +127,7 @@ uint32_t MotorController::getTargetStepPeriod_us()
   return period_us;
 }
 
-void MotorController::setTargetStepPeriod_us(uint32_t period_us)
+void MotorManager::setTargetStepPeriod_us(uint32_t period_us)
 {
   // temporairily disable interrupt and prevent ISR from running mid update
   portENTER_CRITICAL(&timerMux);
@@ -137,7 +136,7 @@ void MotorController::setTargetStepPeriod_us(uint32_t period_us)
   portEXIT_CRITICAL(&timerMux);
 }
 
-void MotorController::readPotVal()
+void MotorManager::readPotVal()
 {
   uint32_t accumulatedPotVal = 0;
   int counter = 0;
@@ -153,6 +152,6 @@ void MotorController::readPotVal()
   }
 }
 
-void MotorController::sendToQueue(const MotorCommand *command){
+void MotorManager::sendToQueue(const MotorCommand *command){
   xQueueSendToBack(MotorCommandQueue, command, 0);
 }

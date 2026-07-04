@@ -31,7 +31,7 @@ private:
   } stateTransitionRule;
 
   static const u_int32_t numberOfStateTransitions = 2;
-  stateTransitionRule stateTransitions[numberOfStateTransitions] = {// Limit switch & Cancel button logic all in systemStateSwitcher()
+  stateTransitionRule stateTransitions[numberOfStateTransitions] = {// Limit switch & Cancel button logic all in main()
       {EVT_CALIBRATION_BTN, MANUAL_MODE, CALIBRATION_MODE},
       {EVT_TEST_BTN, MANUAL_MODE, TEST_MODE}};
 

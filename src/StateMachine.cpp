@@ -62,13 +62,8 @@ void StateMachine::onStateExit(systemStates state)
   }
 }
 
-void StateMachine::systemStateSwitcherTask(void *pvParameters)
-{
-  StateMachine *stateMachine = static_cast<StateMachine *>(pvParameters);
-  stateMachine->systemStateSwitcher();
-}
 
-void StateMachine::systemStateSwitcher()
+void StateMachine::main()
 {
   for (;;)
   {
@@ -114,4 +109,17 @@ void StateMachine::systemStateSwitcher()
       onStateExit(lastState);
     }
   }
+}
+
+void StateMachine::init()
+{
+  xTaskCreatePinnedToCore(
+    Task::taskEntry,
+    "stateMachine",
+    10000,
+    this,
+    0,
+    &stateMachineTask,
+    1
+  )
 }
