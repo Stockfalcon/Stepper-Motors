@@ -1,5 +1,5 @@
 #pragma once
-#include "Communication Structures/EventGroups.h"
+#include "include/Communication Structures/EventGroups.h"
 
 class StateMachine
 {

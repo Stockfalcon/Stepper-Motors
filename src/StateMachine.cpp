@@ -1,8 +1,7 @@
 #include "StateMachine.h"
-#include "Communication Structures/EventGroups.h"
-#include "Communication Structures/Queues.h"
-#include "Logging.h"
-
+#include "include/Communication Structures/EventGroups.h"
+#include "include/Communication Structures/Queues.h"
+#include "include/Logging.h"
 
 void StateMachine::onStateEnter(systemStates state)
 {

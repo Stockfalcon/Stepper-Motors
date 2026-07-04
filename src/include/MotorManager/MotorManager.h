@@ -1,8 +1,6 @@
 #pragma once
 #include <Arduino.h>
-#include "Globals.h"
-
-
+#include "include/Globals.h"
 
 struct MotorStates{
   bool runMotor = false;

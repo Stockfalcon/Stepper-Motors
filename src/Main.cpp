@@ -1,10 +1,10 @@
 #include <Arduino.h>
-#include "MotorManager/MotorManager.h"
-#include "Communication Structures/EventGroups.h"
-#include "PinMap.h"
-#include <ButtonManager/ButtonManager.h>
+#include "include/MotorManager/MotorManager.h"
+#include "include/Communication Structures/EventGroups.h"
+#include "include/PinMap.h"
+#include "include/ButtonManager/ButtonManager.h"
 #include "StateMachine.h"
-#include "Logging.h"
+#include "include/Logging.h"
 
 ButtonManager buttonManager;
 
@@ -21,7 +21,6 @@ void setup()
   pinMode(POT_PIN, INPUT);
 
   buttonManager.init();
- 
 
   Logger.debug(MAIN_LOG, "Initializations complete");
 }

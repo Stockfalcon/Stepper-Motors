@@ -1,3 +1,4 @@
+#pragma once
 // defining all these values in their respective .h files apparently creates a new symbol
 //  for every .cpp file that includes it. This lead to duplicates of each symbol at link time
 //  and the compiler didn't like that.

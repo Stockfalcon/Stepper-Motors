@@ -1,7 +1,7 @@
-#include "ButtonManager/ButtonManager.h"
-#include "PinMap.h"
-#include "Communication Structures/EventGroups.h"
-#include "Logging.h"
+#include "ButtonManager.h"
+#include "include/PinMap.h"
+#include "include/Communication Structures/EventGroups.h"
+#include "include/Logging.h"
 
 
 void IRAM_ATTR ButtonManager::calibrationButtonHit()
