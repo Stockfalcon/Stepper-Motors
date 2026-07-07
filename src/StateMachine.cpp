@@ -9,56 +9,47 @@ void StateMachine::onStateEnter(systemStates state)
   {
   case MANUAL_MODE:
   {
-    xEventGroupSetBits(EventManager::getInstance().getHandle(), STATE_MANUAL_ACTIVE);
-    Logger.debug(STATE_LOG, "STATE_MANUAL_ACTIVE set");
-    MotorCommand motorCommand{
-        .type = RUN};
+    Logger.debug(STATE_LOG, "Entered Manual Mode");
+    MotorCommand motorCommand{.type = RUN};
     motorController.sendToQueue((MotorCommand*)&motorCommand);
     break;
   }
 
   case CALIBRATION_MODE:
   {
-    xEventGroupSetBits(EventManager::getInstance().getHandle(), STATE_CALIBRATION_ACTIVE);
-    Logger.debug(STATE_LOG, "STATE_CALIBRATION_ACTIVE set");
+    Logger.debug(STATE_LOG, "Entered Calibration Mode");
     break;
   }
 
   case TEST_MODE:
   {
-    xEventGroupSetBits(EventManager::getInstance().getHandle(), STATE_CALIBRATION_ACTIVE);
-    Logger.debug(STATE_LOG, "STATE_TEST_ACTIVE set");
+    Logger.debug(STATE_LOG, "Entered Test Mode");
     break;
   }
-  }
+}
 }
 
 void StateMachine::onStateExit(systemStates state)
 {
   switch (state)
   {
-  case MANUAL_MODE:
-  {
-    xEventGroupClearBits(EventManager::getInstance().getHandle(), STATE_MANUAL_ACTIVE);
-    Logger.debug(STATE_LOG, "STATE_MANUAL_ACTIVE reset");
-    MotorCommand motorCommand{
-      .type = STOP
-    };
+    case MANUAL_MODE:
+    {
+    Logger.debug(STATE_LOG, "Exited Manual Mode");
+    MotorCommand motorCommand{.type = STOP};
     motorController.sendToQueue((MotorCommand *)&motorCommand);
     break;
   }
-
+  
   case CALIBRATION_MODE:
   {
-    xEventGroupClearBits(EventManager::getInstance().getHandle(), STATE_CALIBRATION_ACTIVE);
-    Logger.debug(STATE_LOG, "STATE_CALIBRATION_ACTIVE reset");
+    Logger.debug(STATE_LOG, "Exited Calibration Mode");
     break;
   }
-
+  
   case TEST_MODE:
   {
-    xEventGroupClearBits(EventManager::getInstance().getHandle(), STATE_TEST_ACTIVE);
-    Logger.debug(STATE_LOG, "STATE_TEST_ACTIVE reset");
+    Logger.debug(STATE_LOG, "Exited Test Mode");
     break;
   }
   }

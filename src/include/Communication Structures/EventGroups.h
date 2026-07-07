@@ -1,27 +1,30 @@
 #pragma once
 #include <Arduino.h>
 
+//global states
 #define EVT_CALIBRATION_BTN (1 << 0)
 #define EVT_LIMIT_SWITCH (1 << 1)
 #define EVT_CANCEL_BTN (1 << 2)
 #define EVT_TEST_BTN (1 << 3)
-#define STATE_MANUAL_ACTIVE (1 << 4)
-#define STATE_TEST_ACTIVE (1 << 5)
-#define STATE_ERROR_ACTIVE (1 << 6)
-#define STATE_CALIBRATION_ACTIVE (1 << 7)
+#define ALERT_SET (1 << 4)
+#define INTERLOCK_SET (1 << 5)
 
-enum systemStates
-{
-  MANUAL_MODE,
-  CALIBRATION_MODE,
-  TEST_MODE,
-  ERROR
-};
-
+  enum systemStates
+  {
+    MANUAL_MODE,
+    CALIBRATION_MODE,
+    TEST_MODE,
+    ERROR,
+    ALERT_MODE
+  };
 
 class EventManager
 {
 private:
+  // local states(only this class should access)
+
+
+  systemStates ANY_MODE;
   EventGroupHandle_t systemEvents = nullptr;
 
   typedef struct
@@ -31,11 +34,13 @@ private:
     systemStates toState;
   } stateTransitionRule;
 
-  static const u_int32_t numberOfStateTransitions = 3;
+  static const u_int32_t numberOfStateTransitions = 5;
   stateTransitionRule stateTransitions[numberOfStateTransitions] = { // Limit switch & Cancel button logic all in main()
-      {EVT_CALIBRATION_BTN, MANUAL_MODE, CALIBRATION_MODE},
-      {EVT_TEST_BTN, MANUAL_MODE, TEST_MODE},
-      {EVT_TEST_BTN, CALIBRATION_MODE, TEST_MODE}}; // TODO: Add ANY_MODE
+    {EVT_LIMIT_SWITCH, ANY_MODE, ALERT_MODE},
+    {EVT_CANCEL_BTN, ANY_MODE, ALERT_MODE},
+    {EVT_CALIBRATION_BTN, ALERT_MODE, MANUAL_MODE},
+    {EVT_CALIBRATION_BTN, MANUAL_MODE, CALIBRATION_MODE},
+    {EVT_TEST_BTN, CALIBRATION_MODE, TEST_MODE}}; // TODO: Add ANY_MODE
 
 public:
   void init();
