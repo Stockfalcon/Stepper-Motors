@@ -11,7 +11,7 @@ class Application{
   Application() : stateManager(), buttonManager(), motorManager(), stateMachine(motorManager){}
   void init();
   private:
-  StateManager stateManager;
+  EventManager stateManager;
   ButtonManager buttonManager;
   MotorManager motorManager;
   StateMachine stateMachine;

@@ -9,7 +9,7 @@ void StateMachine::onStateEnter(systemStates state)
   {
   case MANUAL_MODE:
   {
-    xEventGroupSetBits(StateManager::getInstance().getHandle(), STATE_MANUAL_ACTIVE);
+    xEventGroupSetBits(EventManager::getInstance().getHandle(), STATE_MANUAL_ACTIVE);
     Logger.debug(STATE_LOG, "STATE_MANUAL_ACTIVE set");
     MotorCommand motorCommand{
         .type = RUN};
@@ -19,14 +19,14 @@ void StateMachine::onStateEnter(systemStates state)
 
   case CALIBRATION_MODE:
   {
-    xEventGroupSetBits(StateManager::getInstance().getHandle(), STATE_CALIBRATION_ACTIVE);
+    xEventGroupSetBits(EventManager::getInstance().getHandle(), STATE_CALIBRATION_ACTIVE);
     Logger.debug(STATE_LOG, "STATE_CALIBRATION_ACTIVE set");
     break;
   }
 
   case TEST_MODE:
   {
-    xEventGroupSetBits(StateManager::getInstance().getHandle(), STATE_CALIBRATION_ACTIVE);
+    xEventGroupSetBits(EventManager::getInstance().getHandle(), STATE_CALIBRATION_ACTIVE);
     Logger.debug(STATE_LOG, "STATE_TEST_ACTIVE set");
     break;
   }
@@ -39,7 +39,7 @@ void StateMachine::onStateExit(systemStates state)
   {
   case MANUAL_MODE:
   {
-    xEventGroupClearBits(StateManager::getInstance().getHandle(), STATE_MANUAL_ACTIVE);
+    xEventGroupClearBits(EventManager::getInstance().getHandle(), STATE_MANUAL_ACTIVE);
     Logger.debug(STATE_LOG, "STATE_MANUAL_ACTIVE reset");
     MotorCommand motorCommand{
       .type = STOP
@@ -50,14 +50,14 @@ void StateMachine::onStateExit(systemStates state)
 
   case CALIBRATION_MODE:
   {
-    xEventGroupClearBits(StateManager::getInstance().getHandle(), STATE_CALIBRATION_ACTIVE);
+    xEventGroupClearBits(EventManager::getInstance().getHandle(), STATE_CALIBRATION_ACTIVE);
     Logger.debug(STATE_LOG, "STATE_CALIBRATION_ACTIVE reset");
     break;
   }
 
   case TEST_MODE:
   {
-    xEventGroupClearBits(StateManager::getInstance().getHandle(), STATE_TEST_ACTIVE);
+    xEventGroupClearBits(EventManager::getInstance().getHandle(), STATE_TEST_ACTIVE);
     Logger.debug(STATE_LOG, "STATE_TEST_ACTIVE reset");
     break;
   }
@@ -70,38 +70,19 @@ void StateMachine::main()
   for (;;)
   {
     lastState = currentState;
-    EventBits_t bits = xEventGroupGetBits(StateManager::getInstance().getHandle());
-    for (int32_t i = 0; i <= StateManager::getInstance().getNumberOfStateTransitions(); i++)
+    EventBits_t bits = xEventGroupGetBits(EventManager::getInstance().getHandle());
+    for (int32_t i = 0; i <= EventManager::getInstance().getNumberOfStateTransitions(); i++)
     {
-      auto stateTransitions = StateManager::getInstance().getStateTransitions(i);
-      if ((bits & stateTransitions.trigger) && currentState == stateTransitions.fromState)
+      auto stateTransition = EventManager::getInstance().getStateTransitions(i);
+      if (bits & stateTransition.trigger)
       {
-        currentState = stateTransitions.toState;
+        Logger.verbose(STATE_LOG, "systemEvents before clear bits: %d", bits);
+        xEventGroupClearBits(EventManager::getInstance().getHandle(), stateTransition.trigger);
+        Logger.verbose(STATE_LOG, "systemEvents after clear bits: %d", xEventGroupGetBits(EventManager::getInstance().getHandle()));
+        if (currentState == stateTransition.fromState){
+          currentState = stateTransition.toState;
+        }
       }
-    }
-    if (bits & EVT_LIMIT_SWITCH)
-    {
-      Logger.debug(STATE_LOG, "Limit Switch hit detected");
-      Logger.verbose(STATE_LOG, "systemEvents before clear bits: %d", bits);
-      currentState = MANUAL_MODE;
-      xEventGroupClearBits(StateManager::getInstance().getHandle(), EVT_LIMIT_SWITCH);
-      Logger.verbose(STATE_LOG, "systemEvents after clear bits: %d", xEventGroupGetBits(StateManager::getInstance().getHandle()));
-    }
-    else if (bits & EVT_CANCEL_BTN)
-    {
-      Logger.debug(STATE_LOG, "Cancel Button detected");
-      Logger.verbose(STATE_LOG, "systemEvents before clear bits: %d", bits);
-      currentState = MANUAL_MODE;
-      xEventGroupClearBits(StateManager::getInstance().getHandle(), EVT_CANCEL_BTN);
-      Logger.verbose(STATE_LOG, "systemEvents after clear bits: %d", xEventGroupGetBits(StateManager::getInstance().getHandle()));
-    }
-    else if (bits & EVT_TEST_BTN)
-    {
-      Logger.debug(STATE_LOG, "test Button detected");
-      Logger.verbose(STATE_LOG, "systemEvents before clear bits: %d", bits);
-      currentState = TEST_MODE;
-      xEventGroupClearBits(StateManager::getInstance().getHandle(), EVT_TEST_BTN);
-      Logger.verbose(STATE_LOG, "systemEvents after clear bits: %d", xEventGroupGetBits(StateManager::getInstance().getHandle()));
     }
 
 

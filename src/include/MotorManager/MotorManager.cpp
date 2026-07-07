@@ -61,17 +61,19 @@ void MotorManager::main()
 void MotorManager::receiveCommands()
 {
   MotorCommand message;
-  if(xQueueReceive(MotorCommandQueue, &message, 0) != pdTRUE && uxQueueMessagesWaiting(MotorCommandQueue) != 0){
-    Logger.warning(MOTOR_LOG,"Motor Controller failed to receive command from queue.");
+  if(xQueueReceive(MotorCommandQueue, &message, 0) == pdTRUE ){
+    switch (message.type){
+      case(RUN):
+      timerAlarmEnable(stepTimer);
+      break;
+      case(STOP):
+      timerAlarmDisable(stepTimer);
+      xQueueReset(MotorCommandQueue);
+      break;
+    }
   }
-  switch (message.type){
-    case(RUN):
-    timerAlarmEnable(stepTimer);
-    break;
-    case(STOP):
-    timerAlarmDisable(stepTimer);
-    xQueueReset(MotorCommandQueue);
-    break;
+  else{
+  Logger.warning(MOTOR_LOG,"Motor Controller failed to receive command from queue.");
   }
 }
 

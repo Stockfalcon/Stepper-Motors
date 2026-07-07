@@ -18,7 +18,8 @@ enum systemStates
   ERROR
 };
 
-class StateManager
+
+class EventManager
 {
 private:
   EventGroupHandle_t systemEvents = nullptr;
@@ -30,16 +31,17 @@ private:
     systemStates toState;
   } stateTransitionRule;
 
-  static const u_int32_t numberOfStateTransitions = 2;
-  stateTransitionRule stateTransitions[numberOfStateTransitions] = {// Limit switch & Cancel button logic all in main()
+  static const u_int32_t numberOfStateTransitions = 3;
+  stateTransitionRule stateTransitions[numberOfStateTransitions] = { // Limit switch & Cancel button logic all in main()
       {EVT_CALIBRATION_BTN, MANUAL_MODE, CALIBRATION_MODE},
-      {EVT_TEST_BTN, MANUAL_MODE, TEST_MODE}};
+      {EVT_TEST_BTN, MANUAL_MODE, TEST_MODE},
+      {EVT_TEST_BTN, CALIBRATION_MODE, TEST_MODE}}; // TODO: Add ANY_MODE
 
 public:
   void init();
   EventGroupHandle_t IRAM_ATTR getHandle();
 
-  static IRAM_ATTR StateManager &getInstance();
+  static IRAM_ATTR EventManager &getInstance();
 
   uint32_t getNumberOfStateTransitions() const;
   const stateTransitionRule &getStateTransitions(uint32_t index) const;

@@ -1,27 +1,28 @@
 #include "EventGroups.h"
 
-EventGroupHandle_t IRAM_ATTR StateManager::getHandle()
+// IRAM_ATTR because this is accessed by button interrups.
+EventGroupHandle_t IRAM_ATTR EventManager::getHandle()
 {
   return systemEvents;
 }
-
-StateManager IRAM_ATTR &StateManager::getInstance()
+// IRAM_ATTR because this is accessed by button interrups.
+EventManager IRAM_ATTR &EventManager::getInstance()
 {
-  static StateManager instance;
+  static EventManager instance;
   return instance;
 }
 
-uint32_t StateManager::getNumberOfStateTransitions() const
+uint32_t EventManager::getNumberOfStateTransitions() const
 {
   return numberOfStateTransitions;
 }
 
-const StateManager::stateTransitionRule &StateManager::getStateTransitions(uint32_t index) const
+const EventManager::stateTransitionRule &EventManager::getStateTransitions(uint32_t index) const
 {
   return stateTransitions[index];
 }
 
-void StateManager::init()
+void EventManager::init()
 {
   systemEvents = xEventGroupCreate();
 }
