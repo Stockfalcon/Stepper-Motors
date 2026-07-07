@@ -27,6 +27,7 @@ void StateMachine::onStateEnter(systemStates state)
   case TEST_MODE:
   {
     xEventGroupSetBits(StateManager::getInstance().getHandle(), STATE_CALIBRATION_ACTIVE);
+    Logger.debug(STATE_LOG, "STATE_TEST_ACTIVE set");
     break;
   }
   }
@@ -57,6 +58,7 @@ void StateMachine::onStateExit(systemStates state)
   case TEST_MODE:
   {
     xEventGroupClearBits(StateManager::getInstance().getHandle(), STATE_TEST_ACTIVE);
+    Logger.debug(STATE_LOG, "STATE_TEST_ACTIVE reset");
     break;
   }
   }
@@ -121,5 +123,5 @@ void StateMachine::init()
     0,
     &stateMachineTask,
     1
-  )
+  );
 }

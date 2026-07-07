@@ -16,7 +16,9 @@ class Task{
   virtual void main() = 0;
   static void taskEntry(void *pvParameters)
   {
+    printf("pvParameters = %p\n", pvParameters);
     Task *self = static_cast<Task*>(pvParameters);
-    self -> main();
+    printf("self = %p\n", self);
+    self->main();
   }
 };

@@ -5,13 +5,57 @@
 #include "Globals.h"
 #include "Communication Structures/Queues.h"
 
+void MotorManager::init()
+{
+  // pinMode(EN_PIN, OUTPUT);
+  // digitalWrite(EN_PIN, LOW);
+
+  MotorCommandQueue = xQueueCreate(10, sizeof(MotorCommand));
+  if (MotorCommandQueue == nullptr)
+  {
+    Logger.error(MOTOR_LOG, "Queue creation failed");
+  }
+
+  Logger.trace(MOTOR_LOG, "Motor timer alarm initialization started");
+  stepTimer = timerBegin(
+    0,   // timer number (the options are 0,1,2,3)
+    80,  // prescale divider (clock is 80 MHz)
+    true // count up (true) or down (false)
+  );
+  
+  timerAttachInterrupt( // when timer is triggered call onStepTimer()
+    stepTimer,
+    &onStepTimer,
+    true // edge triggered timing
+  );
+  
+  timerAlarmWrite( // write amount of time to trigger alarm to the timer
+    stepTimer,
+    stepPeriod_us / 2, // divide by two for high AND low
+    true);
+    
+    // timerAlarmEnable(stepTimer); // start the timer
+    xTaskCreatePinnedToCore(
+        Task::taskEntry,
+        "motorTask",
+        10000,
+        this,
+        0,
+        &motorControllerTask,
+        1);
+
+
+}
 
 void MotorManager::main()
 {
-receiveCommands();
-if (motorStates.potEnabled){
-  readPotVal();
-}
+  for(;;){
+    receiveCommands();
+    if (motorStates.potEnabled){
+      Logger.debug(MOTOR_LOG, "pot enabled");
+      readPotVal();
+    }
+  }
 }
 
 void MotorManager::receiveCommands()
@@ -40,20 +84,20 @@ void MotorManager::motorAccelerationControl()
 
     if (target < current)
     { // decrease speed
-      setTargetStepPeriod_us(current - stepAccel);
+      setStepPeriod_us(current - stepAccel);
       // Re-check for overshoot
       if (target > current)
       {
-        setTargetStepPeriod_us(target);
+        setStepPeriod_us(target);
       }
       Logger.debug(MOTOR_LOG, "Decreased speed");
     }
     else if (target > current)
     { // increase speed
-      setTargetStepPeriod_us(current + stepAccel);
+      setStepPeriod_us(current + stepAccel);
       if (target > current)
       {
-        setTargetStepPeriod_us(target);
+        setStepPeriod_us(target);
       }
       Logger.debug(MOTOR_LOG, "Increased speed");
     }
@@ -65,41 +109,6 @@ const uint32_t &MotorManager::getPosition() const
 {
   Logger.debug(MOTOR_LOG, "Returned position");
   return position_cm;
-}
-
-void MotorManager::init(){
-  pinMode(EN_PIN, OUTPUT);
-  digitalWrite(EN_PIN, LOW);
-
-  Logger.trace(MOTOR_LOG, "Motor timer alarm initialization started");
-  stepTimer = timerBegin(
-      0,   // timer number (the options are 0,1,2,3)
-      80,  // prescale divider (clock is 80 MHz)
-      true // count up (true) or down (false)
-  );
-
-  timerAttachInterrupt( // when timer is triggered call onStepTimer()
-      stepTimer,
-      &onStepTimer,
-      true // edge triggered timing
-  );
-
-  timerAlarmWrite( // write amount of time to trigger alarm to the timer
-      stepTimer,
-      stepPeriod_us / 2, // divide by two for high AND low
-      true);
-
-  timerAlarmEnable(stepTimer); // start the timer
-
-  xTaskCreatePinnedToCore(
-    Task::taskEntry,
-    "motorTask",
-    10000, 
-    this,
-    0,
-    &motorControllerTask,
-    1
-  );
 }
 
 void IRAM_ATTR MotorManager::onStepTimer()
@@ -130,14 +139,25 @@ uint32_t MotorManager::getTargetStepPeriod_us()
 void MotorManager::setTargetStepPeriod_us(uint32_t period_us)
 {
   // temporairily disable interrupt and prevent ISR from running mid update
+  Logger.trace(MOTOR_LOG, "Setting target step period");
   portENTER_CRITICAL(&timerMux);
   targetStepPeriod_us = period_us;
-  timerAlarmWrite(stepTimer, period_us / 2, true); // update timer alarm period
+  portEXIT_CRITICAL(&timerMux);
+}
+
+void MotorManager::setStepPeriod_us(uint32_t period_us)
+{
+  // temporairily disable interrupt and prevent ISR from running mid update
+  Logger.trace(MOTOR_LOG, "Setting step period");
+  portENTER_CRITICAL(&timerMux);
+  stepPeriod_us = period_us;
+  timerAlarmWrite(stepTimer, period_us/2, true);
   portEXIT_CRITICAL(&timerMux);
 }
 
 void MotorManager::readPotVal()
 {
+  Logger.verbose(MOTOR_LOG, "reading pot val");
   uint32_t accumulatedPotVal = 0;
   int counter = 0;
   counter++;
@@ -148,6 +168,7 @@ void MotorManager::readPotVal()
     accumulatedPotVal = 0;
     counter = 0;
     uint32_t period_us = map(avgPotVal, 0, 4095, 1000, 200);
+    Logger.trace(MOTOR_LOG, "setting target step period to %2f us", period_us);
     setTargetStepPeriod_us(period_us);
   }
 }

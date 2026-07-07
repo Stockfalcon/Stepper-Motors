@@ -21,7 +21,7 @@ enum systemStates
 class StateManager
 {
 private:
-  EventGroupHandle_t systemEvents = xEventGroupCreate();
+  EventGroupHandle_t systemEvents = nullptr;
 
   typedef struct
   { // Transition table for state switcher
@@ -36,9 +36,10 @@ private:
       {EVT_TEST_BTN, MANUAL_MODE, TEST_MODE}};
 
 public:
-  EventGroupHandle_t getHandle();
+  void init();
+  EventGroupHandle_t IRAM_ATTR getHandle();
 
-  static StateManager &getInstance();
+  static IRAM_ATTR StateManager &getInstance();
 
   uint32_t getNumberOfStateTransitions() const;
   const stateTransitionRule &getStateTransitions(uint32_t index) const;

@@ -11,5 +11,7 @@ public:
   static void IRAM_ATTR limitSwitchHit();
   static void IRAM_ATTR testButtonHit();
   static void IRAM_ATTR cancelButtonHit();
+  static void IRAM_ATTR dummyISR();
   void init();
+private:
 };

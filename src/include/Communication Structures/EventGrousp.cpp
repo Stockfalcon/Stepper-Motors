@@ -1,11 +1,11 @@
 #include "EventGroups.h"
 
-EventGroupHandle_t StateManager::getHandle()
+EventGroupHandle_t IRAM_ATTR StateManager::getHandle()
 {
   return systemEvents;
 }
 
-StateManager &StateManager::getInstance()
+StateManager IRAM_ATTR &StateManager::getInstance()
 {
   static StateManager instance;
   return instance;
@@ -19,4 +19,9 @@ uint32_t StateManager::getNumberOfStateTransitions() const
 const StateManager::stateTransitionRule &StateManager::getStateTransitions(uint32_t index) const
 {
   return stateTransitions[index];
+}
+
+void StateManager::init()
+{
+  systemEvents = xEventGroupCreate();
 }
