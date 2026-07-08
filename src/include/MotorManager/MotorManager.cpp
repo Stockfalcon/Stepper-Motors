@@ -117,6 +117,7 @@ void IRAM_ATTR MotorManager::onStepTimer()
 { // linked to hardware timer interupt
   static bool stepState = false;
   stepState = !stepState;
+  stepCount ++;
   digitalWrite(STEP_PIN, stepState);
 }
 
@@ -127,6 +128,14 @@ uint32_t MotorManager::getStepPeriod_us()
   uint32_t period_us = stepPeriod_us;
   portEXIT_CRITICAL(&timerMux);
   return period_us;
+}
+uint32_t MotorManager::getSteps()
+{
+  // temporairily disable interrupt and prevent ISR from running mid update
+  portENTER_CRITICAL(&stepMux);
+  uint32_t steps = stepCount;
+  portEXIT_CRITICAL(&stepMux);
+  return steps;
 }
 
 uint32_t MotorManager::getTargetStepPeriod_us()
@@ -177,4 +186,8 @@ void MotorManager::readPotVal()
 
 void MotorManager::sendToQueue(const MotorCommand *command){
   xQueueSendToBack(MotorCommandQueue, command, 0);
+}
+
+void MotorManager::clearStepCount(){
+  stepCount = 0;
 }
