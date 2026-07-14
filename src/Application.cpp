@@ -7,7 +7,7 @@ void Application::init(){
   pinMode(DIR_PIN, OUTPUT);
   pinMode(POT_PIN, INPUT);
   Logger.debug(APP_LOG, "Initializations started");
-  stateManager.init();
+  eventManager.init();
   buttonManager.init();
   motorManager.init();
   stateMachine.init();

@@ -5,11 +5,13 @@
 #include "Globals.h"
 #include "Communication Structures/Queues.h"
 
+uint32_t MotorManager::stepCount = 0;
+
 void MotorManager::init()
 {
   // pinMode(EN_PIN, OUTPUT);
   // digitalWrite(EN_PIN, LOW);
-
+  
   MotorCommandQueue = xQueueCreate(10, sizeof(MotorCommand));
   if (MotorCommandQueue == nullptr)
   {
@@ -34,7 +36,7 @@ void MotorManager::init()
     stepPeriod_us / 2, // divide by two for high AND low
     true);
     
-    // timerAlarmEnable(stepTimer); // start the timer
+    timerAlarmEnable(stepTimer); // start the timer
     xTaskCreatePinnedToCore(
         Task::taskEntry,
         "motorTask",

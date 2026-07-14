@@ -6,6 +6,7 @@
 class ButtonManager
 {
 public:
+  // ButtonManager(eventManager &events) : eventManager(events){}
   // apparently ISR handlers must be static
   static void IRAM_ATTR calibrationButtonHit();
   static void IRAM_ATTR limitSwitchHit();

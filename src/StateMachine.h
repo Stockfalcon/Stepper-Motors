@@ -5,7 +5,10 @@
 class StateMachine : public Task
 {
 public:
-StateMachine(MotorManager  &controller) : motorController(controller){} //?comma separated for multiple
+  StateMachine(MotorManager &controller, EventManager& events) : 
+  motorController(controller),
+  eventManager(events) {}
+
   void main() override;
   void onStateEnter(systemStates state);
   void onStateExit(systemStates state);
@@ -16,4 +19,5 @@ private:
   systemStates lastState;
   MotorManager motorController;
   TaskHandle_t stateMachineTask;
+  EventManager &eventManager;
 };

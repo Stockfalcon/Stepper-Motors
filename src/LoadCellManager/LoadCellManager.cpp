@@ -34,6 +34,7 @@ LoadCellData LoadCellManager::readLoadCell()
     .time = esp_timer_get_time(),
     .strain = stepsToStrain(motorManager.getSteps())
   };
+  return loadCellData;
 }
 
 void LoadCellManager::sendDataToQueue(LoadCellData data)

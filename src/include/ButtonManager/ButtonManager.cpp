@@ -6,24 +6,24 @@
 
 void IRAM_ATTR ButtonManager::calibrationButtonHit()
 {
-  xEventGroupSetBitsFromISR(EventManager::getInstance().getHandle(), EVT_CALIBRATION_BTN, NULL); // what does the NULL do?
+  xEventGroupSetBitsFromISR(EventManager::getHandleFromISR(), EVT_CALIBRATION_BTN, NULL); // what does the NULL do?
 }
 
 void IRAM_ATTR ButtonManager::limitSwitchHit()
 {
-  xEventGroupSetBitsFromISR(EventManager::getInstance().getHandle(), EVT_LIMIT_SWITCH, NULL); // what does the NULL do?
+  xEventGroupSetBitsFromISR(EventManager::getHandleFromISR(), EVT_LIMIT_SWITCH, nullptr); // what does the NULL do?
 }
 
 void IRAM_ATTR ButtonManager::testButtonHit()
 {
   // timerAlarmDisable(stepTimer);                                                          // ! verify this (maybe try timerStop())
-  xEventGroupSetBitsFromISR(EventManager::getInstance().getHandle(), EVT_TEST_BTN, NULL); // what does the NULL do?
+  xEventGroupSetBitsFromISR(EventManager::getHandleFromISR(), EVT_TEST_BTN, NULL); // what does the NULL do?
 }
 
 void IRAM_ATTR ButtonManager::cancelButtonHit()
 {
   // timerAlarmDisable(stepTimer);                                                            // ! verify this
-  xEventGroupSetBitsFromISR(EventManager::getInstance().getHandle(), EVT_CANCEL_BTN, NULL); // what does the NULL do?
+  xEventGroupSetBitsFromISR(EventManager::getHandleFromISR(), EVT_CANCEL_BTN, NULL); // what does the NULL do?
 }
 
 void IRAM_ATTR ButtonManager::dummyISR()

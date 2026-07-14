@@ -27,10 +27,11 @@ class MotorManager : public Task{
 
     void motorAccelerationControl();
     const uint32_t &getPosition() const;
-
     static void IRAM_ATTR onStepTimer();
+    void clearStepCount();
 
     uint32_t getStepPeriod_us();
+    uint32_t getSteps();
     void setTargetStepPeriod_us(uint32_t period_us);
     uint32_t getTargetStepPeriod_us();
     void setStepPeriod_us(uint32_t period_us);
@@ -47,7 +48,9 @@ class MotorManager : public Task{
     volatile uint32_t stepPeriod_us = 2000;
     volatile uint32_t targetStepPeriod_us = 200;
     static portMUX_TYPE timerMux; // = portMUX_INITIALIZER_UNLOCKED
+    static portMUX_TYPE stepMux; // = portMUX_INITIALIZER_UNLOCKED
     hw_timer_t *stepTimer = nullptr;
+    static uint32_t stepCount;// could use inline keyword
 
     MotorStates motorStates;
     TaskHandle_t motorControllerTask = NULL;

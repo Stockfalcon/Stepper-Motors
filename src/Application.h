@@ -8,10 +8,10 @@
 
 class Application{
   public:
-  Application() : stateManager(), buttonManager(), motorManager(), stateMachine(motorManager){}
+  Application() : eventManager(), buttonManager(), motorManager(), stateMachine(motorManager, eventManager){}
   void init();
   private:
-  EventManager stateManager;
+  EventManager eventManager;
   ButtonManager buttonManager;
   MotorManager motorManager;
   StateMachine stateMachine;

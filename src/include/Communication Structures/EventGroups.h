@@ -26,6 +26,7 @@ private:
 
   systemStates ANY_MODE;
   EventGroupHandle_t systemEvents = nullptr;
+  static EventGroupHandle_t systemEventsISR;
 
   typedef struct
   { // Transition table for state switcher
@@ -44,9 +45,10 @@ private:
 
 public:
   void init();
-  EventGroupHandle_t IRAM_ATTR getHandle();
+  EventGroupHandle_t getHandle();
+  static EventGroupHandle_t getHandleFromISR();
 
-  static IRAM_ATTR EventManager &getInstance();
+  static EventManager &getInstance();
 
   uint32_t getNumberOfStateTransitions() const;
   const stateTransitionRule &getStateTransitions(uint32_t index) const;
