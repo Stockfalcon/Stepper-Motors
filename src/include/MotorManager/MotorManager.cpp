@@ -15,7 +15,8 @@ void MotorManager::init()
   MotorCommandQueue = xQueueCreate(10, sizeof(MotorCommand));
   if (MotorCommandQueue == nullptr)
   {
-    Logger.error(MOTOR_LOG, "Queue creation failed");
+    Logger.error(MOTOR_LOG, "Motor command queue creation failed");
+    return;
   }
 
   Logger.trace(MOTOR_LOG, "Motor timer alarm initialization started");
@@ -35,18 +36,19 @@ void MotorManager::init()
     stepTimer,
     stepPeriod_us / 2, // divide by two for high AND low
     true);
-    
-    timerAlarmEnable(stepTimer); // start the timer
-    xTaskCreatePinnedToCore(
+  
+  timerAlarmEnable(stepTimer); // start the timer
+
+  BaseType_t result = xTaskCreatePinnedToCore(
         Task::taskEntry,
         "motorTask",
         10000,
         this,
-        0,
+        1,
         &motorControllerTask,
         1);
-
-
+  printf("\n\nresult: %d\n\n", result);
+  Logger.info(MOTOR_LOG, "Motor initializations Finnished.");
 }
 
 void MotorManager::main()
@@ -54,28 +56,32 @@ void MotorManager::main()
   for(;;){
     receiveCommands();
     if (motorStates.potEnabled){
-      Logger.debug(MOTOR_LOG, "pot enabled");
       readPotVal();
     }
+    vTaskDelay(pdMS_TO_TICKS(10));
   }
 }
 
 void MotorManager::receiveCommands()
 {
-  MotorCommand message;
-  if(xQueueReceive(MotorCommandQueue, &message, 0) == pdTRUE ){
+  MotorCommand message{};
+  if(xQueueReceive(MotorCommandQueue, &message, pdMS_TO_TICKS(100)) == pdTRUE ){
     switch (message.type){
       case(RUN):
       timerAlarmEnable(stepTimer);
+      Logger.info(MOTOR_LOG, "Recieved run!");
+      motorStates.potEnabled = true;
       break;
       case(STOP):
       timerAlarmDisable(stepTimer);
+      Logger.info(MOTOR_LOG, "Recieved stop!");
+      motorStates.potEnabled = false;
       xQueueReset(MotorCommandQueue);
       break;
     }
   }
   else{
-  Logger.warning(MOTOR_LOG,"Motor Controller failed to receive command from queue.");
+  Logger.debug(MOTOR_LOG,"Motor Controller failed to receive command from queue.");
   }
 }
 
@@ -186,8 +192,24 @@ void MotorManager::readPotVal()
   }
 }
 
-void MotorManager::sendToQueue(const MotorCommand *command){
-  xQueueSendToBack(MotorCommandQueue, command, 0);
+void MotorManager::sendToQueue(const MotorCommand &command){
+  if (MotorCommandQueue == nullptr)
+  {
+    Logger.error(MOTOR_LOG, "Motor command queue is not initialized");
+    MotorCommandQueue = xQueueCreate(10, sizeof(MotorCommand));
+    if (MotorCommandQueue == nullptr)
+    {
+      Logger.error(MOTOR_LOG, "Motor command queue creation failed");
+      return;
+    }
+    Logger.info(MOTOR_LOG, "Motor command queue created");
+    return;
+  }
+
+  if (xQueueSendToBack(MotorCommandQueue, &command, pdMS_TO_TICKS(100)) != pdTRUE)
+  {
+    Logger.warning(MOTOR_LOG, "Motor command queue send timed out");
+  }
 }
 
 void MotorManager::clearStepCount(){

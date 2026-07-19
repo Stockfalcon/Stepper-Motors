@@ -36,7 +36,7 @@ class MotorManager : public Task{
     uint32_t getTargetStepPeriod_us();
     void setStepPeriod_us(uint32_t period_us);
 
-    void sendToQueue(const MotorCommand *command);
+    void sendToQueue(const MotorCommand &command);
 
   private:
     

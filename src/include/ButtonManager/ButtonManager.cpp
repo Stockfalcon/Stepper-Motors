@@ -34,9 +34,13 @@ void IRAM_ATTR ButtonManager::dummyISR()
 void ButtonManager::init()
 {
   Logger.debug(BUTTON_LOG, "Interrupt initialization Started");
+  pinMode(CANCEL_BTN_PIN, INPUT_PULLDOWN);
+  pinMode(CALIBRATION_BTN_PIN, INPUT_PULLDOWN);
+  pinMode(TEST_BTN_PIN, INPUT_PULLDOWN);
+  pinMode(POT_PIN, INPUT);
+  pinMode(2, OUTPUT);
   attachInterrupt(CALIBRATION_BTN_PIN, calibrationButtonHit, RISING);
-  Logger.debug(BUTTON_LOG, "cal BTN init finnished Started");
-  // attachInterrupt(TEST_BTN_PIN, testButtonHit, RISING);
-  // attachInterrupt(CANCEL_BTN_PIN, cancelButtonHit, RISING);
-  // Logger.debug(BUTTON_LOG, "Interrupt initialization finished");
+  attachInterrupt(TEST_BTN_PIN, testButtonHit, RISING);
+  attachInterrupt(CANCEL_BTN_PIN, cancelButtonHit, RISING);
+  Logger.debug(BUTTON_LOG, "Interrupt initialization finished");
 }

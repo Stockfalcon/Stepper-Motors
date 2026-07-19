@@ -10,8 +10,8 @@ void StateMachine::onStateEnter(systemStates state)
   case MANUAL_MODE:
   {
     Logger.debug(STATE_LOG, "Entered Manual Mode");
-    MotorCommand motorCommand{.type = RUN};
-    motorController.sendToQueue((MotorCommand*)&motorCommand);
+    MotorCommand motorCommand{RUN};
+    motorController.sendToQueue(motorCommand);
     break;
   }
 
@@ -36,8 +36,9 @@ void StateMachine::onStateExit(systemStates state)
     case MANUAL_MODE:
     {
     Logger.debug(STATE_LOG, "Exited Manual Mode");
-    MotorCommand motorCommand{.type = STOP};
-    motorController.sendToQueue((MotorCommand *)&motorCommand);
+    MotorCommand motorCommand{
+      .type = STOP};
+    motorController.sendToQueue(motorCommand);
     break;
   }
   
@@ -61,9 +62,8 @@ void StateMachine::main()
   for (;;)
   {
     lastState = currentState;
-    // printf("EB handle %p", eventManager.getHandle());
     EventBits_t bits = xEventGroupClearBits(eventManager.getHandle(),0); // maybe b/c getinstance is in IRAM?
-    for (int32_t i = 0; i <= eventManager.getNumberOfStateTransitions(); i++)
+    for (int32_t i = 0; i < eventManager.getNumberOfStateTransitions(); i++)
     {
       auto stateTransition = eventManager.getStateTransitions(i);
       if (bits & stateTransition.trigger)
@@ -83,18 +83,19 @@ void StateMachine::main()
       onStateEnter(currentState);
       onStateExit(lastState);
     }
+    vTaskDelay(pdMS_TO_TICKS(10));
 
   }
 }
 
 void StateMachine::init()
 {
-  xTaskCreatePinnedToCore(
+  BaseType_t result = xTaskCreatePinnedToCore(
     Task::taskEntry,
     "stateMachine",
     10000,
     this,
-    0,
+    1,
     &stateMachineTask,
     1
   );

@@ -18,7 +18,7 @@ class Task{
   {
     printf("pvParameters = %p\n", pvParameters);
     Task *self = static_cast<Task*>(pvParameters);
-    printf("self = %p\n", self);
     self->main();
+    printf("self = %p\n", self);
   }
 };

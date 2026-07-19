@@ -16,7 +16,7 @@ inline void initializeLogging()
 {
   Serial.begin(115200);
   Logger.registerSerial(MAIN_LOG, ELOG_LEVEL_VERBOSE, "MAI");
-  Logger.registerSerial(MOTOR_LOG, ELOG_LEVEL_DEBUG, "MOT");
+  Logger.registerSerial(MOTOR_LOG, ELOG_LEVEL_INFO, "MOT");
   Logger.registerSerial(EVENT_LOG, ELOG_LEVEL_VERBOSE, "EVT");
   Logger.registerSerial(STATE_LOG, ELOG_LEVEL_VERBOSE, "STA");
   Logger.registerSerial(TASK_LOG, ELOG_LEVEL_VERBOSE, "TSK");

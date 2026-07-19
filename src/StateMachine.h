@@ -17,7 +17,7 @@ public:
 private:
   systemStates currentState = MANUAL_MODE; // always start in manual mode
   systemStates lastState;
-  MotorManager motorController;
+  MotorManager &motorController;
   TaskHandle_t stateMachineTask;
   EventManager &eventManager;
 };
