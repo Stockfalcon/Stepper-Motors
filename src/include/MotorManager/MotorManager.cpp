@@ -58,7 +58,7 @@ void MotorManager::main()
     if (motorStates.potEnabled){
       readPotVal();
     }
-    vTaskDelay(pdMS_TO_TICKS(10));
+    vTaskDelay(pdMS_TO_TICKS(20));
   }
 }
 
@@ -127,6 +127,9 @@ void IRAM_ATTR MotorManager::onStepTimer()
   stepState = !stepState;
   stepCount ++;
   digitalWrite(STEP_PIN, stepState);
+  if(stepCount%101==0){
+    digitalWrite(2,stepState);
+  }
 }
 
 uint32_t MotorManager::getStepPeriod_us()
@@ -187,7 +190,7 @@ void MotorManager::readPotVal()
     accumulatedPotVal = 0;
     counter = 0;
     uint32_t period_us = map(avgPotVal, 0, 4095, 1000, 200);
-    Logger.trace(MOTOR_LOG, "setting target step period to %2f us", period_us);
+    Logger.trace(MOTOR_LOG, "setting target step period to %lu us", (unsigned long)period_us);
     setTargetStepPeriod_us(period_us);
   }
 }

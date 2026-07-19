@@ -71,7 +71,7 @@ void StateMachine::main()
         Logger.verbose(STATE_LOG, "systemEvents before clear bits: %d", bits);
         xEventGroupClearBits(eventManager.getHandle(), stateTransition.trigger);
         Logger.warning(STATE_LOG, "systemEvents after clear bits: %d", xEventGroupGetBits(eventManager.getHandle()));
-        if (currentState == stateTransition.fromState){
+        if (currentState == stateTransition.fromState | currentState == eventManager.ANY_MODE){
           currentState = stateTransition.toState;
         }
       }
