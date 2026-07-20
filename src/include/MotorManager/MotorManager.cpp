@@ -12,6 +12,12 @@ void MotorManager::init()
   // pinMode(EN_PIN, OUTPUT);
   // digitalWrite(EN_PIN, LOW);
   
+  pinMode(EN_PIN, OUTPUT);
+  pinMode(STEP_PIN, OUTPUT);
+  pinMode(DIR_PIN, OUTPUT);
+  digitalWrite(EN_PIN, 0);
+
+
   MotorCommandQueue = xQueueCreate(10, sizeof(MotorCommand));
   if (MotorCommandQueue == nullptr)
   {

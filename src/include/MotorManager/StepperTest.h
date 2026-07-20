@@ -7,8 +7,7 @@ class StepperTest
 {
 private:
   hw_timer_t *stepTimer = nullptr;
-  volatile uint32_t stepPeriod_us = 2000;
-  volatile uint32_t targetStepPeriod_us = 200;
+  volatile uint32_t stepPeriod_us = 500;
   volatile uint32_t accumulatedPotVal = 0;
   volatile uint32_t potSampleCounter = 0;
   static portMUX_TYPE timerMux; // = portMUX_INITIALIZER_UNLOCKED

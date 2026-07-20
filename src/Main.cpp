@@ -14,9 +14,8 @@ void setup()
 {
   delay(3000);
   initializeLogging();
-  st.init();
 
-  // application.init();
+  application.init();
   // Serial.begin(115200);
   // prevPressed = 0;
   // pressed = 0;

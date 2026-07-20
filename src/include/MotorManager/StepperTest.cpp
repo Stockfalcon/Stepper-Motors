@@ -27,10 +27,10 @@ void StepperTest::readPotVal(){
     accumulatedPotVal = 0;
     potSampleCounter = 0;
     uint32_t period_us = map(avgPotVal, 0, 4095, 1000, 200);
-    Logger.trace(MOTOR_LOG, "setting target step period to %lu us", (unsigned long)period_us);
-    Logger.trace(MOTOR_LOG, "Setting target step period");
+    Logger.trace(MOTOR_LOG, "setting step period to %lu us", (unsigned long)period_us);
+    Logger.trace(MOTOR_LOG, "Setting step period");
     portENTER_CRITICAL(&timerMux);
-    targetStepPeriod_us = period_us;
+    stepPeriod_us = period_us;
     portEXIT_CRITICAL(&timerMux);
   }
 }
@@ -52,8 +52,10 @@ void StepperTest::castReadPotVal(void* pvParameters){
 
 void StepperTest::init(){
   pinMode(STEP_PIN, OUTPUT);
+  pinMode(EN_PIN, OUTPUT);
   pinMode(POT_PIN, INPUT);
   pinMode(2, OUTPUT);
+  digitalWrite(EN_PIN, 0);
 
   stepTimer = timerBegin(
       0,   // timer number (the options are 0,1,2,3)
@@ -74,6 +76,8 @@ void StepperTest::init(){
 
   timerAlarmEnable(stepTimer); // start the timer
 
+
+  //! Currently doesn't work
   BaseType_t result = xTaskCreatePinnedToCore(
       StepperTest::castReadPotVal,
       "motorTask",
