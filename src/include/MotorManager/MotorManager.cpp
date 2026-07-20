@@ -6,6 +6,11 @@
 #include "Communication Structures/Queues.h"
 
 uint32_t MotorManager::stepCount = 0;
+volatile uint32_t MotorManager::targetStepPeriod_us = 200;
+volatile uint32_t MotorManager::stepPeriod_us = 200;
+hw_timer_t *MotorManager::stepTimer = nullptr;
+portMUX_TYPE MotorManager::timerMux = portMUX_INITIALIZER_UNLOCKED;
+portMUX_TYPE MotorManager::stepMux = portMUX_INITIALIZER_UNLOCKED;
 
 void MotorManager::init()
 {
@@ -45,15 +50,24 @@ void MotorManager::init()
   
   timerAlarmEnable(stepTimer); // start the timer
 
-  BaseType_t result = xTaskCreatePinnedToCore(
+  xTaskCreatePinnedToCore(
         Task::taskEntry,
         "motorTask",
         10000,
         this,
-        1,
+        2,
         &motorControllerTask,
         1);
-  printf("\n\nresult: %d\n\n", result);
+
+  // BaseType_t result = xTaskCreatePinnedToCore(
+  //       MotorManager::motorAccelerationControl,
+  //       "motorAcceleration",
+  //       10000,
+  //       NULL,
+  //       1,
+  //       &motorAccelerationTask,
+  //       0);
+  // printf("\n\nresult: %d\n\n", result);
   Logger.info(MOTOR_LOG, "Motor initializations Finnished.");
 }
 
@@ -91,13 +105,13 @@ void MotorManager::receiveCommands()
   }
 }
 
-void MotorManager::motorAccelerationControl()
+void MotorManager::motorAccelerationControl(void* pvParameters)
 { // pinned to core 0 (core 0's only task)
   for (;;)
   {
     uint32_t target = getTargetStepPeriod_us();
     uint32_t current = getStepPeriod_us();
-
+    // Logger.info(MOTOR_LOG, "Target: %lu  Current:%lu", (unsigned long)target, (unsigned long)current);
     if (target < current)
     { // decrease speed
       setStepPeriod_us(current - stepAccel);
@@ -146,6 +160,7 @@ uint32_t MotorManager::getStepPeriod_us()
   portEXIT_CRITICAL(&timerMux);
   return period_us;
 }
+
 uint32_t MotorManager::getSteps()
 {
   // temporairily disable interrupt and prevent ISR from running mid update
@@ -167,7 +182,7 @@ uint32_t MotorManager::getTargetStepPeriod_us()
 void MotorManager::setTargetStepPeriod_us(uint32_t period_us)
 {
   // temporairily disable interrupt and prevent ISR from running mid update
-  Logger.trace(MOTOR_LOG, "Setting target step period");
+  // Logger.info(MOTOR_LOG, "Setting target step period");
   portENTER_CRITICAL(&timerMux);
   targetStepPeriod_us = period_us;
   portEXIT_CRITICAL(&timerMux);
@@ -186,20 +201,20 @@ void MotorManager::setStepPeriod_us(uint32_t period_us)
 void MotorManager::readPotVal()
 {
   Logger.verbose(MOTOR_LOG, "reading pot val");
-  uint32_t accumulatedPotVal = 0;
-  int counter = 0;
-  counter++;
   accumulatedPotVal += analogRead(POT_PIN);
-  if (counter == 10)
+  potSampleCounter++;
+
+  if (potSampleCounter >= 10)
   {
-    uint32_t avgPotVal = accumulatedPotVal / 10;
+    uint32_t avgPotVal = accumulatedPotVal / potSampleCounter;
     accumulatedPotVal = 0;
-    counter = 0;
+    potSampleCounter = 0;
     uint32_t period_us = map(avgPotVal, 0, 4095, 1000, 200);
-    Logger.trace(MOTOR_LOG, "setting target step period to %lu us", (unsigned long)period_us);
-    setTargetStepPeriod_us(period_us);
+    Logger.trace(MOTOR_LOG, "setting step period to %lu us", (unsigned long)period_us);
+    setStepPeriod_us(period_us);
   }
 }
+
 
 void MotorManager::sendToQueue(const MotorCommand &command){
   if (MotorCommandQueue == nullptr)

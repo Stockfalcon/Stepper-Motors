@@ -28,7 +28,6 @@ void StepperTest::readPotVal(){
     potSampleCounter = 0;
     uint32_t period_us = map(avgPotVal, 0, 4095, 1000, 200);
     Logger.trace(MOTOR_LOG, "setting step period to %lu us", (unsigned long)period_us);
-    Logger.trace(MOTOR_LOG, "Setting step period");
     portENTER_CRITICAL(&timerMux);
     stepPeriod_us = period_us;
     portEXIT_CRITICAL(&timerMux);

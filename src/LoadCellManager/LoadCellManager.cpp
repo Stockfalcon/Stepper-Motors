@@ -28,9 +28,8 @@ void LoadCellManager::main()
 
 LoadCellData LoadCellManager::readLoadCell()
 {
-
   LoadCellData loadCellData{
-    // .stress = hx711.read()
+    .stress = hx711.read()
     .time = esp_timer_get_time(),
     .strain = stepsToStrain(motorManager.getSteps())
   };
