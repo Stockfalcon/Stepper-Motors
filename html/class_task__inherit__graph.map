@@ -1,0 +1,9 @@
+<map id="Task" name="Task">
+<area shape="rect" id="Node000001" title=" " alt="" coords="179,5,228,32"/>
+<area shape="rect" id="Node000002" href="$class_load_cell_manager.html" title="This class reads the force from an HX711 connected to the load cell." alt="" coords="5,80,128,107"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="169,40,92,82,89,77,164,39"/>
+<area shape="rect" id="Node000003" href="$class_motor_manager.html" title="This class controls the stepper motor." alt="" coords="152,80,256,107"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="206,46,206,81,202,78,202,50"/>
+<area shape="rect" id="Node000004" href="$class_state_machine.html" title=" " alt="" coords="280,80,381,107"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="240,37,311,79,306,79,238,42"/>
+</map>
