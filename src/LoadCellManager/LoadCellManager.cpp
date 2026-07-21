@@ -1,8 +1,9 @@
 #include "LoadCellManager.h"
+#include <HX711.h>
 
 void LoadCellManager::init()
 {
-  LoadCellDataQueue = xQueueCreate(10, sizeof(LoadCellData));
+  loadCellDataQueue = xQueueCreate(10, sizeof(LoadCellData));
 
   xTaskCreatePinnedToCore(
     Task::taskEntry,
@@ -38,6 +39,6 @@ LoadCellData LoadCellManager::readLoadCell()
 
 void LoadCellManager::sendDataToQueue(LoadCellData data)
 {
-  xQueueSendToBack(LoadCellDataQueue, (LoadCellData*)&data, portMAX_DELAY);
+  xQueueSendToBack(loadCellDataQueue, (LoadCellData*)&data, portMAX_DELAY);
 }
 
