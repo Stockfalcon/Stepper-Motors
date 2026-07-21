@@ -2,6 +2,8 @@
 #include <Arduino.h>
 #include "include/Globals.h"
 
+
+/// \ingroup MotorControl
 enum MotorCommandType
 {
   RUN,
@@ -9,18 +11,22 @@ enum MotorCommandType
   ENABLE_LIMIT_SWITCH_ALERT
 };
 
+/// \ingroup MotorControl
 struct MotorCommand
 {
+  /// \ingroup MotorControl
   MotorCommandType type;
 };
 
+/// \ingroup MotorControl
 struct MotorStates{
   bool runMotor = true;
   bool potEnabled = true;
 };
 
-/**This class controls the stepper motor.
- * It manages acceleration, reads a potentiometer and sets up a timer with a callback that triggers steps. 
+/** \ingroup MotorControl
+ * This class controls the stepper motor.
+ * It manages acceleration, reads a potentiometer and sets up a timer with a callback that triggers steps.
  */
 class MotorManager : public Task{
   public:
