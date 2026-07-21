@@ -1,34 +1,42 @@
 #include <Arduino.h>
-#include "include/MotorManager/MotorManager.h"
-#include "include/Communication Structures/EventGroups.h"
-#include "include/PinMap.h"
-#include "include/ButtonManager/ButtonManager.h"
-#include "StateMachine.h"
+#include "Application.h"
 #include "include/Logging.h"
+#include "include/PinMap.h"
+#include "include/MotorManager/StepperTest.h"
 
-ButtonManager buttonManager;
-
+Application application;
+StepperTest st;
+int pressed;
+int prevPressed;
 // When running unit tests we exclude the Arduino sketch entry points
-#ifndef UNIT_TEST
+// #ifndef UNIT_TEST
 void setup()
 {
   delay(3000);
   initializeLogging();
 
-  // *put your setup code here, to run once:
-  pinMode(STEP_PIN, OUTPUT);
-  pinMode(DIR_PIN, OUTPUT);
-  pinMode(POT_PIN, INPUT);
+  application.init();
+  // Serial.begin(115200);
+  // prevPressed = 0;
+  // pressed = 0;
+  // pinMode(CANCEL_BTN_PIN, INPUT_PULLDOWN);
+  // pinMode(CALIBRATION_BTN_PIN, INPUT_PULLDOWN);
+  // pinMode(TEST_BTN_PIN, INPUT_PULLDOWN);
+  // pinMode(POT_PIN, INPUT);
+  // pinMode(2, OUTPUT);
 
-  buttonManager.init();
 
-  Logger.debug(MAIN_LOG, "Initializations complete");
 }
 
 void loop()
 {
   // *put your main code here, to run repeatedly:
-  delay(1000);
-  Logger.debug(MAIN_LOG, "Running loop");
+  // if(digitalRead(CALIBRATION_BTN_PIN)){
+  //   pressed = !pressed;
+  //   digitalWrite(2, pressed);
+  // }
+  // delay(100);
+
+
 }
-#endif
+// #endif

@@ -2,17 +2,22 @@
 #include "include/Communication Structures/EventGroups.h"
 #include "include/MotorManager/MotorManager.h"
 
-class StateMachine
+class StateMachine : public Task
 {
 public:
-StateMachine(MotorController  &controller) : motorController(controller){} //?comma separated for multiple
-  static void systemStateSwitcherTask(void *pvParameters);
-  void systemStateSwitcher();
+  StateMachine(MotorManager &controller, EventManager& events) : 
+  motorController(controller),
+  eventManager(events) {}
+
+  void main() override;
   void onStateEnter(systemStates state);
   void onStateExit(systemStates state);
+  void init();
 
 private:
   systemStates currentState = MANUAL_MODE; // always start in manual mode
   systemStates lastState;
-  MotorController motorController;
+  MotorManager &motorController;
+  TaskHandle_t stateMachineTask;
+  EventManager &eventManager;
 };

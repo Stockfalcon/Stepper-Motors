@@ -6,28 +6,39 @@
 
 void IRAM_ATTR ButtonManager::calibrationButtonHit()
 {
-  xEventGroupSetBitsFromISR(StateManager::getInstance().getHandle(), EVT_CALIBRATION_BTN, NULL); // what does the NULL do?
+  xEventGroupSetBitsFromISR(EventManager::getHandleFromISR(), EVT_CALIBRATION_BTN, NULL); // what does the NULL do?
 }
 
 void IRAM_ATTR ButtonManager::limitSwitchHit()
 {
-  xEventGroupSetBitsFromISR(StateManager::getInstance().getHandle(), EVT_LIMIT_SWITCH, NULL); // what does the NULL do?
+  xEventGroupSetBitsFromISR(EventManager::getHandleFromISR(), EVT_LIMIT_SWITCH, nullptr); // what does the NULL do?
 }
 
 void IRAM_ATTR ButtonManager::testButtonHit()
 {
   // timerAlarmDisable(stepTimer);                                                          // ! verify this (maybe try timerStop())
-  xEventGroupSetBitsFromISR(StateManager::getInstance().getHandle(), EVT_TEST_BTN, NULL); // what does the NULL do?
+  xEventGroupSetBitsFromISR(EventManager::getHandleFromISR(), EVT_TEST_BTN, NULL); // what does the NULL do?
 }
 
 void IRAM_ATTR ButtonManager::cancelButtonHit()
 {
   // timerAlarmDisable(stepTimer);                                                            // ! verify this
-  xEventGroupSetBitsFromISR(StateManager::getInstance().getHandle(), EVT_CANCEL_BTN, NULL); // what does the NULL do?
+  xEventGroupSetBitsFromISR(EventManager::getHandleFromISR(), EVT_CANCEL_BTN, NULL); // what does the NULL do?
+}
+
+void IRAM_ATTR ButtonManager::dummyISR()
+{
+  void(0);
 }
 
 void ButtonManager::init()
 {
+  Logger.debug(BUTTON_LOG, "Interrupt initialization Started");
+  pinMode(CANCEL_BTN_PIN, INPUT_PULLDOWN);
+  pinMode(CALIBRATION_BTN_PIN, INPUT_PULLDOWN);
+  pinMode(TEST_BTN_PIN, INPUT_PULLDOWN);
+  pinMode(POT_PIN, INPUT);
+  pinMode(2, OUTPUT);
   attachInterrupt(CALIBRATION_BTN_PIN, calibrationButtonHit, RISING);
   attachInterrupt(TEST_BTN_PIN, testButtonHit, RISING);
   attachInterrupt(CANCEL_BTN_PIN, cancelButtonHit, RISING);

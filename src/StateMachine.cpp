@@ -9,102 +9,72 @@ void StateMachine::onStateEnter(systemStates state)
   {
   case MANUAL_MODE:
   {
-    xEventGroupSetBits(StateManager::getInstance().getHandle(), STATE_MANUAL_ACTIVE);
-    Logger.debug(STATE_LOG, "STATE_MANUAL_ACTIVE set");
-    MotorCommand motorCommand{
-        .type = RUN};
-    motorController.sendToQueue((MotorCommand*)&motorCommand);
+    Logger.debug(STATE_LOG, "Entered Manual Mode");
+    MotorCommand motorCommand{RUN};
+    motorController.sendToQueue(motorCommand);
     break;
   }
 
   case CALIBRATION_MODE:
   {
-    xEventGroupSetBits(StateManager::getInstance().getHandle(), STATE_CALIBRATION_ACTIVE);
-    Logger.debug(STATE_LOG, "STATE_CALIBRATION_ACTIVE set");
+    Logger.debug(STATE_LOG, "Entered Calibration Mode");
     break;
   }
 
   case TEST_MODE:
   {
-    xEventGroupSetBits(StateManager::getInstance().getHandle(), STATE_CALIBRATION_ACTIVE);
+    Logger.debug(STATE_LOG, "Entered Test Mode");
     break;
   }
-  }
+}
 }
 
 void StateMachine::onStateExit(systemStates state)
 {
   switch (state)
   {
-  case MANUAL_MODE:
-  {
-    xEventGroupClearBits(StateManager::getInstance().getHandle(), STATE_MANUAL_ACTIVE);
-    Logger.debug(STATE_LOG, "STATE_MANUAL_ACTIVE reset");
+    case MANUAL_MODE:
+    {
+    Logger.debug(STATE_LOG, "Exited Manual Mode");
     MotorCommand motorCommand{
-      .type = STOP
-    };
-    motorController.sendToQueue((MotorCommand *)&motorCommand);
+      .type = STOP};
+    motorController.sendToQueue(motorCommand);
     break;
   }
-
+  
   case CALIBRATION_MODE:
   {
-    xEventGroupClearBits(StateManager::getInstance().getHandle(), STATE_CALIBRATION_ACTIVE);
-    Logger.debug(STATE_LOG, "STATE_CALIBRATION_ACTIVE reset");
+    Logger.debug(STATE_LOG, "Exited Calibration Mode");
     break;
   }
-
+  
   case TEST_MODE:
   {
-    xEventGroupClearBits(StateManager::getInstance().getHandle(), STATE_TEST_ACTIVE);
+    Logger.debug(STATE_LOG, "Exited Test Mode");
     break;
   }
   }
 }
 
-void StateMachine::systemStateSwitcherTask(void *pvParameters)
-{
-  StateMachine *stateMachine = static_cast<StateMachine *>(pvParameters);
-  stateMachine->systemStateSwitcher();
-}
 
-void StateMachine::systemStateSwitcher()
+void StateMachine::main()
 {
   for (;;)
   {
     lastState = currentState;
-    EventBits_t bits = xEventGroupGetBits(StateManager::getInstance().getHandle());
-    for (int32_t i = 0; i <= StateManager::getInstance().getNumberOfStateTransitions(); i++)
+    EventBits_t bits = xEventGroupClearBits(eventManager.getHandle(),0); // maybe b/c getinstance is in IRAM?
+    for (int32_t i = 0; i < eventManager.getNumberOfStateTransitions(); i++)
     {
-      auto stateTransitions = StateManager::getInstance().getStateTransitions(i);
-      if ((bits & stateTransitions.trigger) && currentState == stateTransitions.fromState)
+      auto stateTransition = eventManager.getStateTransitions(i);
+      if (bits & stateTransition.trigger)
       {
-        currentState = stateTransitions.toState;
+        Logger.verbose(STATE_LOG, "systemEvents before clear bits: %d", bits);
+        xEventGroupClearBits(eventManager.getHandle(), stateTransition.trigger);
+        Logger.warning(STATE_LOG, "systemEvents after clear bits: %d", xEventGroupGetBits(eventManager.getHandle()));
+        if (currentState == stateTransition.fromState | currentState == eventManager.ANY_MODE){
+          currentState = stateTransition.toState;
+        }
       }
-    }
-    if (bits & EVT_LIMIT_SWITCH)
-    {
-      Logger.debug(STATE_LOG, "Limit Switch hit detected");
-      Logger.verbose(STATE_LOG, "systemEvents before clear bits: %d", bits);
-      currentState = MANUAL_MODE;
-      xEventGroupClearBits(StateManager::getInstance().getHandle(), EVT_LIMIT_SWITCH);
-      Logger.verbose(STATE_LOG, "systemEvents after clear bits: %d", xEventGroupGetBits(StateManager::getInstance().getHandle()));
-    }
-    else if (bits & EVT_CANCEL_BTN)
-    {
-      Logger.debug(STATE_LOG, "Cancel Button detected");
-      Logger.verbose(STATE_LOG, "systemEvents before clear bits: %d", bits);
-      currentState = MANUAL_MODE;
-      xEventGroupClearBits(StateManager::getInstance().getHandle(), EVT_CANCEL_BTN);
-      Logger.verbose(STATE_LOG, "systemEvents after clear bits: %d", xEventGroupGetBits(StateManager::getInstance().getHandle()));
-    }
-    else if (bits & EVT_TEST_BTN)
-    {
-      Logger.debug(STATE_LOG, "test Button detected");
-      Logger.verbose(STATE_LOG, "systemEvents before clear bits: %d", bits);
-      currentState = TEST_MODE;
-      xEventGroupClearBits(StateManager::getInstance().getHandle(), EVT_TEST_BTN);
-      Logger.verbose(STATE_LOG, "systemEvents after clear bits: %d", xEventGroupGetBits(StateManager::getInstance().getHandle()));
     }
 
 
@@ -113,5 +83,20 @@ void StateMachine::systemStateSwitcher()
       onStateEnter(currentState);
       onStateExit(lastState);
     }
+    vTaskDelay(pdMS_TO_TICKS(10));
+
   }
+}
+
+void StateMachine::init()
+{
+  BaseType_t result = xTaskCreatePinnedToCore(
+    Task::taskEntry,
+    "stateMachine",
+    10000,
+    this,
+    1,
+    &stateMachineTask,
+    1
+  );
 }
