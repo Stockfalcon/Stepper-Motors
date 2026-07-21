@@ -1,0 +1,5 @@
+<map id="MotorManager" name="MotorManager">
+<area shape="rect" id="Node000001" title="This class controls the stepper motor." alt="" coords="5,80,110,107"/>
+<area shape="rect" id="Node000002" href="$class_task.html" title=" " alt="" coords="33,5,82,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="59,46,60,80,55,79,56,50"/>
+</map>
