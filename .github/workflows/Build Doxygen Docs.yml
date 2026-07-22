@@ -38,6 +38,11 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y doxygen graphviz
+      
+      - name: Show repository contents
+        run: |
+          pwd
+          ls -la
 
       - name: Build documentation
         run: doxygen Doxyfile
