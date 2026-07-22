@@ -3,17 +3,28 @@
 #include "include/Globals.h"
 #include "include/MotorManager/MotorManager.h"
 
+/**
+ * \ingroup LoadCell
+ * Structure used to send data to data manager via \ref loadCellDataQueue.
+ */
 struct LoadCellData
 {
-  uint32_t stress; //force
+  uint32_t stress; ///< Force
   int64_t time;
-  uint32_t strain; // displacement
+  uint32_t strain; ///< Displacement
 };
 
+/**
+ * \ingroup LoadCell
+ * Commands sent by StateManager used to set internal \ref LoadCellStates.
+ */
 enum LoadCellCommandType{
   GET_DATA,
 };
-
+/**
+ * \ingroup LoadCell
+ * Structure used to send data to data manager via \ref loadCellcommandQueue.
+ */
 struct LoadCellCommand
 {
   LoadCellCommandType type;
@@ -28,6 +39,7 @@ struct LoadCellStates
   bool readData = false;
   bool writeToEEPROM = false;
 };
+
 /**
  * This class reads the force from an HX711 connected to the load cell.
  * It also passes the data to the data manager which further handles it.
@@ -46,7 +58,10 @@ class LoadCellManager : public Task{
     void sendDataToQueue(LoadCellData data);
     LoadCellData readLoadCell();
     void writeCalibrationToEEPROM();
-    /// Calculates strain based on known milimeters per step (stored in Globals).
+    /**
+     * Calculates strain based on known milimeters per step (stored in Globals).
+     * \param steps This parameter is meant to come from getSteps"()""
+     */
     uint32_t stepsToStrain(uint32_t steps);
 
   private : 
