@@ -60,16 +60,14 @@ class LoadCellManager : public Task{
     void writeCalibrationToEEPROM();
     /**
      * Calculates strain based on known milimeters per step (stored in Globals).
-     * \param steps This parameter is meant to come from getSteps"()""
+     * \param steps This parameter is meant to come from MotorManager::getSteps().
      */
     uint32_t stepsToStrain(uint32_t steps);
 
-  private : 
-    QueueHandle_t loadCellDataQueue;
-    QueueHandle_t loadCellCommandQueue;
+  private :
+    QueueHandle_t loadCellDataQueue;    ///< Sends \ref LoadCellData to the Data Manager
+    QueueHandle_t loadCellCommandQueue; ///< Allows \ref StateMachine to send \ref LoadCellCommand "messages" to the \ref LoadCell Manager.
     LoadCellStates loadCellStates; ///< Internal states that determine behaviour of the load cell manager.
     MotorManager &motorManager; ///< A reference to a MotorManager instance.
-    TaskHandle_t loadCellTask;
-
-
+    TaskHandle_t loadCellTask;  ///< The handle used for xTaskCreatePinnedToCore() in init().
 };
