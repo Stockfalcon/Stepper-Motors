@@ -1,7 +1,0 @@
-<map id="MotorManager" name="MotorManager">
-<area shape="rect" id="Node000001" title="This class controls the stepper motor." alt="" coords="24,96,129,123"/>
-<area shape="rect" id="Node000002" href="$class_task.html" title=" " alt="" coords="5,5,55,32"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="45,44,73,95,67,96,42,48"/>
-<area shape="rect" id="Node000003" href="$struct_motor_states.html" title=" " alt="" coords="78,5,171,32"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="113,45,86,97,81,94,108,46"/>
-</map>

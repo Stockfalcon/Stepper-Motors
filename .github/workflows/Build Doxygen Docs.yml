@@ -1,0 +1,56 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Build Doxygen Docs
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the "main" branch
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write # don't know what this does!
+
+# don't know what this does!
+concurrency:
+  group: pages
+  cancel-in-progress: true
+  
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build-docs"
+  build-docs:
+    # The type of runner that the job will run on (a new virtual machine)
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Install Doxygen
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y doxygen graphviz
+      
+      - name: Show repository contents
+        run: |
+          pwd
+          ls -la
+
+      - name: Build documentation
+        run: doxygen Doxyfile
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: html
+
+      - uses: actions/deploy-pages@v4
