@@ -8,13 +8,13 @@ enum MotorCommandType
 {
   RUN,
   STOP,
-  ENABLE_LIMIT_SWITCH_ALERT
+  ENABLE_LIMIT_SWITCH_ALERT,
+  CHANGE_DIR
 };
 
 /// \ingroup MotorControl
 struct MotorCommand
 {
-  /// \ingroup MotorControl
   MotorCommandType type;
 };
 
@@ -22,6 +22,7 @@ struct MotorCommand
 struct MotorStates{
   bool runMotor = true;
   bool potEnabled = true;
+  bool motorDirFwd = true; /// < True runs the motor in the forward direction. 
 };
 
 /** \ingroup MotorControl
@@ -71,5 +72,5 @@ class MotorManager : public Task{
     MotorStates motorStates;
     TaskHandle_t motorControllerTask = NULL;
     TaskHandle_t motorAccelerationTask = NULL;
-    QueueHandle_t MotorCommandQueue = nullptr;
+    
 };

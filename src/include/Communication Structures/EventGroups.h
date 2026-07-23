@@ -9,6 +9,7 @@
 #define ALERT_SET (1 << 4)
 #define INTERLOCK_SET (1 << 5)
 
+
   enum systemStates
   {
     MANUAL_MODE,

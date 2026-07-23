@@ -41,6 +41,7 @@ struct LoadCellStates
 };
 
 /**
+ * \ingroup LoadCell
  * This class reads the force from an HX711 connected to the load cell.
  * It also passes the data to the data manager which further handles it.
   */
@@ -65,8 +66,6 @@ class LoadCellManager : public Task{
     uint32_t stepsToStrain(uint32_t steps);
 
   private :
-    QueueHandle_t loadCellDataQueue;    ///< Sends \ref LoadCellData to the Data Manager
-    QueueHandle_t loadCellCommandQueue; ///< Allows \ref StateMachine to send \ref LoadCellCommand "messages" to the \ref LoadCell Manager.
     LoadCellStates loadCellStates; ///< Internal states that determine behaviour of the load cell manager.
     MotorManager &motorManager; ///< A reference to a MotorManager instance.
     TaskHandle_t loadCellTask;  ///< The handle used for xTaskCreatePinnedToCore() in init().
