@@ -85,11 +85,35 @@ void MotorManager::receiveCommands()
       Logger.info(MOTOR_LOG, "Recieved run!");
       motorStates.potEnabled = true;
       break;
+
       case(STOP):
+      digitalWrite(EN_PIN, 0);
       timerAlarmDisable(stepTimer);
       Logger.info(MOTOR_LOG, "Recieved stop!");
       motorStates.potEnabled = false;
       xQueueReset(motorCommandQueue);
+      break;
+      
+      case(CHANGE_DIR):
+      Logger.info(MOTOR_LOG, "Recieved Change Direction!");
+      int8_t fwdPin = digitalRead(FWD_SWITCH_PIN);
+      int8_t revPin = digitalRead(FWD_SWITCH_PIN);
+      if(!fwdPin & !revPin){ // Both off
+        digitalWrite(EN_PIN, 0);
+        timerAlarmDisable(stepTimer);
+      }
+      else if(fwdPin){ // Fwd pin on
+        motorStates.motorDirFwd = true;
+        digitalWrite(EN_PIN, 1);
+        timerAlarmEnable(stepTimer);
+        digitalWrite(DIR_PIN, motorStates.motorDirFwd); //! Check This!!
+      }
+      else if(revPin){ // Rev pin on
+        motorStates.motorDirFwd = false;
+        digitalWrite(EN_PIN, 1);
+        timerAlarmEnable(stepTimer);
+        digitalWrite(DIR_PIN, motorStates.motorDirFwd); //! Check This!!
+      }
       break;
     }
   }
@@ -205,27 +229,6 @@ void MotorManager::readPotVal()
     uint32_t period_us = map(avgPotVal, 0, 4095, 1000, 200);
     Logger.trace(MOTOR_LOG, "setting step period to %lu us", (unsigned long)period_us);
     setStepPeriod_us(period_us);
-  }
-}
-
-
-void MotorManager::sendToQueue(const MotorCommand &command){
-  if (motorCommandQueue == nullptr)
-  {
-    Logger.error(MOTOR_LOG, "Motor command queue is not initialized");
-    motorCommandQueue = xQueueCreate(10, sizeof(MotorCommand));
-    if (motorCommandQueue == nullptr)
-    {
-      Logger.error(MOTOR_LOG, "Motor command queue creation failed");
-      return;
-    }
-    Logger.info(MOTOR_LOG, "Motor command queue created");
-    return;
-  }
-
-  if (xQueueSendToBack(motorCommandQueue, &command, pdMS_TO_TICKS(100)) != pdTRUE)
-  {
-    Logger.warning(MOTOR_LOG, "Motor command queue send timed out");
   }
 }
 

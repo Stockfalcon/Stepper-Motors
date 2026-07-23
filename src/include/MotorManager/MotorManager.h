@@ -51,8 +51,6 @@ class MotorManager : public Task{
     static void setStepPeriod_us(uint32_t period_us);
     static uint32_t getStepPeriod_us();
 
-    void sendToQueue(const MotorCommand &command);
-
   private:
     
     void receiveCommands();

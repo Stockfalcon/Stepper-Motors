@@ -11,7 +11,7 @@ void StateMachine::onStateEnter(systemStates state)
   {
     Logger.debug(STATE_LOG, "Entered Manual Mode");
     MotorCommand motorCommand{RUN};
-    motorController.sendToQueue(motorCommand);
+    xQueueSendToBack(motorCommandQueue, (MotorCommand *)&motorCommand, pdMS_TO_TICKS(10));
     break;
   }
 
@@ -32,7 +32,7 @@ void StateMachine::onStateEnter(systemStates state)
     xEventGroupSetBits(eventManager.getHandle(), ALERT_SET);
     MotorCommand motorCommand{
         .type = STOP};
-    motorController.sendToQueue(motorCommand);
+    xQueueSendToBack(motorCommandQueue, (MotorCommand*) &motorCommand, pdMS_TO_TICKS(10)); //! Verify. Maybe no &?
     break;
   }
 }
