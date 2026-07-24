@@ -1,5 +1,6 @@
 #include "LoadCellManager.h"
 #include <HX711.h>
+#include "include/Communication Structures/Queues.h"
 
 void LoadCellManager::init()
 {
@@ -29,12 +30,12 @@ void LoadCellManager::main()
 
 LoadCellData LoadCellManager::readLoadCell()
 {
-  LoadCellData loadCellData{
-    .stress = hx711.read()
-    .time = esp_timer_get_time(),
-    .strain = stepsToStrain(motorManager.getSteps())
-  };
-  return loadCellData;
+  // LoadCellData loadCellData{
+  //   .stress = hx711.read()
+  //   .time = esp_timer_get_time(),
+  //   .strain = stepsToStrain(motorManager.getSteps())
+  // };
+  // return loadCellData;
 }
 
 void LoadCellManager::sendDataToQueue(LoadCellData data)

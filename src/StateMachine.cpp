@@ -18,6 +18,8 @@ void StateMachine::onStateEnter(systemStates state)
   case CALIBRATION_MODE:
   {
     Logger.debug(STATE_LOG, "Entered Calibration Mode");
+    MotorCommand motorCommand{RUN};
+    xQueueSendToBack(motorCommandQueue, (MotorCommand *)&motorCommand, pdMS_TO_TICKS(10));
     break;
   }
 
@@ -63,6 +65,7 @@ void StateMachine::onStateExit(systemStates state)
   
   case ALERT_MODE:
   {
+    xEventGroupClearBits(eventManager.getHandle(), ALERT_SET);
     Logger.debug(STATE_LOG, "Exited Alert Mode");
     break;
   }

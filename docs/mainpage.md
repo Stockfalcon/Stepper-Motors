@@ -1,6 +1,4 @@
 \mainpage
 # Welcome!
 
-This is a test!
-![This is a test picture svg](/pictures/Test Image.svg)
-![This is a test picture svg](/pictures/Test Pic.png)
+This website documents my journey building an ESP32 based tensile tester. Everything I learned along the way should be here to make it easy for you to understand this project. 

@@ -2,6 +2,7 @@
 #include <Arduino.h>
 #include "include/Globals.h"
 #include "include/MotorManager/MotorManager.h"
+#include <HX711.h>
 
 /**
  * \ingroup LoadCell
@@ -69,4 +70,5 @@ class LoadCellManager : public Task{
     LoadCellStates loadCellStates; ///< Internal states that determine behaviour of the load cell manager.
     MotorManager &motorManager; ///< A reference to a MotorManager instance.
     TaskHandle_t loadCellTask;  ///< The handle used for xTaskCreatePinnedToCore() in init().
+    HX711 hx711;
 };
