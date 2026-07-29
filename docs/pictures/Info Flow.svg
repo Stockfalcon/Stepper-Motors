@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="185.17097mm"
+   height="397.3916mm"
+   viewBox="0 0 185.17097 397.3916"
+   version="1.1"
+   id="svg1"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1">
+    <marker
+       style="overflow:visible"
+       id="ArrowWideRounded"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       markerWidth="1"
+       markerHeight="1"
+       viewBox="0 0 1 1"
+       preserveAspectRatio="xMidYMid">
+      <path
+         style="fill:none;stroke:context-stroke;stroke-width:1;stroke-linecap:round"
+         d="M 3,-3 0,0 3,3"
+         transform="rotate(180,0.125,0)"
+         id="path2" />
+    </marker>
+  </defs>
+  <g
+     id="layer1"
+     transform="translate(-49.757747,-2.3802388)">
+    <rect
+       style="fill:#d5ffe6;stroke:#000000;stroke-width:0.500002;stroke-dasharray:none"
+       id="rect89"
+       width="184.67097"
+       height="42.04488"
+       x="50.007759"
+       y="2.6302397" />
+    <rect
+       style="fill:#d5e5ff;stroke:#000000;stroke-width:0.5;stroke-dasharray:none"
+       id="rect88"
+       width="184.67097"
+       height="141.27129"
+       x="50.007748"
+       y="258.25052" />
+    <rect
+       style="fill:#f6d5ff;stroke:#000000;stroke-width:0.5;stroke-dasharray:none"
+       id="rect15-3"
+       width="184.67099"
+       height="213.57541"
+       x="50.007744"
+       y="44.675121" />
+    <g
+       id="g80"
+       transform="translate(30.271815,-10.655053)">
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.05556px;font-family:Aptos;-inkscape-font-specification:Aptos;writing-mode:lr-tb;direction:ltr;fill:#bc5fd3;stroke:#cd87de;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#ArrowWideRounded)"
+         x="44.698631"
+         y="119.01208"
+         id="text28"><tspan
+           style="fill:#000000;stroke:none;stroke-width:1"
+           x="44.698631"
+           y="119.01208"
+           id="tspan29">if (trigger == transitionTable.trigger &amp;&amp;</tspan><tspan
+           style="fill:#000000;stroke:none;stroke-width:1"
+           x="44.698631"
+           y="127.83153"
+           id="tspan36">     currentState==transitionTable.fromState)</tspan><tspan
+           style="fill:#000000;stroke:none;stroke-width:1"
+           x="44.698631"
+           y="136.65097"
+           id="tspan35">    {</tspan><tspan
+           style="fill:#000000;stroke:none;stroke-width:1"
+           x="44.698631"
+           y="145.47043"
+           id="tspan40">    currentState == transitionTable.toState</tspan><tspan
+           style="fill:#000000;stroke:none;stroke-width:1"
+           x="44.698631"
+           y="154.28987"
+           id="tspan39">    }</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.05556px;font-family:Aptos;-inkscape-font-specification:Aptos;writing-mode:lr-tb;direction:ltr;fill:#000000;stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#ArrowWideRounded)"
+         x="44.181866"
+         y="99.183945"
+         id="text38"><tspan
+           id="tspan38"
+           style="stroke-width:1"
+           x="44.181866"
+           y="99.183945">lastState =  currentState</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.05556px;font-family:Aptos;-inkscape-font-specification:Aptos;writing-mode:lr-tb;direction:ltr;fill:#000000;stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#ArrowWideRounded)"
+         x="44.698631"
+         y="177.35907"
+         id="text41"><tspan
+           id="tspan41"
+           style="stroke-width:1"
+           x="44.698631"
+           y="177.35907">if(lastState != currentState){</tspan><tspan
+           style="stroke-width:1"
+           x="44.698631"
+           y="186.17851"
+           id="tspan42">    {</tspan><tspan
+           style="stroke-width:1"
+           x="44.698631"
+           y="194.99797"
+           id="tspan44">    onStateExit(lastState);</tspan><tspan
+           style="stroke-width:1"
+           x="44.698631"
+           y="203.81741"
+           id="tspan45">    onStateEnter(currentState)</tspan><tspan
+           style="stroke-width:1"
+           x="44.698631"
+           y="212.63687"
+           id="tspan46">    }</tspan><tspan
+           style="stroke-width:1"
+           x="44.698631"
+           y="221.45631"
+           id="tspan43" /></text>
+      <rect
+         style="fill:none;stroke:#000000;stroke-width:0.499999;stroke-dasharray:none"
+         id="rect45"
+         width="140.46547"
+         height="128.47057"
+         x="41.838696"
+         y="89.233833"
+         ry="6.8803182"
+         rx="6.8803172" />
+    </g>
+    <g
+       id="g68"
+       transform="translate(52.081755,-16.56039)">
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.05556px;font-family:Aptos;-inkscape-font-specification:Aptos;writing-mode:lr-tb;direction:ltr;fill:#000000;stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#ArrowWideRounded)"
+         x="60.318424"
+         y="371.38058"
+         id="text64"><tspan
+           id="tspan64"
+           style="stroke-width:1"
+           x="60.318424"
+           y="371.38058">if (readPotEnabled){</tspan><tspan
+           style="stroke-width:1"
+           x="60.318424"
+           y="380.20004"
+           id="tspan65">    readPot();</tspan><tspan
+           style="stroke-width:1"
+           x="60.318424"
+           y="389.01947"
+           id="tspan67">    }</tspan></text>
+      <rect
+         style="fill:none;stroke:#000000;stroke-width:0.499999;stroke-dasharray:none"
+         id="rect68"
+         width="66.436478"
+         height="39.098141"
+         x="57.043251"
+         y="358.93875"
+         ry="6.8803182"
+         rx="6.8803172" />
+    </g>
+    <g
+       id="g78"
+       transform="translate(10.306216,8.2303695)">
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.05556px;font-family:Aptos;-inkscape-font-specification:Aptos;writing-mode:lr-tb;direction:ltr;fill:#000000;stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#ArrowWideRounded)"
+         x="74.025024"
+         y="12.46274"
+         id="text69"><tspan
+           id="tspan69"
+           style="stroke-width:1"
+           x="74.025024"
+           y="12.46274">ButtonManager ISRs (interrupt Service</tspan><tspan
+           style="stroke-width:1"
+           x="74.025024"
+           y="21.28219"
+           id="tspan70">Routines) set event group bits.</tspan></text>
+      <rect
+         style="fill:none;stroke:#000000;stroke-width:0.499999;stroke-dasharray:none"
+         id="rect73"
+         width="126.91946"
+         height="23.673313"
+         x="68.577301"
+         y="3.3356528" />
+    </g>
+    <g
+       id="g79"
+       transform="translate(21.820177,10.074975)">
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.05556px;font-family:Aptos;-inkscape-font-specification:Aptos;writing-mode:lr-tb;direction:ltr;fill:#000000;stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#ArrowWideRounded)"
+         x="62.059761"
+         y="51.532848"
+         id="text47"><tspan
+           style="stroke-width:1"
+           x="62.059761"
+           y="51.532848"
+           id="tspan50">Read event bits from ButtonManager &amp;</tspan><tspan
+           style="stroke-width:1"
+           x="62.059761"
+           y="60.352299"
+           id="tspan68">compare with transition table triggers</tspan></text>
+      <rect
+         style="fill:none;stroke:#000000;stroke-width:0.499999;stroke-dasharray:none"
+         id="rect74"
+         width="126.91946"
+         height="23.072214"
+         x="57.063339"
+         y="42.70631" />
+    </g>
+    <g
+       id="g81"
+       transform="translate(27.029608,-4.4245211)">
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.05556px;font-family:Aptos;-inkscape-font-specification:Aptos;writing-mode:lr-tb;direction:ltr;fill:#000000;stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#ArrowWideRounded)"
+         x="36.097057"
+         y="239.46259"
+         id="text52"><tspan
+           style="stroke-width:1"
+           x="36.097057"
+           y="239.46259"
+           id="tspan54">onStateExit() and onStateEnter() send  commands to</tspan><tspan
+           style="stroke-width:1"
+           x="36.097057"
+           y="248.28203"
+           id="tspan75">the various other modules via queues</tspan></text>
+      <rect
+         style="fill:none;stroke:#000000;stroke-width:0.499999;stroke-dasharray:none"
+         id="rect75"
+         width="169.73027"
+         height="23.072214"
+         x="30.448502"
+         y="230.60332" />
+    </g>
+    <g
+       id="g82"
+       transform="translate(31.793932,-21.166794)">
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.05556px;font-family:Aptos;-inkscape-font-specification:Aptos;writing-mode:lr-tb;direction:ltr;fill:#000000;stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#ArrowWideRounded)"
+         x="28.667953"
+         y="297"
+         id="text56"><tspan
+           style="stroke-width:1"
+           x="28.667953"
+           y="297"
+           id="tspan57">Modules read their queues and set internal states (like</tspan><tspan
+           style="stroke-width:1"
+           x="28.667953"
+           y="305.81946"
+           id="tspan58">readPotEnabled, recordData, useAccelerationControl,</tspan><tspan
+           style="stroke-width:1"
+           x="28.667953"
+           y="314.63889"
+           id="tspan60"> etc...)</tspan><tspan
+           style="stroke-width:1"
+           x="28.667953"
+           y="323.45834"
+           id="tspan59" /></text>
+      <rect
+         style="fill:none;stroke:#000000;stroke-width:0.499999;stroke-dasharray:none"
+         id="rect76"
+         width="169.73027"
+         height="32.24596"
+         x="25.684177"
+         y="287.95975" />
+    </g>
+    <g
+       id="g83"
+       transform="translate(37.343245,-18.625252)">
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.05556px;font-family:Aptos;-inkscape-font-specification:Aptos;writing-mode:lr-tb;direction:ltr;fill:#000000;stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#ArrowWideRounded)"
+         x="24.222792"
+         y="344.01544"
+         id="text61"><tspan
+           id="tspan61"
+           style="stroke-width:1"
+           x="24.222792"
+           y="344.01544">The main() of each module checks each internal state</tspan><tspan
+           style="stroke-width:1"
+           x="24.222792"
+           y="352.8349"
+           id="tspan62">and performs functions accordingly</tspan></text>
+      <rect
+         style="fill:none;stroke:#000000;stroke-width:0.499999;stroke-dasharray:none"
+         id="rect77"
+         width="169.73027"
+         height="23.072214"
+         x="20.134865"
+         y="335.20612" />
+    </g>
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#ArrowWideRounded)"
+       d="m 142.34325,35.239335 -1e-5,17.54195"
+       id="path83" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#ArrowWideRounded)"
+       d="m 142.34324,207.04935 0,19.12945"
+       id="path85" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#ArrowWideRounded)"
+       d="m 142.34324,299.03891 0,17.54195"
+       id="path86" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#ArrowWideRounded)"
+       d="m 142.34324,249.25101 0,17.54194"
+       id="path87" />
+  </g>
+</svg>

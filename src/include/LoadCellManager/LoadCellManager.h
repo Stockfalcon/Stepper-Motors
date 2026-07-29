@@ -3,72 +3,31 @@
 #include "include/Globals.h"
 #include "include/MotorManager/MotorManager.h"
 #include <HX711.h>
+#include "include/LoadCellManager/ILoadCellManager.h"
 
-/**
- * \ingroup LoadCell
- * Structure used to send data to data manager via \ref loadCellDataQueue.
- */
-struct LoadCellData
-{
-  uint32_t stress; ///< Force
-  int64_t time;
-  uint32_t strain; ///< Displacement
-};
-
-/**
- * \ingroup LoadCell
- * Commands sent by StateManager used to set internal \ref LoadCellStates.
- */
-enum LoadCellCommandType{
-  GET_DATA,
-};
-/**
- * \ingroup LoadCell
- * Structure used to send data to data manager via \ref loadCellcommandQueue.
- */
-struct LoadCellCommand
-{
-  LoadCellCommandType type;
-};
-
-/**
- * Internal states that determine behaviour of the load cell manager.
- * These states are determined by commands sent throght the load cell's command queue by the state manager.
-  */
-struct LoadCellStates
-{
-  bool readData = false;
-  bool writeToEEPROM = false;
-};
 
 /**
  * \ingroup LoadCell
  * This class reads the force from an HX711 connected to the load cell.
  * It also passes the data to the data manager which further handles it.
   */
-class LoadCellManager : public Task{
+class LoadCellManager : public ILoadCellManager{
   public:
     
-    /// The class constructor.
-    LoadCellManager(MotorManager &motor) : motorManager(motor){}
+    // The class constructor.
+    // LoadCellManager(MotorManager &motor) : motorManager(motor){}
     /**
      * Initiates the main task.
      */
-    void init();
+    void init() override;
     void main() override;
     /// Sends a data packet to the DataManager.
-    void sendDataToQueue(LoadCellData data);
-    LoadCellData readLoadCell();
-    void writeCalibrationToEEPROM();
+    void sendDataToQueue(LoadCellData data) override;
+    LoadCellData readLoadCell() override;
+    void writeCalibrationToEEPROM() override;
     /**
      * Calculates strain based on known milimeters per step (stored in Globals).
      * \param steps This parameter is meant to come from MotorManager::getSteps().
      */
-    uint32_t stepsToStrain(uint32_t steps);
-
-  private :
-    LoadCellStates loadCellStates; ///< Internal states that determine behaviour of the load cell manager.
-    MotorManager &motorManager; ///< A reference to a MotorManager instance.
-    TaskHandle_t loadCellTask;  ///< The handle used for xTaskCreatePinnedToCore() in init().
-    HX711 hx711;
+    uint32_t stepsToStrain(uint32_t steps) override;
 };

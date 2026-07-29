@@ -1,4 +1,4 @@
-#include "LoadCellManager.h"
+#include "include/LoadCellManager/LoadCellManager.h"
 #include <HX711.h>
 #include "include/Communication Structures/Queues.h"
 

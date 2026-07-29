@@ -60,7 +60,7 @@ void ButtonManager::init()
   attachInterrupt(CALIBRATION_BTN_PIN, calibrationButtonHit, RISING);
   attachInterrupt(TEST_BTN_PIN, testButtonHit, RISING);
   attachInterrupt(CANCEL_BTN_PIN, cancelButtonHit, RISING);
-  attachInterrupt(FWD_SWITCH_PIN, cancelButtonHit, RISING);
-  attachInterrupt(REV_SWITCH_PIN, cancelButtonHit, RISING);
+  attachInterrupt(FWD_SWITCH_PIN, fwdSwicthSet, RISING);
+  attachInterrupt(REV_SWITCH_PIN, revSwicthSet, RISING);
   Logger.debug(BUTTON_LOG, "Interrupt initialization finished");
 }

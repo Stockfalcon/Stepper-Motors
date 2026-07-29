@@ -1,0 +1,711 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="210mm"
+   height="297mm"
+   viewBox="0 0 210 297"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.4.4 (dcaf3e7, 2026-05-05)"
+   sodipodi:docname="Program Flow.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     inkscape:zoom="0.2447271"
+     inkscape:cx="-292.16217"
+     inkscape:cy="234.95559"
+     inkscape:window-width="1920"
+     inkscape:window-height="986"
+     inkscape:window-x="-11"
+     inkscape:window-y="-11"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs1">
+    <rect
+       x="319.27523"
+       y="463.14992"
+       width="10.11279"
+       height="51.880028"
+       id="rect31" />
+    <marker
+       style="overflow:visible"
+       id="ArrowWideRounded"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       inkscape:stockid="Wide, rounded arrow"
+       markerWidth="1"
+       markerHeight="1"
+       viewBox="0 0 1 1"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="xMidYMid">
+      <path
+         style="fill:none;stroke:context-stroke;stroke-width:1;stroke-linecap:round"
+         d="M 3,-3 0,0 3,3"
+         transform="rotate(180,0.125,0)"
+         sodipodi:nodetypes="ccc"
+         id="path2" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="ArrowWideRounded-3"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       inkscape:stockid="Wide, rounded arrow"
+       markerWidth="1"
+       markerHeight="1"
+       viewBox="0 0 1 1"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="xMidYMid">
+      <path
+         style="fill:none;stroke:context-stroke;stroke-width:1;stroke-linecap:round"
+         d="M 3,-3 0,0 3,3"
+         transform="rotate(180,0.125,0)"
+         sodipodi:nodetypes="ccc"
+         id="path2-4" />
+    </marker>
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       style="fill:#d5ffe6;stroke:#000000;stroke-width:0.500002;stroke-dasharray:none"
+       id="rect89"
+       width="184.67097"
+       height="42.04488"
+       x="50.007759"
+       y="2.6302397"
+       inkscape:export-filename="Info Flow.svg"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96" />
+    <g
+       id="g26"
+       transform="translate(-181.63089,2.8549934)"
+       inkscape:export-filename="Comms Diagram.svg"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96">
+      <rect
+         style="fill:none;stroke:#000000;stroke-width:0.5;stroke-dasharray:none"
+         id="rect1"
+         width="29.624586"
+         height="13.880093"
+         x="43.433929"
+         y="52.811199" />
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.05556px;font-family:Aptos;-inkscape-font-specification:Aptos;writing-mode:lr-tb;direction:ltr;fill:#000000;stroke:none;stroke-width:0.500001;stroke-dasharray:none"
+         x="46.157375"
+         y="62.038792"
+         id="text1"><tspan
+           sodipodi:role="line"
+           id="tspan1"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.05556px;font-family:Aptos;-inkscape-font-specification:Aptos;fill:#000000;stroke:none;stroke-width:0.500001"
+           x="46.157375"
+           y="62.038792">Buttons</tspan></text>
+    </g>
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#ArrowWideRounded)"
+       id="path8"
+       inkscape:connector-type="orthogonal"
+       inkscape:connector-curvature="10"
+       d="M -123.38467,69.546285 V 91.835711" />
+    <g
+       id="g23"
+       transform="translate(-211.23766,24.403059)">
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.05556px;font-family:Aptos;-inkscape-font-specification:Aptos;writing-mode:lr-tb;direction:ltr;fill:#000000;stroke:none;stroke-width:0.499999;stroke-dasharray:none"
+         x="127.22764"
+         y="108.73482"
+         id="text9"><tspan
+           sodipodi:role="line"
+           id="tspan9"
+           style="fill:#000000;stroke:none;stroke-width:0.5"
+           x="127.22764"
+           y="108.73482">MotorManager</tspan></text>
+      <rect
+         style="fill:none;stroke:#000000;stroke-width:0.5;stroke-dasharray:none"
+         id="rect10"
+         width="50.551079"
+         height="12.34498"
+         x="124.37624"
+         y="100.89317"
+         ry="6.8803182"
+         rx="6.8803182" />
+    </g>
+    <g
+       id="g19"
+       transform="translate(-180.95518,12.161518)">
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.05556px;font-family:Aptos;-inkscape-font-specification:Aptos;writing-mode:lr-tb;direction:ltr;fill:#000000;stroke:none;stroke-width:0.499999;stroke-dasharray:none"
+         x="36.572639"
+         y="121.62576"
+         id="text10"><tspan
+           sodipodi:role="line"
+           id="tspan10"
+           style="fill:#000000;stroke:none;stroke-width:0.5"
+           x="36.572639"
+           y="121.62576">StateMachine</tspan></text>
+      <rect
+         style="fill:none;stroke:#000000;stroke-width:0.5;stroke-dasharray:none"
+         id="rect11"
+         width="49.022121"
+         height="10.816023"
+         x="33.059448"
+         y="113.89919"
+         ry="6.8803177"
+         rx="6.8803182" />
+    </g>
+    <g
+       id="g25"
+       transform="translate(-185.27972,9.8492454)">
+      <rect
+         style="fill:none;stroke:#000000;stroke-width:0.5;stroke-dasharray:none"
+         id="rect8"
+         width="53.297962"
+         height="11.935575"
+         x="35.246075"
+         y="81.986465"
+         ry="6.8803182"
+         rx="6.8803182" />
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.05556px;font-family:Aptos;-inkscape-font-specification:Aptos;writing-mode:lr-tb;direction:ltr;fill:#000000;stroke:none;stroke-width:0.5;stroke-dasharray:none"
+         x="38.206562"
+         y="89.623405"
+         id="text11"><tspan
+           sodipodi:role="line"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.05556px;font-family:Aptos;-inkscape-font-specification:Aptos;writing-mode:lr-tb;direction:ltr;fill:#000000;stroke:none;stroke-width:0.5;stroke-dasharray:none"
+           x="38.206562"
+           y="89.623405"
+           id="tspan12">ButtonManager</tspan></text>
+    </g>
+    <g
+       id="g20"
+       transform="translate(-181.63089,-0.18714263)">
+      <rect
+         style="fill:none;stroke:#000000;stroke-width:0.5;stroke-dasharray:none"
+         id="rect13"
+         width="61.343231"
+         height="12.34498"
+         x="27.574606"
+         y="159.3533"
+         ry="6.8803182"
+         rx="6.8803182" />
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.05556px;font-family:Aptos;-inkscape-font-specification:Aptos;writing-mode:lr-tb;direction:ltr;fill:#000000;stroke:none;stroke-width:0.499999;stroke-dasharray:none"
+         x="31.147083"
+         y="167.22595"
+         id="text13"><tspan
+           sodipodi:role="line"
+           id="tspan13"
+           style="stroke-width:0.5"
+           x="31.147083"
+           y="167.22595">LoadCellManager</tspan></text>
+    </g>
+    <path
+       style="fill:#bc5fd3;fill-rule:evenodd;stroke:#cd87de;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#ArrowWideRounded)"
+       d="m -123.38467,136.87673 v 22.28943"
+       id="path13"
+       inkscape:connector-type="polyline"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:#bc5fd3;fill-rule:evenodd;stroke:#cd87de;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#ArrowWideRounded)"
+       d="m -98.873608,131.46872 h 12.012187"
+       id="path14"
+       inkscape:connector-type="polyline"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#5f8dd3;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#ArrowWideRounded)"
+       d="m -123.38467,103.77129 v 22.28942"
+       id="path15"
+       inkscape:connector-type="polyline"
+       inkscape:connector-curvature="0" />
+    <g
+       id="g24"
+       transform="translate(-214.35257,13.74552)">
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.05556px;font-family:Aptos;-inkscape-font-specification:Aptos;writing-mode:lr-tb;direction:ltr;fill:#000000;stroke:none;stroke-width:0.500001;stroke-dasharray:none"
+         x="130.79213"
+         y="51.156876"
+         id="text2"><tspan
+           sodipodi:role="line"
+           id="tspan2"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.05556px;font-family:Aptos;-inkscape-font-specification:Aptos;fill:#000000;stroke:none;stroke-width:0.500001"
+           x="130.79213"
+           y="51.156876">Potentiometer</tspan><tspan
+           sodipodi:role="line"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.05556px;font-family:Aptos;-inkscape-font-specification:Aptos;fill:#000000;stroke:none;stroke-width:0.500001"
+           x="130.79213"
+           y="59.976326"
+           id="tspan3" /></text>
+      <rect
+         style="fill:none;stroke:#000000;stroke-width:0.5;stroke-dasharray:none"
+         id="rect15"
+         width="48.178146"
+         height="11.586657"
+         x="128.67761"
+         y="43.06739" />
+    </g>
+    <g
+       id="g21"
+       transform="translate(-169.37955,2.8549934)">
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.05556px;font-family:Aptos;-inkscape-font-specification:Aptos;writing-mode:lr-tb;direction:ltr;fill:#000000;stroke:none;stroke-width:0.499999;stroke-dasharray:none"
+         x="31.379061"
+         y="198.29297"
+         id="text6"><tspan
+           sodipodi:role="line"
+           style="stroke-width:0.5"
+           x="31.379061"
+           y="198.29297"
+           id="tspan7">Load Cell</tspan></text>
+      <rect
+         style="fill:none;stroke:#000000;stroke-width:0.5;stroke-dasharray:none"
+         id="rect16"
+         width="36.381691"
+         height="10.057699"
+         x="27.804043"
+         y="190.94557" />
+    </g>
+    <g
+       id="g22"
+       transform="translate(-184.15971,0.20342877)">
+      <rect
+         style="fill:none;stroke:#000000;stroke-width:0.5;stroke-dasharray:none"
+         id="rect17"
+         width="51.405006"
+         height="11.198261"
+         x="96.871323"
+         y="193.02686"
+         ry="6.8803182"
+         rx="6.8803182" />
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.05556px;font-family:Aptos;-inkscape-font-specification:Aptos;writing-mode:lr-tb;direction:ltr;fill:#000000;stroke:none;stroke-width:0.499999;stroke-dasharray:none"
+         x="101.87223"
+         y="201.25073"
+         id="text17"><tspan
+           sodipodi:role="line"
+           id="tspan17"
+           style="stroke-width:0.5"
+           x="101.87223"
+           y="201.25073">DataManager</tspan></text>
+    </g>
+    <path
+       style="fill:#bc5fd3;fill-rule:evenodd;stroke:#cd87de;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#ArrowWideRounded)"
+       d="m -111.99489,171.51114 40.07722,21.71914"
+       id="path18"
+       inkscape:connector-type="polyline"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#ArrowWideRounded)"
+       d="M -123.38467,193.80057 V 171.51114"
+       id="path19"
+       inkscape:connector-type="polyline"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#ArrowWideRounded)"
+       d="m -61.585884,68.399567 6e-6,56.896663"
+       id="path26"
+       inkscape:connector-type="polyline"
+       inkscape:connector-curvature="0"
+       inkscape:connection-start="#g24"
+       inkscape:connection-end="#g23" />
+    <g
+       id="g28"
+       transform="translate(-152.24439,-11.287864)">
+      <path
+         style="fill:none;fill-rule:evenodd;stroke:#5f8dd3;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#ArrowWideRounded-3)"
+         d="M 17.70256,235.42429 H 39.99199"
+         id="path15-0"
+         inkscape:connector-type="polyline"
+         inkscape:connector-curvature="0" />
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.05556px;font-family:Aptos;-inkscape-font-specification:Aptos;writing-mode:lr-tb;direction:ltr;fill:#000000;stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#ArrowWideRounded)"
+         x="14.20185"
+         y="245.49323"
+         id="text26"><tspan
+           sodipodi:role="line"
+           id="tspan26"
+           style="fill:#000000;stroke:none;stroke-width:1"
+           x="14.20185"
+           y="245.49323">Event Bits</tspan></text>
+    </g>
+    <g
+       id="g27"
+       transform="translate(-152.24439,-11.287864)">
+      <path
+         style="fill:#bc5fd3;fill-rule:evenodd;stroke:#cd87de;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#ArrowWideRounded)"
+         d="m 58.939982,235.42429 h 22.28943"
+         id="path15-0-1"
+         inkscape:connector-type="polyline"
+         inkscape:connector-curvature="0" />
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.05556px;font-family:Aptos;-inkscape-font-specification:Aptos;writing-mode:lr-tb;direction:ltr;fill:#000000;stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#ArrowWideRounded)"
+         x="58.61393"
+         y="245.04192"
+         id="text27"><tspan
+           sodipodi:role="line"
+           id="tspan27"
+           style="fill:#000000;stroke:none;stroke-width:1"
+           x="58.61393"
+           y="245.04192">Queues</tspan></text>
+    </g>
+    <text
+       xml:space="preserve"
+       transform="scale(0.26458333)"
+       id="text31"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.6667px;font-family:Aptos;-inkscape-font-specification:Aptos;writing-mode:lr-tb;direction:ltr;white-space:pre;shape-inside:url(#rect31);display:inline;fill:#000000;stroke:none;stroke-width:3.77953;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#ArrowWideRounded)" />
+    <rect
+       style="fill:#d5e5ff;stroke:#000000;stroke-width:0.5;stroke-dasharray:none"
+       id="rect88"
+       width="184.67097"
+       height="141.27129"
+       x="50.007748"
+       y="258.25052" />
+    <rect
+       style="fill:#f6d5ff;stroke:#000000;stroke-width:0.5;stroke-dasharray:none"
+       id="rect15-3"
+       width="184.67099"
+       height="213.57541"
+       x="50.007744"
+       y="44.675121" />
+    <g
+       id="g80"
+       transform="translate(30.271815,-10.655053)">
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.05556px;font-family:Aptos;-inkscape-font-specification:Aptos;writing-mode:lr-tb;direction:ltr;fill:#bc5fd3;stroke:#cd87de;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#ArrowWideRounded)"
+         x="44.698631"
+         y="119.01208"
+         id="text28"><tspan
+           sodipodi:role="line"
+           style="fill:#000000;stroke:none;stroke-width:1"
+           x="44.698631"
+           y="119.01208"
+           id="tspan29">if (trigger == transitionTable.trigger &amp;&amp;</tspan><tspan
+           sodipodi:role="line"
+           style="fill:#000000;stroke:none;stroke-width:1"
+           x="44.698631"
+           y="127.83153"
+           id="tspan36">     currentState==transitionTable.fromState)</tspan><tspan
+           sodipodi:role="line"
+           style="fill:#000000;stroke:none;stroke-width:1"
+           x="44.698631"
+           y="136.65097"
+           id="tspan35">    {</tspan><tspan
+           sodipodi:role="line"
+           style="fill:#000000;stroke:none;stroke-width:1"
+           x="44.698631"
+           y="145.47043"
+           id="tspan40">    currentState == transitionTable.toState</tspan><tspan
+           sodipodi:role="line"
+           style="fill:#000000;stroke:none;stroke-width:1"
+           x="44.698631"
+           y="154.28987"
+           id="tspan39">    }</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.05556px;font-family:Aptos;-inkscape-font-specification:Aptos;writing-mode:lr-tb;direction:ltr;fill:#000000;stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#ArrowWideRounded)"
+         x="44.181866"
+         y="99.183945"
+         id="text38"><tspan
+           sodipodi:role="line"
+           id="tspan38"
+           style="stroke-width:1"
+           x="44.181866"
+           y="99.183945">lastState =  currentState</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.05556px;font-family:Aptos;-inkscape-font-specification:Aptos;writing-mode:lr-tb;direction:ltr;fill:#000000;stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#ArrowWideRounded)"
+         x="44.698631"
+         y="177.35907"
+         id="text41"><tspan
+           sodipodi:role="line"
+           id="tspan41"
+           style="stroke-width:1"
+           x="44.698631"
+           y="177.35907">if(lastState != currentState){</tspan><tspan
+           sodipodi:role="line"
+           style="stroke-width:1"
+           x="44.698631"
+           y="186.17851"
+           id="tspan42">    {</tspan><tspan
+           sodipodi:role="line"
+           style="stroke-width:1"
+           x="44.698631"
+           y="194.99797"
+           id="tspan44">    onStateExit(lastState);</tspan><tspan
+           sodipodi:role="line"
+           style="stroke-width:1"
+           x="44.698631"
+           y="203.81741"
+           id="tspan45">    onStateEnter(currentState)</tspan><tspan
+           sodipodi:role="line"
+           style="stroke-width:1"
+           x="44.698631"
+           y="212.63687"
+           id="tspan46">    }</tspan><tspan
+           sodipodi:role="line"
+           style="stroke-width:1"
+           x="44.698631"
+           y="221.45631"
+           id="tspan43" /></text>
+      <rect
+         style="fill:none;stroke:#000000;stroke-width:0.499999;stroke-dasharray:none"
+         id="rect45"
+         width="140.46547"
+         height="128.47057"
+         x="41.838696"
+         y="89.233833"
+         ry="6.8803182"
+         rx="6.8803172" />
+    </g>
+    <g
+       id="g68"
+       transform="translate(52.081755,-16.56039)">
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.05556px;font-family:Aptos;-inkscape-font-specification:Aptos;writing-mode:lr-tb;direction:ltr;fill:#000000;stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#ArrowWideRounded)"
+         x="60.318424"
+         y="371.38058"
+         id="text64"><tspan
+           sodipodi:role="line"
+           id="tspan64"
+           style="stroke-width:1"
+           x="60.318424"
+           y="371.38058">if (readPotEnabled){</tspan><tspan
+           sodipodi:role="line"
+           style="stroke-width:1"
+           x="60.318424"
+           y="380.20004"
+           id="tspan65">    readPot();</tspan><tspan
+           sodipodi:role="line"
+           style="stroke-width:1"
+           x="60.318424"
+           y="389.01947"
+           id="tspan67">    }</tspan></text>
+      <rect
+         style="fill:none;stroke:#000000;stroke-width:0.499999;stroke-dasharray:none"
+         id="rect68"
+         width="66.436478"
+         height="39.098141"
+         x="57.043251"
+         y="358.93875"
+         ry="6.8803182"
+         rx="6.8803172" />
+    </g>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.05556px;font-family:Aptos;-inkscape-font-specification:Aptos;writing-mode:lr-tb;direction:ltr;fill:#000000;stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#ArrowWideRounded)"
+       x="93.648651"
+       y="50.386131"
+       id="text71"><tspan
+         sodipodi:role="line"
+         id="tspan71"
+         style="stroke-width:1"
+         x="93.648651"
+         y="50.386131" /></text>
+    <g
+       id="g78"
+       transform="translate(10.306216,8.2303695)">
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.05556px;font-family:Aptos;-inkscape-font-specification:Aptos;writing-mode:lr-tb;direction:ltr;fill:#000000;stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#ArrowWideRounded)"
+         x="74.025024"
+         y="12.46274"
+         id="text69"><tspan
+           sodipodi:role="line"
+           id="tspan69"
+           style="stroke-width:1"
+           x="74.025024"
+           y="12.46274">ButtonManager ISRs (interrupt Service</tspan><tspan
+           sodipodi:role="line"
+           style="stroke-width:1"
+           x="74.025024"
+           y="21.28219"
+           id="tspan70">Routines) set event group bits.</tspan></text>
+      <rect
+         style="fill:none;stroke:#000000;stroke-width:0.499999;stroke-dasharray:none"
+         id="rect73"
+         width="126.91946"
+         height="23.673313"
+         x="68.577301"
+         y="3.3356528" />
+    </g>
+    <g
+       id="g79"
+       transform="translate(21.820177,10.074975)">
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.05556px;font-family:Aptos;-inkscape-font-specification:Aptos;writing-mode:lr-tb;direction:ltr;fill:#000000;stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#ArrowWideRounded)"
+         x="62.059761"
+         y="51.532848"
+         id="text47"><tspan
+           sodipodi:role="line"
+           style="stroke-width:1"
+           x="62.059761"
+           y="51.532848"
+           id="tspan50">Read event bits from ButtonManager &amp;</tspan><tspan
+           sodipodi:role="line"
+           style="stroke-width:1"
+           x="62.059761"
+           y="60.352299"
+           id="tspan68">compare with transition table triggers</tspan></text>
+      <rect
+         style="fill:none;stroke:#000000;stroke-width:0.499999;stroke-dasharray:none"
+         id="rect74"
+         width="126.91946"
+         height="23.072214"
+         x="57.063339"
+         y="42.70631" />
+    </g>
+    <g
+       id="g81"
+       transform="translate(27.029608,-4.4245211)">
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.05556px;font-family:Aptos;-inkscape-font-specification:Aptos;writing-mode:lr-tb;direction:ltr;fill:#000000;stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#ArrowWideRounded)"
+         x="36.097057"
+         y="239.46259"
+         id="text52"><tspan
+           sodipodi:role="line"
+           style="stroke-width:1"
+           x="36.097057"
+           y="239.46259"
+           id="tspan54">onStateExit() and onStateEnter() send  commands to</tspan><tspan
+           sodipodi:role="line"
+           style="stroke-width:1"
+           x="36.097057"
+           y="248.28203"
+           id="tspan75">the various other modules via queues</tspan></text>
+      <rect
+         style="fill:none;stroke:#000000;stroke-width:0.499999;stroke-dasharray:none"
+         id="rect75"
+         width="169.73027"
+         height="23.072214"
+         x="30.448502"
+         y="230.60332" />
+    </g>
+    <g
+       id="g82"
+       transform="translate(31.793932,-21.166794)">
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.05556px;font-family:Aptos;-inkscape-font-specification:Aptos;writing-mode:lr-tb;direction:ltr;fill:#000000;stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#ArrowWideRounded)"
+         x="28.667953"
+         y="297"
+         id="text56"><tspan
+           sodipodi:role="line"
+           style="stroke-width:1"
+           x="28.667953"
+           y="297"
+           id="tspan57">Modules read their queues and set internal states (like</tspan><tspan
+           sodipodi:role="line"
+           style="stroke-width:1"
+           x="28.667953"
+           y="305.81946"
+           id="tspan58">readPotEnabled, recordData, useAccelerationControl,</tspan><tspan
+           sodipodi:role="line"
+           style="stroke-width:1"
+           x="28.667953"
+           y="314.63889"
+           id="tspan60"> etc...)</tspan><tspan
+           sodipodi:role="line"
+           style="stroke-width:1"
+           x="28.667953"
+           y="323.45834"
+           id="tspan59" /></text>
+      <rect
+         style="fill:none;stroke:#000000;stroke-width:0.499999;stroke-dasharray:none"
+         id="rect76"
+         width="169.73027"
+         height="32.24596"
+         x="25.684177"
+         y="287.95975" />
+    </g>
+    <g
+       id="g83"
+       transform="translate(37.343245,-18.625252)">
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.05556px;font-family:Aptos;-inkscape-font-specification:Aptos;writing-mode:lr-tb;direction:ltr;fill:#000000;stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#ArrowWideRounded)"
+         x="24.222792"
+         y="344.01544"
+         id="text61"><tspan
+           sodipodi:role="line"
+           id="tspan61"
+           style="stroke-width:1"
+           x="24.222792"
+           y="344.01544">The main() of each module checks each internal state</tspan><tspan
+           sodipodi:role="line"
+           style="stroke-width:1"
+           x="24.222792"
+           y="352.8349"
+           id="tspan62">and performs functions accordingly</tspan></text>
+      <rect
+         style="fill:none;stroke:#000000;stroke-width:0.499999;stroke-dasharray:none"
+         id="rect77"
+         width="169.73027"
+         height="23.072214"
+         x="20.134865"
+         y="335.20612" />
+    </g>
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#ArrowWideRounded)"
+       d="m 142.34325,35.239335 -1e-5,17.54195"
+       id="path83"
+       inkscape:connector-type="polyline"
+       inkscape:connector-curvature="0"
+       inkscape:connection-start="#g78"
+       inkscape:connection-end="#g79" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#ArrowWideRounded)"
+       d="m 142.34324,207.04935 0,19.12945"
+       id="path85"
+       inkscape:connector-type="polyline"
+       inkscape:connector-curvature="0"
+       inkscape:connection-start="#g80"
+       inkscape:connection-end="#g81" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#ArrowWideRounded)"
+       d="m 142.34324,299.03891 0,17.54195"
+       id="path86"
+       inkscape:connector-type="polyline"
+       inkscape:connector-curvature="0"
+       inkscape:connection-start="#g82"
+       inkscape:connection-end="#g83" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#ArrowWideRounded)"
+       d="m 142.34324,249.25101 0,17.54194"
+       id="path87"
+       inkscape:connector-type="polyline"
+       inkscape:connector-curvature="0"
+       inkscape:connection-start="#g81"
+       inkscape:connection-end="#g82" />
+  </g>
+</svg>
