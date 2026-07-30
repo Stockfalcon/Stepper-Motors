@@ -13,13 +13,13 @@ public:
   /// @brief Uses Event Group bits set by \ref ButtonManager to determine system state.
   /// The state transitions are determined by the state transition table in \reg EventGroups. It calls onStateEnter() and onStateExit() when transitioning between states.
   void main() override;
-  
+
   /// @brief Passes commands to the various modules via their respective queues.
-  /// @param state The state being enetered. This is determined by the transition table in \ref EventGroups
+  /// @param state The state being enetered. This is determined by the transition table in \ref EventManager
   void onStateEnter(systemStates state);
-  
+
   /// @brief Passes commands to the various modules via their respective queues.
-  /// @param state The state being exited. This is determined by the transition table in \ref EventGroups
+  /// @param state The state being exited. This is determined by the transition table in \ref EventManager
   void onStateExit(systemStates state);
   
   /// @brief initializes the main task.
@@ -28,7 +28,7 @@ public:
 private:
   systemStates currentState = MANUAL_MODE; /// <Always start in manual mode.
   systemStates lastState; ///< Helps determine when state transitions occur.
-  MotorManager &motorController;
-  EventManager &eventManager;
-  TaskHandle_t stateMachineTask;
+  MotorManager &motorController; ///< Reference to \ref MotorManager instance created in Application.cpp. I don't think this is necesry anymore as queue handles are now global.
+  EventManager &eventManager;    ///< Reference to \ref MotorManager instance created in Application.cpp.
+  TaskHandle_t stateMachineTask; ///< The task handle required for xTaskCreatePinnedToCore().
 };

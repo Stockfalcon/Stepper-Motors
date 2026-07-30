@@ -27,9 +27,10 @@
     
     EventGroupHandle_t systemEvents = nullptr;
     static EventGroupHandle_t systemEventsISR;
-    
+
+    /// Transition table for state switcher
     typedef struct
-    { // Transition table for state switcher
+    {
       EventBits_t trigger;
       systemStates fromState;
       systemStates toState;

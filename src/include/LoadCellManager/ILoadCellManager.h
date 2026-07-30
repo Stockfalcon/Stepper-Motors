@@ -25,7 +25,7 @@ enum LoadCellCommandType
 };
 /**
  * \ingroup LoadCell
- * Structure used to send data to data manager via \ref loadCellcommandQueue.
+ * Structure used to send data to data manager via \ref loadCellCommandQueue.
  */
 struct LoadCellCommand
 {
