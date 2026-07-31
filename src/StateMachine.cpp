@@ -18,7 +18,7 @@ void StateMachine::onStateEnter(systemStates state)
   case CALIBRATION_MODE:
   {
     Logger.debug(STATE_LOG, "Entered Calibration Mode");
-    MotorCommand motorCommand{RUN};
+    MotorCommand motorCommand{STOP};
     xQueueSendToBack(motorCommandQueue, (MotorCommand *)&motorCommand, pdMS_TO_TICKS(10));
     break;
   }

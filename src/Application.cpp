@@ -32,6 +32,7 @@ void Application::init(){
   eventManager.init();
   buttonManager.init();
   motorManager.init();
+  loadCellManager.init();
   stateMachine.init();
   Logger.debug(APP_LOG, "Initializations complete");
 }

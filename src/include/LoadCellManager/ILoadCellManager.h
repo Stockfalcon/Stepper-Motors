@@ -10,9 +10,9 @@
  */
 struct LoadCellData
 {
-  uint32_t stress; ///< Force
-  int64_t time;
-  uint32_t strain; ///< Displacement
+  int stress; ///< Force.
+  int64_t time; ///< Time of measurement. 
+  uint32_t strain; ///< Displacement. Calculated from counted number of steps in MotorManager.
 };
 
 /**
@@ -39,9 +39,9 @@ struct LoadCellCommand
  */
 struct LoadCellStates
 {
-  bool readData = false;
+  bool readData = true;
   bool writeToEEPROM = false;
-};
+}; 
 
 
 
@@ -55,26 +55,11 @@ struct LoadCellStates
 class ILoadCellManager : public Task
 {
 public:
-  /// The class constructor.
-  ILoadCellManager(MotorManager &motor) : motorManager(motor) {}
-  /**
-   * Initiates the main task.
-   */
   virtual void init() = 0;
-  //! virtual void main()= 0; 
-  /// Sends a data packet to the DataManager.
+  virtual void main()= 0; 
   virtual void sendDataToQueue(LoadCellData data) = 0;
   virtual LoadCellData readLoadCell() = 0;
   virtual void writeCalibrationToEEPROM() = 0;
-  /**
-   * Calculates strain based on known milimeters per step (stored in Globals).
-   * \param steps This parameter is meant to come from MotorManager::getSteps().
-   */
   virtual uint32_t stepsToStrain(uint32_t steps) = 0;
 
-protected:
-  LoadCellStates loadCellStates; ///< Internal states that determine behaviour of the load cell manager.
-  MotorManager &motorManager;    ///< A reference to a MotorManager instance.
-  TaskHandle_t loadCellTask;     ///< The handle used for xTaskCreatePinnedToCore() in init().
-  HX711 hx711;
 };

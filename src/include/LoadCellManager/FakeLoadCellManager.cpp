@@ -1,22 +1,23 @@
-#include "include/LoadCellManager/LoadCellManager.h"
+#include "include/LoadCellManager/FakeLoadCellManager.h"
 #include <HX711.h>
 #include "include/Communication Structures/Queues.h"
+#include "include/Logging.h"
 
-void LoadCellManager::init()
+void FakeLoadCellManager::init()
 {
-  loadCellDataQueue = xQueueCreate(10, sizeof(LoadCellData));
-
   xTaskCreatePinnedToCore(
       Task::taskEntry,
       "LoadCellManager",
       10000,
       this,
-      0,
+      2,
       &loadCellTask,
       1);
+
+      Logger.debug(LOAD_CELL_LOG, "Initializations finnished");
 }
 
-void LoadCellManager::main()
+void FakeLoadCellManager::main()
 {
   for (;;)
   {
@@ -24,13 +25,14 @@ void LoadCellManager::main()
     {
       while (loadCellStates.readData)
       {
-        sendDataToQueue(readLoadCell());
+        writeToSerial(readLoadCell());
       }
     }
+    vTaskDelay(pdMS_TO_TICKS(20));
   }
 }
 
-LoadCellData LoadCellManager::readLoadCell()
+LoadCellData FakeLoadCellManager::readLoadCell()
 {
 
   uint64_t timeNow = esp_timer_get_time();
@@ -43,7 +45,18 @@ LoadCellData LoadCellManager::readLoadCell()
   return loadCellData;
 }
 
-void LoadCellManager::sendDataToQueue(LoadCellData data)
+void FakeLoadCellManager::sendDataToQueue(LoadCellData data)
 {
   xQueueSendToBack(loadCellDataQueue, (LoadCellData *)&data, portMAX_DELAY);
+}
+
+void FakeLoadCellManager::writeCalibrationToEEPROM(){};
+
+
+uint32_t FakeLoadCellManager::stepsToStrain(uint32_t steps){
+  return steps *2;
+}
+
+void FakeLoadCellManager::writeToSerial(LoadCellData data){
+  printf("strain: %d", data.strain);
 }

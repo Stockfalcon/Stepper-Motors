@@ -30,12 +30,12 @@ void LoadCellManager::main()
 
 LoadCellData LoadCellManager::readLoadCell()
 {
-  // LoadCellData loadCellData{
-  //   .stress = hx711.read()
-  //   .time = esp_timer_get_time(),
-  //   .strain = stepsToStrain(motorManager.getSteps())
-  // };
-  // return loadCellData;
+  LoadCellData loadCellData{
+    .stress = 1, //hx711.read()
+    .time = esp_timer_get_time(),
+    .strain = stepsToStrain(motorManager.getSteps())
+  };
+  return loadCellData;
 }
 
 void LoadCellManager::sendDataToQueue(LoadCellData data)
@@ -43,3 +43,10 @@ void LoadCellManager::sendDataToQueue(LoadCellData data)
   xQueueSendToBack(loadCellDataQueue, (LoadCellData*)&data, portMAX_DELAY);
 }
 
+
+void LoadCellManager::writeCalibrationToEEPROM(){
+}
+
+uint32_t LoadCellManager::stepsToStrain(uint32_t steps){
+  return steps *2;
+};

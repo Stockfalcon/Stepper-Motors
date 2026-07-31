@@ -11,7 +11,7 @@ public:
   StateMachine(MotorManager &controller, EventManager& events) : motorController(controller), eventManager(events) {}
   
   /// @brief Uses Event Group bits set by \ref ButtonManager to determine system state.
-  /// The state transitions are determined by the state transition table in \reg EventGroups. It calls onStateEnter() and onStateExit() when transitioning between states.
+  /// The state transitions are determined by the state transition table in \ref EventGroups. It calls onStateEnter() and onStateExit() when transitioning between states.
   void main() override;
 
   /// @brief Passes commands to the various modules via their respective queues.
@@ -26,7 +26,7 @@ public:
   void init();
 
 private:
-  systemStates currentState = MANUAL_MODE; /// <Always start in manual mode.
+  systemStates currentState = MANUAL_MODE; /// < Always start in manual mode.
   systemStates lastState; ///< Helps determine when state transitions occur.
   MotorManager &motorController; ///< Reference to \ref MotorManager instance created in Application.cpp. I don't think this is necesry anymore as queue handles are now global.
   EventManager &eventManager;    ///< Reference to \ref MotorManager instance created in Application.cpp.

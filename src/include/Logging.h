@@ -10,6 +10,7 @@
 #define TASK_LOG 4
 #define BUTTON_LOG 5
 #define APP_LOG 6
+#define LOAD_CELL_LOG 7
 
 // Function to initialize logging (call this in setup())
 inline void initializeLogging()
@@ -22,4 +23,5 @@ inline void initializeLogging()
   Logger.registerSerial(TASK_LOG, ELOG_LEVEL_VERBOSE, "TSK");
   Logger.registerSerial(BUTTON_LOG, ELOG_LEVEL_VERBOSE, "BTN");
   Logger.registerSerial(APP_LOG, ELOG_LEVEL_VERBOSE, "APP");
+  Logger.registerSerial(LOAD_CELL_LOG, ELOG_LEVEL_VERBOSE, "LCM");
 };
