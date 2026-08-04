@@ -80,21 +80,21 @@ void MotorManager::receiveCommands()
   MotorCommand message{};
   if(xQueueReceive(motorCommandQueue, &message, pdMS_TO_TICKS(100)) == pdTRUE ){
     switch (message.type){
-      case(RUN):
+    case (MotorCommandType::RUN):
       timerAlarmEnable(stepTimer);
       Logger.info(MOTOR_LOG, "Recieved run!");
       motorStates.potEnabled = true;
       break;
 
-      case(STOP):
-      digitalWrite(EN_PIN, 0);
-      timerAlarmDisable(stepTimer);
-      Logger.info(MOTOR_LOG, "Recieved stop!");
-      motorStates.potEnabled = false;
-      xQueueReset(motorCommandQueue);
-      break;
+      case (MotorCommandType::STOP):
+        digitalWrite(EN_PIN, 0);
+        timerAlarmDisable(stepTimer);
+        Logger.info(MOTOR_LOG, "Recieved stop!");
+        motorStates.potEnabled = false;
+        xQueueReset(motorCommandQueue);
+        break;
       
-      case(CHANGE_DIR):
+      case (MotorCommandType::CHANGE_DIR):
       Logger.info(MOTOR_LOG, "Recieved Change Direction!");
       int8_t fwdPin = digitalRead(FWD_SWITCH_PIN);
       int8_t revPin = digitalRead(FWD_SWITCH_PIN);

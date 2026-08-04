@@ -4,7 +4,7 @@
 
 
 /// \ingroup MotorControl
-enum MotorCommandType
+enum class MotorCommandType
 {
   RUN,
   STOP,

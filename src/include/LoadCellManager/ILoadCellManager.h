@@ -19,7 +19,7 @@ struct LoadCellData
  * \ingroup LoadCell
  * Commands sent by StateManager used to set internal \ref LoadCellStates.
  */
-enum LoadCellCommandType
+enum class LoadCellCommandType
 {
   GET_DATA,
   STOP

@@ -35,19 +35,19 @@ void FakeLoadCellManager::main()
 }
 
 void FakeLoadCellManager::receiveCommands(){
-  MotorCommand message{};
+  LoadCellCommand message{};
   if (xQueueReceive(motorCommandQueue, &message, pdMS_TO_TICKS(100)) == pdTRUE)
   {
     switch (message.type)
     {
-    case (GET_DATA):
-    loadCellStates.readData = true;
-    break;
+    case (LoadCellCommandType::GET_DATA):
+      loadCellStates.readData = true;
+      break;
 
-    case (STOP):
-    loadCellStates.readData = false;
-    loadCellStates.writeToEEPROM = false;
-    break;
+    case (LoadCellCommandType::STOP):
+      loadCellStates.readData = false;
+      loadCellStates.writeToEEPROM = false;
+      break;
     }
   }
   else

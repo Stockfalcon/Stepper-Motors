@@ -10,7 +10,7 @@ void StateMachine::onStateEnter(systemStates state)
   case MANUAL_MODE:
   {
     Logger.debug(STATE_LOG, "Entered Manual Mode");
-    MotorCommand motorCommand{RUN};
+    MotorCommand motorCommand{MotorCommandType::RUN};
     xQueueSendToBack(motorCommandQueue, (MotorCommand *)&motorCommand, pdMS_TO_TICKS(10));
     break;
   }
@@ -18,7 +18,7 @@ void StateMachine::onStateEnter(systemStates state)
   case CALIBRATION_MODE:
   {
     Logger.debug(STATE_LOG, "Entered Calibration Mode");
-    MotorCommand motorCommand{STOP};
+    MotorCommand motorCommand{MotorCommandType::STOP};
     xQueueSendToBack(motorCommandQueue, (MotorCommand *)&motorCommand, pdMS_TO_TICKS(10));
     break;
   }
@@ -33,7 +33,7 @@ void StateMachine::onStateEnter(systemStates state)
     Logger.debug(STATE_LOG, "Entered Alert Mode");
     xEventGroupSetBits(eventManager.getHandle(), ALERT_SET);
     MotorCommand motorCommand{
-        .type = STOP};
+        .type = MotorCommandType::STOP};
     xQueueSendToBack(motorCommandQueue, (MotorCommand*) &motorCommand, pdMS_TO_TICKS(10)); //! Verify. Maybe no &?
     break;
   }

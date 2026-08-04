@@ -29,15 +29,14 @@ void IRAM_ATTR ButtonManager::cancelButtonHit()
 
 void IRAM_ATTR ButtonManager::fwdSwicthSet(){
   MotorCommand command ={
-    .type = CHANGE_DIR
+    .type = MotorCommandType::CHANGE_DIR
   };
   xQueueSendFromISR(motorCommandQueue,(MotorCommand *)&command, NULL);
 }
 
 void IRAM_ATTR ButtonManager::revSwicthSet(){
-  MotorCommand command ={
-    .type = CHANGE_DIR
-  };
+  MotorCommand command = {
+      .type = MotorCommandType::CHANGE_DIR};
   xQueueSendFromISR(motorCommandQueue,(MotorCommand *)&command, NULL);
 }
 
