@@ -14,7 +14,7 @@
 class LoadCellManager : public ILoadCellManager{
   public:
     
-    // The class constructor.
+    /// @brief The class constructor.
     LoadCellManager(MotorManager &motor) : motorManager(motor){}
 
     /// @brief This initiates the class.

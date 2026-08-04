@@ -22,6 +22,7 @@ struct LoadCellData
 enum LoadCellCommandType
 {
   GET_DATA,
+  STOP
 };
 /**
  * \ingroup LoadCell

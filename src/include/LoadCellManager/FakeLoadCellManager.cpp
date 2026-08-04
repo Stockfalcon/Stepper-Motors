@@ -2,6 +2,7 @@
 #include <HX711.h>
 #include "include/Communication Structures/Queues.h"
 #include "include/Logging.h"
+#include "include/PinMap.h"
 
 void FakeLoadCellManager::init()
 {
@@ -21,6 +22,7 @@ void FakeLoadCellManager::main()
 {
   for (;;)
   {
+    receiveCommands();
     if (loadCellStates.readData)
     {
       while (loadCellStates.readData)
@@ -32,9 +34,30 @@ void FakeLoadCellManager::main()
   }
 }
 
+void FakeLoadCellManager::receiveCommands(){
+  MotorCommand message{};
+  if (xQueueReceive(motorCommandQueue, &message, pdMS_TO_TICKS(100)) == pdTRUE)
+  {
+    switch (message.type)
+    {
+    case (GET_DATA):
+    loadCellStates.readData = true;
+    break;
+
+    case (STOP):
+    loadCellStates.readData = false;
+    loadCellStates.writeToEEPROM = false;
+    break;
+    }
+  }
+  else
+  {
+    Logger.debug(LOAD_CELL_LOG, "Load Cell Controller failed to receive command from queue.");
+  }
+}
+
 LoadCellData FakeLoadCellManager::readLoadCell()
 {
-
   uint64_t timeNow = esp_timer_get_time();
   srand(timeNow);
   LoadCellData loadCellData{

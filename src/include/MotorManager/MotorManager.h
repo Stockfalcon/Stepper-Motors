@@ -41,34 +41,82 @@ class MotorManager : public Task{
      * \param pvParameter Standard parameter for compatibility with xTaskCreatePinnedToCore(). 
      */
     static void motorAccelerationControl(void* pvParameters);
+
+    /// @brief A temporary function used for debugging.
+    /// @return Returns position_cm
     const uint32_t &getPosition() const;
+
+    /// @brief A callback function that increases a step counter and moves the motor.
+    /// @details Moves the motor by pulling a pin attached to the step pin of a TMC2208 high and low very fast. The speed is controlled by stepPeriod_us.
     static void IRAM_ATTR onStepTimer();
+
+    /// @brief Resets the stepCount to zero.
     void clearStepCount();
 
+    /// @brief Get the current number of steps.
+    /// @return The number of steps stored in ::stepCount
     uint32_t getSteps();
+
+    /// @brief uses a mutex to set the targetStepPeriod_us.
+    /// @param period_us The amount of time to set in microseconds.
     static void setTargetStepPeriod_us(uint32_t period_us);
+
+    /// @brief Uses a mutex to get the current ::targetStepPeriod_us.
+    /// @return Get the current ::targetStepPeriod_us.
     static uint32_t getTargetStepPeriod_us();
+
+    /// @brief uses a mutex to set ::stepPeriod_us.
+    /// @param period_us The amount of time to set in microseconds.
     static void setStepPeriod_us(uint32_t period_us);
+
+    /// @brief Uses a mutex to get the current ::stepPeriod_us.
+    /// @return Get the current ::stepPeriod_us.
     static uint32_t getStepPeriod_us();
 
   private:
-    
+    /// @brief Reads ::motorCommandQueue and updates any internal states.
     void receiveCommands();
 
+    /// @brief Reads the potentiometer ten times and averages those readings, then updates ::targetStepPeriod_us. 
     void readPotVal();
 
-    uint32_t position_cm = 0;
-    static volatile uint32_t stepPeriod_us;
-    static volatile uint32_t targetStepPeriod_us;
-    static portMUX_TYPE timerMux; 
-    static portMUX_TYPE stepMux; 
-    static hw_timer_t *stepTimer;
-    static uint32_t stepCount;  // could use inline keyword
-    volatile uint32_t potSampleCounter = 0;
-    volatile uint32_t accumulatedPotVal = 0;
+    uint32_t position_cm = 0; ///< Not used except for testing
+    static volatile uint32_t stepPeriod_us;       ///< The current time between steps. This is updated by motorAccelerationControl() to try and match targetStepPeriod_us.
+    static volatile uint32_t targetStepPeriod_us; ///< The target time between steps.
+    static portMUX_TYPE timerMux; ///< A mutex that prevents the timer ISR from using stepPeriod_us while it is being modified.
+    static portMUX_TYPE stepMux; ///< A mutex that prevents other classes from reading steps as they are being modified.
 
-    MotorStates motorStates;
-    TaskHandle_t motorControllerTask = NULL;
-    TaskHandle_t motorAccelerationTask = NULL;
-    
+    /**
+     * @brief A timer with an alarm attached that triggers onStepTimer() to move the motor.
+     * @details This is initialized as follows:
+     * ~~~~~{.cpp}
+      stepTimer = timerBegin(
+        0,   // timer number (the options are 0,1,2,3) for my ESP32 model
+        80,  // prescale divider (clock is 80 MHz)
+        true // count up (true) or down (false)
+      );
+
+      timerAttachInterrupt( // when timer is triggered call onStepTimer()
+        stepTimer,
+        &onStepTimer,
+        true // edge triggered timing
+      );
+
+      timerAlarmWrite( // write amount of time to trigger alarm to the timer
+        stepTimer,
+        stepPeriod_us / 2, // divide by two for high AND low
+        true);
+
+      timerAlarmEnable(stepTimer); // start the timer
+     * ~~~~~
+     */
+    static hw_timer_t *stepTimer; 
+     
+    static uint32_t stepCount;  ///< A counter that keeps track of the number of steps since its last reset. Does not take skipped steps into account.
+    volatile uint32_t potSampleCounter = 0; ///< Counts the number of times the potentiometer has been sampled. Used to get an average reading.
+    volatile uint32_t accumulatedPotVal = 0; ///< The sum of all readings from the potentiometer. Used to get an average reading.
+
+    MotorStates motorStates; ///< Internal states used to keep track of what the motor manager should be doing.
+    TaskHandle_t motorControllerTask = NULL; ///< Handle for main() FreeRTOS task.
+    TaskHandle_t motorAccelerationTask = NULL; ///< Handle for motorAccelerationControl() task.
 };

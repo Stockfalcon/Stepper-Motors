@@ -19,8 +19,11 @@ public:
    /// @brief Initiates the main task.
   void init() override;
 
+  void receiveCommands();
+
   void main() override;
-  /// Sends a data packet to the DataManager.
+  /// @brief Sends a data packet to the DataManager.
+  /// @param data The data to send. Includes stress, strain and time.
   void sendDataToQueue(LoadCellData data) override;
 
   /// @brief Makes up random data to simulate reading a load cell.
