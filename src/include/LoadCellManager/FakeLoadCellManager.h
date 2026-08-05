@@ -24,7 +24,7 @@ public:
   void main() override;
   /// @brief Sends a data packet to the DataManager.
   /// @param data The data to send. Includes stress, strain and time.
-  void sendDataToQueue(LoadCellData data) override;
+  void sendDataToQueue(LoadCellData data);
 
   /// @brief Makes up random data to simulate reading a load cell.
   /// @return Data to be transmitted to the DataManager.
@@ -33,7 +33,7 @@ public:
 
   /// @brief This stores all calibration data to NVS (Non Volitile Storage) for later use.
   /// @details The data will be kept even if the ESP32 turns off. This will likely be moved to another module some time in the future.
-  void writeCalibrationToEEPROM() override;
+  void writeCalibrationToEEPROM();
   /**
    * Calculates strain based on known milimeters per step (stored in Globals).
    * \param steps This parameter is meant to come from MotorManager::getSteps().

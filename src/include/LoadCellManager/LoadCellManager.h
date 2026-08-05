@@ -23,7 +23,7 @@ class LoadCellManager : public ILoadCellManager{
     void main() override;
 
     /// @brief This sends a data packet to the DataManager.
-    void sendDataToQueue(LoadCellData data) override;
+    void sendDataToQueue(LoadCellData data);
 
     /// @brief Reads the force applied to the load cell via an HX711 amplifier.
     /// @return Data to be transmitted to the DataManager.
@@ -32,7 +32,7 @@ class LoadCellManager : public ILoadCellManager{
 
     /// @brief This stores all calibration data to NVS (Non Volitile Storage) for later use. 
     /// @details The data will be kept even if the ESP32 turns off. This will likely be moved to another module some time in the future.
-    void writeCalibrationToEEPROM() override;
+    void writeCalibrationToEEPROM();
 
      /// Calculates strain based on known milimeters per step (stored in Globals).
      ///\param steps This parameter is meant to come from MotorManager::getSteps().
