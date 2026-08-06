@@ -10,7 +10,7 @@ The following diagrams give a high level overview of the project as of July 2026
 ![Communication Diagram](./pictures/CommsDiagram.svg){width=20%}
 
 <br>
-</br>
+<br>
 
 <!-- Add StateMachine to "read event bits" in first purple block -->
 

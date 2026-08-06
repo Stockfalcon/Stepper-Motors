@@ -4,6 +4,7 @@
 
 
 /// \ingroup MotorControl
+/// @brief The types of commands that are available to send to the MotorManager.
 enum class MotorCommandType
 {
   RUN,
@@ -13,16 +14,19 @@ enum class MotorCommandType
 };
 
 /// \ingroup MotorControl
+/// @brief This is what is passed through the motorCommandQueue by StateMachine to tell the MotorManager what to do.
+/// @details It is set up this way so that in the future, other information can be passed to the MotorManager like numerical values to set speed or position.
 struct MotorCommand
 {
-  MotorCommandType type;
+  MotorCommandType type; ///< The command to send to the MotorManager.
 };
 
 /// \ingroup MotorControl
+/// @brief These are the internal states of the MotorManager that control what it does.
 struct MotorStates{
-  bool runMotor = true;
-  bool potEnabled = true;
-  bool motorDirFwd = true; /// < True runs the motor in the forward direction. 
+  bool runMotor = true; ///< Toggles whether the motor is on or off.
+  bool potEnabled = true; ///< Toggles whether to read the potentiometer to change the speed of the motor.
+  bool motorDirFwd = true; ///< True runs the motor in the forward direction. 
 };
 
 /** \ingroup MotorControl
@@ -32,13 +36,13 @@ struct MotorStates{
 class MotorManager : public Task{
   public:
   /**
-   * \details Initiates the timer that controls the stepper motor, as well as acceleration and main tasks.
+   * \brief Initiates the timer that controls the stepper motor, as well as acceleration and main tasks.
    */
     void init();
     void main() override;
     /**
      * This function controls the acceleration of the motor.
-     * \param pvParameter Standard parameter for compatibility with xTaskCreatePinnedToCore(). 
+     * \param [in] pvParameters Standard parameter for compatibility with xTaskCreatePinnedToCore(). 
      */
     static void motorAccelerationControl(void* pvParameters);
 
@@ -58,7 +62,7 @@ class MotorManager : public Task{
     uint32_t getSteps();
 
     /// @brief uses a mutex to set the targetStepPeriod_us.
-    /// @param period_us The amount of time to set in microseconds.
+    /// @param [in] period_us The amount of time to set in microseconds.
     static void setTargetStepPeriod_us(uint32_t period_us);
 
     /// @brief Uses a mutex to get the current ::targetStepPeriod_us.
@@ -66,7 +70,7 @@ class MotorManager : public Task{
     static uint32_t getTargetStepPeriod_us();
 
     /// @brief uses a mutex to set ::stepPeriod_us.
-    /// @param period_us The amount of time to set in microseconds.
+    /// @param [in] period_us The amount of time to set in microseconds.
     static void setStepPeriod_us(uint32_t period_us);
 
     /// @brief Uses a mutex to get the current ::stepPeriod_us.

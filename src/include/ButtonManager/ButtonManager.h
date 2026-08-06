@@ -6,8 +6,8 @@
 
 /**
  * \ingroup ButtonManager
- * This class detects all button an limit switch presses via ISR triggers.
- * It records presses using event groups which are used by the state maching.
+ * This class detects all button a limit switch presses via ISR triggers.
+ * It records presses using event groups which are used by the StateMachine.
  * */
 class ButtonManager
 {
@@ -33,11 +33,11 @@ public:
   /// @brief Calls xEventGroupSetBitsFromISR()
   static void IRAM_ATTR revSwicthSet();
   
-  /// A test ISR.
+  /// @brief A test ISR.
   static void IRAM_ATTR dummyISR();
   
-  /// Initalizes all button hit functions as Interrupt Service Routines.
+  /// @brief Initializes all button hit functions as Interrupt Service Routines.
   void init();
 private:
-  static MotorManager& motorManager;
+  static MotorManager& motorManager; ///< A reference to the MotorManager instance.
 };

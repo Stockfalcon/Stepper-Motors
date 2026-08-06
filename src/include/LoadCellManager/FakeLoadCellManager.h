@@ -8,7 +8,7 @@
 /**
  * \ingroup LoadCell
  * This class was used when I didn't have access to an actual HX711.
- * Instead, I used this class to generate random values for the load cell while keeping core fucntionality.
+ * Instead, I used this class to generate random values for the load cell while keeping core functionality.
  */
 class FakeLoadCellManager : public ILoadCellManager
 {
@@ -19,11 +19,12 @@ public:
    /// @brief Initiates the main task.
   void init() override;
 
+  /// @brief Get commands by reading the loadCellCommandQueue.
   void receiveCommands();
 
   void main() override;
   /// @brief Sends a data packet to the DataManager.
-  /// @param data The data to send. Includes stress, strain and time.
+  /// @param [in] data The data to send. Includes stress, strain, and time.
   void sendDataToQueue(LoadCellData data);
 
   /// @brief Makes up random data to simulate reading a load cell.
@@ -34,17 +35,18 @@ public:
   /// @brief This stores all calibration data to NVS (Non Volitile Storage) for later use.
   /// @details The data will be kept even if the ESP32 turns off. This will likely be moved to another module some time in the future.
   void writeCalibrationToEEPROM();
-  /**
-   * Calculates strain based on known milimeters per step (stored in Globals).
-   * \param steps This parameter is meant to come from MotorManager::getSteps().
-   */
+  
+  /// Calculates strain based on known millimetres per step (stored in Globals.h).
+  ///@param [in] steps This parameter is meant to come from MotorManager::getSteps().
   uint32_t stepsToStrain(uint32_t steps) override;
 
+  /// @brief Writes the data to serial monitor for debugging.
+  /// @param [in] data Data from reading the HX711.
   void writeToSerial(LoadCellData data);
 
   private:
-    LoadCellStates loadCellStates; // /< Internal states that determine behaviour of the load cell manager.
-    MotorManager &motorManager;    // /< A reference to a MotorManager instance.                           
-    TaskHandle_t loadCellTask;     // /< The handle used for xTaskCreatePinnedToCore() in init().          
+    LoadCellStates loadCellStates; ///< Internal states that determine behaviour of the load cell manager.
+    MotorManager &motorManager;    ///< A reference to a MotorManager instance.                           
+    TaskHandle_t loadCellTask;     ///< The handle used for xTaskCreatePinnedToCore() in init().          
 
 };

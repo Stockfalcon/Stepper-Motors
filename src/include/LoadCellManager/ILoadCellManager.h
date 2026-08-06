@@ -27,17 +27,16 @@ enum class LoadCellCommandType
 /// Structure used to send data to data manager via loadCellCommandQueue (Queues.h).
 struct LoadCellCommand
 {
-  LoadCellCommandType type;
+  LoadCellCommandType type; ///< The command to send to the load cell manager (FakeLoadCellManager or LoadCellManager).
 };
 
 /// \ingroup LoadCell
 /// Internal states that determine behaviour of the load cell manager.
-/// These states are determined by commands sent throght the load cell's command queue by the state manager.
-
+/// These states are determined by commands sent through the load cell's command queue by the state manager.
 struct LoadCellStates
 {
-  bool readData = true;
-  bool writeToEEPROM = false;
+  bool readData = true; ///< Toggles whether to read the HX711 or not.
+  bool writeToEEPROM = false; ///< Toggles whether to write data to NVS (Non Volatile Storage).
 }; 
 
 
@@ -50,7 +49,7 @@ struct LoadCellStates
 class ILoadCellManager : public Task
 {
 public:
-  virtual void init() = 0; ///< Include a function that initializes all taks and required setups.
+  virtual void init() = 0; ///< Include a function that initializes all tasks and required setups.
   virtual void main()= 0; ///< Include a main() task that will do all the work. 
   virtual LoadCellData readLoadCell() = 0; ///< Include a function to read from the HX711 load cell amplifier.
   virtual uint32_t stepsToStrain(uint32_t steps) = 0; ///< Include a function that will take the number of steps from MotorManager::stepCount and convert it to strain (displacement).

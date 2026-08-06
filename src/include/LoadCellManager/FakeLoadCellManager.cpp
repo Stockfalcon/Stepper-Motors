@@ -20,23 +20,23 @@ void FakeLoadCellManager::init()
 
 void FakeLoadCellManager::main()
 {
+  const TickType_t xPeriod = pdMS_TO_TICKS(20);
+  TickType_t xLastWakeTime = xTaskGetTickCount();
   for (;;)
   {
     receiveCommands();
     if (loadCellStates.readData)
     {
-      while (loadCellStates.readData)
-      {
-        writeToSerial(readLoadCell());
-      }
+      writeToSerial(readLoadCell());
     }
-    vTaskDelay(pdMS_TO_TICKS(20));
+    vTaskDelayUntil(&xLastWakeTime, xPeriod);
   }
 }
 
+
 void FakeLoadCellManager::receiveCommands(){
   LoadCellCommand message{};
-  if (xQueueReceive(motorCommandQueue, &message, pdMS_TO_TICKS(100)) == pdTRUE)
+  if (xQueueReceive(motorCommandQueue, &message, 0) == pdTRUE)
   {
     switch (message.type)
     {
@@ -52,7 +52,7 @@ void FakeLoadCellManager::receiveCommands(){
   }
   else
   {
-    Logger.debug(LOAD_CELL_LOG, "Load Cell Controller failed to receive command from queue.");
+    // Logger.debug(LOAD_CELL_LOG, "Load Cell Controller failed to receive command from queue.");
   }
 }
 
@@ -81,5 +81,5 @@ uint32_t FakeLoadCellManager::stepsToStrain(uint32_t steps){
 }
 
 void FakeLoadCellManager::writeToSerial(LoadCellData data){
-  printf("strain: %d", data.strain);
+  printf("time: %d\nstrain: %d\nstress: %d\n\n",data.time, data.strain, data.stress);
 }
