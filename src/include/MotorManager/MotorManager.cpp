@@ -3,7 +3,7 @@
 #include <Arduino.h>
 #include "Logging.h"
 #include "Globals.h"
-#include "Communication Structures/Queues.h"
+#include "include/Communication Structures/Queues.h"
 
 uint32_t MotorManager::stepCount = 0;
 volatile uint32_t MotorManager::targetStepPeriod_us = 200;
@@ -22,13 +22,6 @@ void MotorManager::init()
   pinMode(DIR_PIN, OUTPUT);
   digitalWrite(EN_PIN, 0);
 
-
-  MotorCommandQueue = xQueueCreate(10, sizeof(MotorCommand));
-  if (MotorCommandQueue == nullptr)
-  {
-    Logger.error(MOTOR_LOG, "Motor command queue creation failed");
-    return;
-  }
 
   Logger.trace(MOTOR_LOG, "Motor timer alarm initialization started");
   stepTimer = timerBegin(
@@ -85,18 +78,42 @@ void MotorManager::main()
 void MotorManager::receiveCommands()
 {
   MotorCommand message{};
-  if(xQueueReceive(MotorCommandQueue, &message, pdMS_TO_TICKS(100)) == pdTRUE ){
+  if(xQueueReceive(motorCommandQueue, &message, pdMS_TO_TICKS(100)) == pdTRUE ){
     switch (message.type){
-      case(RUN):
+    case (MotorCommandType::RUN):
       timerAlarmEnable(stepTimer);
       Logger.info(MOTOR_LOG, "Recieved run!");
       motorStates.potEnabled = true;
       break;
-      case(STOP):
-      timerAlarmDisable(stepTimer);
-      Logger.info(MOTOR_LOG, "Recieved stop!");
-      motorStates.potEnabled = false;
-      xQueueReset(MotorCommandQueue);
+
+      case (MotorCommandType::STOP):
+        digitalWrite(EN_PIN, 0);
+        timerAlarmDisable(stepTimer);
+        Logger.info(MOTOR_LOG, "Recieved stop!");
+        motorStates.potEnabled = false;
+        xQueueReset(motorCommandQueue);
+        break;
+      
+      case (MotorCommandType::CHANGE_DIR):
+      Logger.info(MOTOR_LOG, "Recieved Change Direction!");
+      int8_t fwdPin = digitalRead(FWD_SWITCH_PIN);
+      int8_t revPin = digitalRead(FWD_SWITCH_PIN);
+      if(!fwdPin & !revPin){ // Both off
+        digitalWrite(EN_PIN, 0);
+        timerAlarmDisable(stepTimer);
+      }
+      else if(fwdPin){ // Fwd pin on
+        motorStates.motorDirFwd = true;
+        digitalWrite(EN_PIN, 1);
+        timerAlarmEnable(stepTimer);
+        digitalWrite(DIR_PIN, motorStates.motorDirFwd); //! Check This!!
+      }
+      else if(revPin){ // Rev pin on
+        motorStates.motorDirFwd = false;
+        digitalWrite(EN_PIN, 1);
+        timerAlarmEnable(stepTimer);
+        digitalWrite(DIR_PIN, motorStates.motorDirFwd); //! Check This!!
+      }
       break;
     }
   }
@@ -212,27 +229,6 @@ void MotorManager::readPotVal()
     uint32_t period_us = map(avgPotVal, 0, 4095, 1000, 200);
     Logger.trace(MOTOR_LOG, "setting step period to %lu us", (unsigned long)period_us);
     setStepPeriod_us(period_us);
-  }
-}
-
-
-void MotorManager::sendToQueue(const MotorCommand &command){
-  if (MotorCommandQueue == nullptr)
-  {
-    Logger.error(MOTOR_LOG, "Motor command queue is not initialized");
-    MotorCommandQueue = xQueueCreate(10, sizeof(MotorCommand));
-    if (MotorCommandQueue == nullptr)
-    {
-      Logger.error(MOTOR_LOG, "Motor command queue creation failed");
-      return;
-    }
-    Logger.info(MOTOR_LOG, "Motor command queue created");
-    return;
-  }
-
-  if (xQueueSendToBack(MotorCommandQueue, &command, pdMS_TO_TICKS(100)) != pdTRUE)
-  {
-    Logger.warning(MOTOR_LOG, "Motor command queue send timed out");
   }
 }
 

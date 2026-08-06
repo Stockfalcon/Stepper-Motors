@@ -2,7 +2,7 @@
 
 EventGroupHandle_t EventManager::systemEventsISR = nullptr;
 
-// IRAM_ATTR because this is accessed by button interrups.
+// IRAM_ATTR because this is accessed by button interrupts.
 EventGroupHandle_t EventManager::getHandle()
 {
   return systemEvents;

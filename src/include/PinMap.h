@@ -10,7 +10,7 @@
 #define CALIBRATION_BTN_PIN 27
 #define TEST_BTN_PIN 26
 #define CANCEL_BTN_PIN 25
-#define FWD_SWITCH_PIN 12
+#define FWD_SWITCH_PIN 32
 #define REV_SWITCH_PIN 14
 #define POT_PIN 33
 

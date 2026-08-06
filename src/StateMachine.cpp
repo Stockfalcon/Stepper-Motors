@@ -10,20 +10,31 @@ void StateMachine::onStateEnter(systemStates state)
   case MANUAL_MODE:
   {
     Logger.debug(STATE_LOG, "Entered Manual Mode");
-    MotorCommand motorCommand{RUN};
-    motorController.sendToQueue(motorCommand);
+    MotorCommand motorCommand{MotorCommandType::RUN};
+    xQueueSendToBack(motorCommandQueue, (MotorCommand *)&motorCommand, pdMS_TO_TICKS(10));
     break;
   }
 
   case CALIBRATION_MODE:
   {
     Logger.debug(STATE_LOG, "Entered Calibration Mode");
+    MotorCommand motorCommand{MotorCommandType::STOP};
+    xQueueSendToBack(motorCommandQueue, (MotorCommand *)&motorCommand, pdMS_TO_TICKS(10));
     break;
   }
 
   case TEST_MODE:
   {
     Logger.debug(STATE_LOG, "Entered Test Mode");
+    break;
+  }
+  case ALERT_MODE:
+  {
+    Logger.debug(STATE_LOG, "Entered Alert Mode");
+    xEventGroupSetBits(eventManager.getHandle(), ALERT_SET);
+    MotorCommand motorCommand{
+        .type = MotorCommandType::STOP};
+    xQueueSendToBack(motorCommandQueue, (MotorCommand*) &motorCommand, pdMS_TO_TICKS(10)); //! Verify. Maybe no &?
     break;
   }
 }
@@ -36,9 +47,7 @@ void StateMachine::onStateExit(systemStates state)
     case MANUAL_MODE:
     {
     Logger.debug(STATE_LOG, "Exited Manual Mode");
-    MotorCommand motorCommand{
-      .type = STOP};
-    motorController.sendToQueue(motorCommand);
+    
     break;
   }
   
@@ -53,8 +62,16 @@ void StateMachine::onStateExit(systemStates state)
     Logger.debug(STATE_LOG, "Exited Test Mode");
     break;
   }
+  
+  case ALERT_MODE:
+  {
+    xEventGroupClearBits(eventManager.getHandle(), ALERT_SET);
+    Logger.debug(STATE_LOG, "Exited Alert Mode");
+    break;
+  }
   }
 }
+
 
 
 void StateMachine::main()

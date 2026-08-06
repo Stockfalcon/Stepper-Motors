@@ -1,5 +1,6 @@
-#include "LoadCellManager.h"
+#include "include/LoadCellManager/LoadCellManager.h"
 #include <HX711.h>
+#include "include/Communication Structures/Queues.h"
 
 void LoadCellManager::init()
 {
@@ -30,7 +31,7 @@ void LoadCellManager::main()
 LoadCellData LoadCellManager::readLoadCell()
 {
   LoadCellData loadCellData{
-    .stress = hx711.read()
+    .stress = 1, //hx711.read()
     .time = esp_timer_get_time(),
     .strain = stepsToStrain(motorManager.getSteps())
   };
@@ -42,3 +43,10 @@ void LoadCellManager::sendDataToQueue(LoadCellData data)
   xQueueSendToBack(loadCellDataQueue, (LoadCellData*)&data, portMAX_DELAY);
 }
 
+
+void LoadCellManager::writeCalibrationToEEPROM(){
+}
+
+uint32_t LoadCellManager::stepsToStrain(uint32_t steps){
+  return steps *2;
+};
